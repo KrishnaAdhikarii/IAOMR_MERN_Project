@@ -4,7 +4,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -12,9 +11,9 @@ const app = express();
 // ─── Security Middleware ───
 app.use(helmet());
 
-// CORS configuration
+// ─── CORS ───
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: process.env.CLIENT_URL, // MUST be your Vercel URL
   credentials: true,
 }));
 
@@ -22,14 +21,20 @@ app.use(cors({
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: { success: false, message: 'Too many requests, please try again later.' },
+  message: {
+    success: false,
+    message: 'Too many requests, please try again later.',
+  },
 });
 app.use('/api/', limiter);
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
-  message: { success: false, message: 'Too many auth attempts.' },
+  message: {
+    success: false,
+    message: 'Too many auth attempts.',
+  },
 });
 
 // ─── Body Parsing ───
@@ -41,12 +46,12 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
-// ─── MongoDB Connection ───
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/iaomr_convention')
+// ─── MongoDB ───
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB error:', err));
 
-// ─── API Routes ───
+// ─── Routes ───
 app.use('/api/auth', authLimiter, require('./routes/auth'));
 app.use('/api/registrations', require('./routes/registrations'));
 app.use('/api/abstracts', require('./routes/abstracts'));
@@ -64,14 +69,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ─── Serve Frontend (Vite build) ───
-const frontendPath = path.join(__dirname, '../frontend/dist');
-
-app.use(express.static(frontendPath));
-
-// Catch-all: send React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
+// ─── 404 (API only) ───
+app.use('*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'API route not found',
+  });
 });
 
 // ─── Global Error Handler ───
