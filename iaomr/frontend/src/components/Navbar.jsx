@@ -72,7 +72,7 @@ export default function Navbar() {
         backdropFilter: 'blur(14px)',
         borderBottom: '1px solid rgba(201,168,76,0.2)',
         transition: 'all 0.3s',
-        height: '70px',
+        height: '90px',
         display: 'flex',
         alignItems: 'center',
       }}
