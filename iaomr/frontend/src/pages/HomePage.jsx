@@ -82,7 +82,7 @@ export default function HomePage() {
     api
       .get("/announcements")
       .then((r) => setAnnouncements(r.data.data || []))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const stats = [
@@ -105,64 +105,160 @@ export default function HomePage() {
     <div>
       {/* Hero Section */}
       <section id="home" style={{ minHeight: "90vh", width: "100%", display: "grid", backgroundColor: "#FFFCEE" }}>
-        <div style={{ height: "90vh", margin: 20,marginTop:90, borderRadius: 12, display: "flex", overflow: "hidden", fontFamily: "sans-serif" }}>
+        <div style={{ height: "90vh", margin: 20, marginTop: 70, borderRadius: 12, display: "flex", overflow: "hidden", fontFamily: "sans-serif" }}>
           {/* LEFT SIDE */}
           <div
             style={{
               width: "40%",
-              padding: "60px",
+              // height: "100%",
+              padding: "20px",
               position: "sticky",
+              borderRadius: "15",
               top: 0,
-              height: "80vh",
+              height: "90vh",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
+              // justifyContent: "center",
               backgroundImage: `url(${bg})`,
+              backgroundColor: "#000000",
               backgroundSize: "cover",
               backgroundPosition: "center",
               color: "#fff",
             }}
           >
-            <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>Creative Studio</h1>
+            <div style={{
+              marginLeft: '12%',
+              marginTop: '10%',
+            }}>
+              <p style={{
+                margin: "0 0 2px 0",
+                fontSize: "30px",
+                fontWeight: "600",
+                color: "#ffffff",
+                letterSpacing: "0.5px",
+                fontFamily: "'poppins',sans-serif",
+              }}>
+                24<sup style={{ fontSize: "19px" }}>th</sup> IAOMR
+              </p>
+              <h1 style={{
+                margin: "0 0 8px 0",
+                fontSize: "36px",
+                fontWeight: "800",
+                lineHeight: "1.1",
+                color: "#cdd2b7",
+                fontFamily: "'poppins',sans-serif",
+              }}>
+                National  PG Conference<br />2026
+              </h1>
+              <p style={{
+                margin: 0,
+                fontSize: "30px",
+                color: "#b4c1bb",
+                fontWeight: "600",
+                fontFamily: "'poppins',sans-serif",
+              }}>
+                Visakhapatanam,Andhra Pradesh
+              </p>
+              <div style={{
+                height: "1px",
+                background: "linear-gradient(90deg, transparent, #b7e4c7, transparent)",
+                margin: "10px 0 20px 0",
+              }} />
+
+              <p style={{
+                margin: "0 0 20px 0",
+                fontSize: "24px",
+                fontStyle: "italic",
+                color: "#ffffff",
+                textShadow: "0 0 2px rgb(255, 255, 255), 0 0 2px rgb(255, 255, 255), 0 0 10px rgb(255, 255, 255)",
+
+                lineHeight: "1.6",
+                fontFamily: "'poppins',sans-serif",
+                borderLeft: "3px solid #ffffffc8",
+                paddingLeft: "12px",
+              }}>
+                "Imagine - Innovate - Illuminate"
+              </p>
+
+              <p style={{
+                margin: "0 0 20px 0",
+                fontSize: "16px",
+                color: "#ffffff",
+                fontFamily: "'poppins',sans-serif",
+              }}>
+                Hosted by Dept. of OMR, ANIDS, Visakhapatnam.
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+                <span style={{ fontSize: "18px" }}>📅</span>
+                <span style={{
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  color: "#ffffff",
+                  fontFamily: "'poppins',sans-serif",
+                }}>
+                  When: 06<sup style={{ fontSize: "18px" }}>th</sup> – 08<sup style={{ fontSize: "18px" }}>th</sup> August
+                </span>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "28px" }}>
+                <span style={{ fontSize: "16px", marginTop: "2px" }}>📍</span>
+                <div style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  <p style={{ margin: "0", fontSize: "16px", fontWeight: "600", color: "#ffffff" }}>
+                    ANIL NEERUKONDA INSTITUTE OF DENTAL SCIENCES
+
+                  </p>
+                  <p style={{ margin: "2px 0 0 0", fontSize: "16px", fontWeight: "600",color: "#ffffff" }}>Visakhapatnam, Andhra Pradesh</p>
+                </div>
+                </div>
+
+
+
+              </div>
+
+
+
+              {/* <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>Creative Studio</h1>
             <p style={{ fontSize: "18px", opacity: 0.7 }}>
               We design modern digital experiences that feel alive and interactive.
-            </p>
-          </div>
+            </p> */}
+            </div>
 
-          {/* RIGHT SIDE - Image Slider */}
-          <div style={{ flex: 1, position: "relative" }}>
-            <ImageSlider />
+            {/* RIGHT SIDE - Image Slider */}
+            <div style={{ height: "90vh", flex: 1, position: "relative" }}>
+              <ImageSlider />
+            </div>
           </div>
-        </div>
-      </section>
+      </section >
 
       {/* Announcements */}
-      {announcements.length > 0 && (
-        <div style={{ background: "linear-gradient(90deg,#071120,#0f2235,#071120)", padding: "1rem 0", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
-          <div className="container" style={{ display: "flex", gap: "1.5rem", overflowX: "auto" }}>
-            {announcements.slice(0, 4).map((a) => (
-              <div key={a._id} style={{ display: "flex", alignItems: "center", gap: "0.6rem", whiteSpace: "nowrap", flexShrink: 0 }}>
-                <span
-                  style={{
-                    background: a.type === "important" ? "#e74c3c" : a.type === "deadline" ? "#c9a84c" : "#2e8b7a",
-                    color: "#fff",
-                    padding: "0.18rem 0.6rem",
-                    borderRadius: 4,
-                    fontSize: "0.65rem",
-                    fontFamily: "'Barlow Condensed',sans-serif",
-                    fontWeight: 700,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {a.type}
-                </span>
-                <span style={{ fontSize: "0.85rem", color: "rgba(240,244,248,0.8)" }}>{a.title}</span>
-              </div>
-            ))}
+      {
+        announcements.length > 0 && (
+          <div style={{ background: "linear-gradient(90deg,#071120,#0f2235,#071120)", padding: "1rem 0", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
+            <div className="container" style={{ display: "flex", gap: "1.5rem", overflowX: "auto" }}>
+              {announcements.slice(0, 4).map((a) => (
+                <div key={a._id} style={{ display: "flex", alignItems: "center", gap: "0.6rem", whiteSpace: "nowrap", flexShrink: 0 }}>
+                  <span
+                    style={{
+                      background: a.type === "important" ? "#e74c3c" : a.type === "deadline" ? "#c9a84c" : "#2e8b7a",
+                      color: "#fff",
+                      padding: "0.18rem 0.6rem",
+                      borderRadius: 4,
+                      fontSize: "0.65rem",
+                      fontFamily: "'Barlow Condensed',sans-serif",
+                      fontWeight: 700,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {a.type}
+                  </span>
+                  <span style={{ fontSize: "0.85rem", color: "rgba(240,244,248,0.8)" }}>{a.title}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* About Page */}
       <section id="about">
@@ -254,6 +350,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </div>
+    </div >
   );
 }

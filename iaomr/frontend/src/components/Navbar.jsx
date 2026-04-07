@@ -1,44 +1,50 @@
-import { useState, useEffect, useRef } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { FiMenu, FiX, FiUser, FiLogOut, FiSettings, FiGrid, FiShield } from 'react-icons/fi'
-import toast from 'react-hot-toast'
-import { HashLink } from 'react-router-hash-link'
+import { useState, useEffect, useRef } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
+import { useAuth } from '../context/AuthContext';
+import { FiMenu, FiX, FiUser, FiLogOut, FiSettings, FiGrid, FiShield } from 'react-icons/fi';
+import toast from 'react-hot-toast';
+
+import logo5 from '../images/iAOMR.jpeg';
+import logo from '../images/Logo.png';
+import logo2 from '../images/logo4.jpeg';
+import logo3 from '../images/meil.png';
+import logo4 from '../images/logo4.jpeg';
 
 export default function Navbar() {
-  const { user, logout, isAdmin } = useAuth()
-  const navigate = useNavigate()
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [userOpen, setUserOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const userRef = useRef(null)
-  const menuRef = useRef(null)
+  const { user, logout, isAdmin } = useAuth();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const userRef = useRef(null);
+  const menuRef = useRef(null);
 
   // Scroll effect
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Close menus on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (userRef.current && !userRef.current.contains(e.target)) setUserOpen(false)
-      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false)
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+      if (userRef.current && !userRef.current.contains(e.target)) setUserOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLogout = () => {
-    logout()
-    toast.success('Logged out successfully')
-    navigate('/')
-    setUserOpen(false)
-  }
+    logout();
+    toast.success('Logged out successfully');
+    navigate('/');
+    setUserOpen(false);
+  };
 
-  // Styles for links
   const linkStyle = {
     fontFamily: "'Barlow Condensed',sans-serif",
     fontWeight: 600,
@@ -49,16 +55,20 @@ export default function Navbar() {
     color: 'rgba(240,244,248,0.75)',
     paddingBottom: '2px',
     transition: 'all 0.3s',
-  }
+  };
 
   const navLinks = [
     { to: '/', label: 'Home', hash: 'home' },
-    { to: '/', label: 'About', hash: 'about' },
+    { to: '/', label: 'Registration', hash: 'registration' },
+    // { to: '/', label: 'About', hash: 'about' },
     { to: '/', label: 'Schedule', hash: 'schedule' },
+    { to: '/', label: 'Office Bearers', hash: 'bearers' },
     { to: '/', label: 'Committee', hash: 'committee' },
     { to: '/', label: 'Venue', hash: 'venue' },
-    { to: '/contact', label: 'Contact' }, // normal page link
-  ]
+    { to: '/contact', label: 'Contact' },
+  ];
+
+  const logos = [logo, logo5, logo2, logo3, logo4];
 
   return (
     <nav
@@ -68,13 +78,15 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 500,
-        background: scrolled ? 'rgba(7,17,31,0.98)' : 'rgba(7,17,31,0.92)',
+        background: scrolled ? '#0d1b35d6' : '#2E4374',
         backdropFilter: 'blur(14px)',
         borderBottom: '1px solid rgba(201,168,76,0.2)',
+        boxShadow: scrolled ? '0 8px 32px rgba(0,0,0.3)' : 'none',
         transition: 'all 0.3s',
         height: '90px',
         display: 'flex',
-        alignItems: 'center',
+        width: '100dvw',
+        // alignItems: 'center',
       }}
     >
       <div
@@ -84,6 +96,10 @@ export default function Navbar() {
           alignItems: 'center',
           justifyContent: 'space-between',
           width: '100%',
+          margin: '0',
+          padding: '0 2vw',
+          maxWidth: '100dvw',
+
         }}
       >
         {/* Brand */}
@@ -91,28 +107,23 @@ export default function Navbar() {
           to="/"
           style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}
         >
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: '50%',
-              background: 'rgba(0,162,255,0.1)',
-              // background: 'linear-gradient(135deg,#2e8b7a,#1a3460)',
-              border: '2px solid #c9a84c',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: "'Barlow Condensed',sans-serif",
-              fontWeight: 800,
-              fontSize: '0.62rem',
-              color: '#66bee4',
-              letterSpacing: '0.03em',
-              lineHeight: 1.1,
-              textAlign: 'center',
-            }}
-          >
-            IAOMR
-          </div>
+          {logos.map((src, index) => (
+            <div
+              key={index}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                overflow: 'hidden',
+              }}
+            >
+              <img
+                src={src}
+                alt={`Logo ${index + 1}`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+          ))}
           <div>
             <div
               style={{
@@ -152,14 +163,10 @@ export default function Navbar() {
                 <HashLink
                   to={`/#${l.hash}`}
                   smooth
-                  scroll={el => {
-                    const yOffset = -70; // height of your navbar
+                  scroll={(el) => {
+                    const yOffset = -70;
                     const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-                    window.scrollTo({
-                      top: y,
-                      behavior: 'smooth', // smooth scrolling
-                    });
+                    window.scrollTo({ top: y, behavior: 'smooth' });
                   }}
                   onClick={() => setMenuOpen(false)}
                   style={linkStyle}
@@ -175,7 +182,7 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Right side */}
+        {/* Right Side */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <Link to="/register-delegate" className="btn btn-gold btn-sm">
             Register Now
@@ -231,12 +238,9 @@ export default function Navbar() {
                     </div>
                     <div style={{ fontSize: '0.72rem', color: 'var(--txt-light)' }}>{user.email}</div>
                   </div>
-                  {[
-                    { to: '/dashboard', icon: <FiGrid size={13} />, label: 'Dashboard' },
-                    { to: '/profile', icon: <FiSettings size={13} />, label: 'Profile' },
-                    ...(isAdmin
-                      ? [{ to: '/admin', icon: <FiShield size={13} />, label: 'Admin Panel' }]
-                      : []),
+                  {[{ to: '/dashboard', icon: <FiGrid size={13} />, label: 'Dashboard' },
+                  { to: '/profile', icon: <FiSettings size={13} />, label: 'Profile' },
+                  ...(isAdmin ? [{ to: '/admin', icon: <FiShield size={13} />, label: 'Admin Panel' }] : []),
                   ].map((item) => (
                     <Link
                       key={item.to}
@@ -255,8 +259,7 @@ export default function Navbar() {
                       onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(88,131,163,0.08)')}
                       onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
-                      {item.icon}
-                      {item.label}
+                      {item.icon} {item.label}
                     </Link>
                   ))}
                   <button
@@ -276,8 +279,7 @@ export default function Navbar() {
                       fontFamily: "'Barlow',sans-serif",
                     }}
                   >
-                    <FiLogOut size={13} />
-                    Logout
+                    <FiLogOut size={13} /> Logout
                   </button>
                 </div>
               )}
@@ -288,7 +290,7 @@ export default function Navbar() {
               className="btn btn-outline btn-sm"
               style={{ color: 'rgba(240,244,248,0.8)', borderColor: 'rgba(240,244,248,0.3)' }}
             >
-              Know Your Status 
+              Know Your Status
             </Link>
           )}
 
@@ -361,5 +363,5 @@ export default function Navbar() {
         }
       `}</style>
     </nav>
-  )
+  );
 }
