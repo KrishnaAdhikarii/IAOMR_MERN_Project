@@ -108,7 +108,7 @@ export function SchedulePage() {
 // ── ABOUT PAGE ──
 export function AboutPage() {
   return (
-    <div className="light-section" style={{ minHeight: '100vh', padding: '4rem 0' }}>
+    <div className="light-section" style={{ backgroundColor: '#FFFDF6',minHeight: '100vh', padding: '4rem 0' }}>
       <div className="container">
         <div className="section-head">
           <span className="section-tag">About the Convention</span>
@@ -134,7 +134,7 @@ export function AboutPage() {
               { icon: '📅', title: 'Dates', desc: '6th – 8th August 2026' },
               { icon: '📍', title: 'Venue', desc: 'Sangivalasa, Visakhapatnam, Andhra Pradesh' },
             ].map(item => (
-              <div key={item.title} className="card" style={{ padding: '1.2rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+              <div key={item.title} className="card" style={{ padding: '1.2rem', display: 'flex', gap: '1rem', alignItems: 'flex-start',backgroundColor:'#FFFDF6' }}>
                 <span style={{ fontSize: '1.5rem' }}>{item.icon}</span>
                 <div>
                   <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: '0.82rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--card-box)', marginBottom: '0.25rem' }}>{item.title}</div>
@@ -149,7 +149,7 @@ export function AboutPage() {
         <div style={{ marginTop: '3.5rem' }}>
           <h2 className="section-title">Message from the <em>Organizing Chairman</em></h2>
           <div className="gold-rule" />
-          <div className="card" style={{ padding: '2rem', borderLeft: '4px solid var(--gold)' }}>
+          <div className="card" style={{ padding: '2rem', borderLeft: '4px solid var(--gold)',backgroundColor:'#FFFDF6' }}>
             <p style={{ color: 'var(--txt-dark)', lineHeight: 1.9, fontStyle: 'italic', fontSize: '1.02rem', marginBottom: '1rem' }}>
               "It is my great pleasure and honor to welcome you to the National Convention of Oral Medicine and Radiology, themed 'Imagine, Innovate and Illuminate'. This year's convention offers a vibrant academic programme designed to enrich delegates' knowledge and promote collaborative research."
             </p>

@@ -5,11 +5,11 @@ import { useAuth } from '../context/AuthContext';
 import { FiMenu, FiX, FiUser, FiLogOut, FiSettings, FiGrid, FiShield } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
-import logo5 from '../images/iAOMR.jpeg';
-import logo from '../images/Logo.png';
-import logo2 from '../images/logo4.jpeg';
-import logo3 from '../images/meil.png';
-import logo4 from '../images/logo4.jpeg';
+import logo2 from '../images/iAOMR.jpeg';
+import logo4 from '../images/Anids.png';
+import logo5 from '../images/logo4.jpeg';
+import logo3 from '../images/meilLogo.png';
+import logo1 from '../images/event.png';
 
 export default function Navbar() {
   const { user, logout, isAdmin } = useAuth();
@@ -61,14 +61,15 @@ export default function Navbar() {
     { to: '/', label: 'Home', hash: 'home' },
     { to: '/', label: 'Registration', hash: 'registration' },
     // { to: '/', label: 'About', hash: 'about' },
-    { to: '/', label: 'Schedule', hash: 'schedule' },
+    { to: '/', label: 'Scientific', hash: 'schedule' },
     { to: '/', label: 'Office Bearers', hash: 'bearers' },
     { to: '/', label: 'Committee', hash: 'committee' },
+    { to: '/', label: 'Accommodation', hash: 'accommodation' },
     { to: '/', label: 'Venue', hash: 'venue' },
     { to: '/contact', label: 'Contact' },
   ];
 
-  const logos = [logo, logo5, logo2, logo3, logo4];
+  const logos = [logo1, logo2, logo3, logo4, logo5];
 
   return (
     <nav
@@ -78,10 +79,10 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 500,
-        background: scrolled ? '#0d1b35d6' : '#2E4374',
+        background: scrolled ? '#4989c49a' : '#0F2854',
         backdropFilter: 'blur(14px)',
         borderBottom: '1px solid rgba(201,168,76,0.2)',
-        boxShadow: scrolled ? '0 8px 32px rgba(0,0,0.3)' : 'none',
+        boxShadow: scrolled ? '0 3px 12px rgba(0,0,0.3)' : 'none',
         transition: 'all 0.3s',
         height: '90px',
         display: 'flex',
@@ -154,7 +155,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <ul
-          style={{ display: 'flex', gap: '1.6rem', listStyle: 'none', margin: 0, padding: 0 }}
+          style={{ display: 'flex', gap: '1.6rem', listStyle: 'none', margin: 0, padding: 0,fontSize:'0.82rem' }}
           className="desktop-nav"
         >
           {navLinks.map((l) => (

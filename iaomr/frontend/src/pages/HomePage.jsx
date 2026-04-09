@@ -4,8 +4,8 @@ import api from "../utils/api";
 import SchedulePage, { AboutPage, VenuePage, ContactPage } from "./SchedulePage";
 import CommitteePage from "./CommitteePage";
 import ImageSlider from "../components/ImageSlider";
-import bg from "../images/sky.jpeg";
-
+import logo2 from '../images/event.png';
+import logo from "../images/event.png"
 // Countdown Component
 function Countdown() {
   const target = new Date("2026-08-06T09:00:00");
@@ -77,6 +77,8 @@ function Countdown() {
 
 export default function HomePage() {
   const [announcements, setAnnouncements] = useState([]);
+  const [hover, setHover] = useState(false);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     api
@@ -104,8 +106,10 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section id="home" style={{ minHeight: "90vh", width: "100%", display: "grid", backgroundColor: "#FFFCEE" }}>
-        <div style={{ height: "90vh", margin: 20, marginTop: 70, borderRadius: 12, display: "flex", overflow: "hidden", fontFamily: "sans-serif" }}>
+      <section id="home" style={{ minHeight: "90vh", width: "100%", display: "grid", backgroundColor: "#FFFDF6" }}>
+        <div style={{
+          height: "90vh", margin: 20, marginTop: 70, borderRadius: 12, display: "flex", overflow: "hidden", boxShadow: "0px 0px 20px rgba(0, 0, 0)", fontFamily: "sans-serif"
+        }}>
           {/* LEFT SIDE */}
           <div
             style={{
@@ -119,46 +123,58 @@ export default function HomePage() {
               display: "flex",
               flexDirection: "column",
               // justifyContent: "center",
-              backgroundImage: `url(${bg})`,
-              backgroundColor: "#000000",
+              // backgroundImage: `url(${bg})`,
+              backgroundColor: "#FFF2E0",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              color: "#fff",
+              color: "#000000",
             }}
           >
             <div style={{
               marginLeft: '12%',
               marginTop: '10%',
             }}>
-              <p style={{
-                margin: "0 0 2px 0",
-                fontSize: "30px",
-                fontWeight: "600",
-                color: "#ffffff",
-                letterSpacing: "0.5px",
-                fontFamily: "'poppins',sans-serif",
-              }}>
-                24<sup style={{ fontSize: "19px" }}>th</sup> IAOMR
-              </p>
-              <h1 style={{
-                margin: "0 0 8px 0",
-                fontSize: "36px",
-                fontWeight: "800",
-                lineHeight: "1.1",
-                color: "#cdd2b7",
-                fontFamily: "'poppins',sans-serif",
-              }}>
-                National  PG Conference<br />2026
-              </h1>
+              <div style={{ display: 'flex',alignItems:'center',gap:'30px', }}>
+                <div style={{
+                  height:'100px',
+                  width:'100px',
+                  borderRadius:'50%'
+                }}>
+                  <img  style={{height:'100px',weight:'100px',borderRadius:'50%'}} src={logo} alt="logo" />
+                </div>
+                <div>
+                  <p style={{
+                    margin: "0 0 2px 0",
+                    fontSize: "30px",
+                    fontWeight: "600",
+                    color: "#000000",
+                    letterSpacing: "0.5px",
+                    fontFamily: "'poppins',sans-serif",
+                  }}>
+                    24<sup style={{ fontSize: "19px" }}>th</sup> IAOMR
+                  </p>
+                  <h1 style={{
+                    margin: "0 0 8px 0",
+                    fontSize: "30px",
+                    fontWeight: "700",
+                    lineHeight: "1.1",
+                    color: "#000000",
+                    fontFamily: "'poppins',sans-serif",
+                  }}>
+                    National  PG Convention<br/>              2026
+                  </h1>
+                </div>
+              </div>
               <p style={{
                 margin: 0,
-                fontSize: "30px",
-                color: "#b4c1bb",
+                fontSize: "23px",
+                color: "#205295",
                 fontWeight: "600",
                 fontFamily: "'poppins',sans-serif",
               }}>
-                Visakhapatanam,Andhra Pradesh
+                Visakhapatanam, Andhra Pradesh
               </p>
+
               <div style={{
                 height: "1px",
                 background: "linear-gradient(90deg, transparent, #b7e4c7, transparent)",
@@ -169,7 +185,7 @@ export default function HomePage() {
                 margin: "0 0 20px 0",
                 fontSize: "24px",
                 fontStyle: "italic",
-                color: "#ffffff",
+                color: "#000000",
                 textShadow: "0 0 2px rgb(255, 255, 255), 0 0 2px rgb(255, 255, 255), 0 0 10px rgb(255, 255, 255)",
 
                 lineHeight: "1.6",
@@ -183,7 +199,7 @@ export default function HomePage() {
               <p style={{
                 margin: "0 0 20px 0",
                 fontSize: "16px",
-                color: "#ffffff",
+                color: "#000000",
                 fontFamily: "'poppins',sans-serif",
               }}>
                 Hosted by Dept. of OMR, ANIDS, Visakhapatnam.
@@ -193,7 +209,7 @@ export default function HomePage() {
                 <span style={{
                   fontSize: "16px",
                   fontWeight: "600",
-                  color: "#ffffff",
+                  color: "#000000",
                   fontFamily: "'poppins',sans-serif",
                 }}>
                   When: 06<sup style={{ fontSize: "18px" }}>th</sup> – 08<sup style={{ fontSize: "18px" }}>th</sup> August
@@ -203,31 +219,117 @@ export default function HomePage() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "28px" }}>
                 <span style={{ fontSize: "16px", marginTop: "2px" }}>📍</span>
                 <div style={{ fontFamily: "'Poppins', sans-serif" }}>
-                  <p style={{ margin: "0", fontSize: "16px", fontWeight: "600", color: "#ffffff" }}>
+                  <p style={{ margin: "0", fontSize: "16px", fontWeight: "600", color: "#000000" }}>
                     ANIL NEERUKONDA INSTITUTE OF DENTAL SCIENCES
 
                   </p>
-                  <p style={{ margin: "2px 0 0 0", fontSize: "16px", fontWeight: "600",color: "#ffffff" }}>Visakhapatnam, Andhra Pradesh</p>
+                  <p style={{ margin: "2px 0 0 0", fontSize: "16px", fontWeight: "600", color: "#000000" }}>Visakhapatnam, Andhra Pradesh</p>
                 </div>
-                </div>
-
-
-
               </div>
 
+              {/* Buttons */}
+              <button
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => {
+                  setHover(false);
+                  setActive(false);
+                }}
+                onMouseDown={() => setActive(true)}
+                onMouseUp={() => setActive(false)}
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  padding: "16px 36px",
+                  border: "4px solid transparent",
+                  fontSize: "16px",
+                  backgroundColor: "white",
+                  borderRadius: hover ? "12px" : "100px",
+                  fontWeight: 600,
+                  color: hover ? "#000" : "#1f387e",
+                  boxShadow: active
+                    ? "0 0 0 4px greenyellow"
+                    : hover
+                      ? "0 0 0 12px transparent"
+                      : "0 0 0 2px #ffffff",
+                  cursor: "pointer",
+                  overflow: "hidden",
+                  transform: active ? "scale(0.95)" : "scale(1)",
+                  transition: "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+                }}
+              >
+                {/* Left Arrow */}
+                <svg
+                  viewBox="0 0 24 24"
+                  style={{
+                    position: "absolute",
+                    width: "24px",
+                    fill: "#1f387e",
+                    left: hover ? "16px" : "-25%",
+                    transition: "all 0.8s cubic-bezier(0.23,1,0.32,1)",
+                  }}
+                >
+                  <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+                </svg>
+
+                {/* Text */}
+                <span
+                  style={{
+                    position: "relative",
+                    zIndex: 1,
+                    transform: hover ? "translateX(12px)" : "translateX(-12px)",
+                    transition: "all 0.8s cubic-bezier(0.23,1,0.32,1)",
+                  }}
+                >
+                  REGISTER NOW
+                </span>
+
+                {/* Circle */}
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: hover ? "220px" : "20px",
+                    height: hover ? "220px" : "20px",
+                    backgroundColor: "#BDE8F5",
+                    borderRadius: "50%",
+                    opacity: hover ? 1 : 0,
+                    transition: "all 0.8s cubic-bezier(0.23,1,0.32,1)",
+                  }}
+                />
+
+                {/* Right Arrow */}
+                <svg
+                  viewBox="0 0 24 24"
+                  style={{
+                    position: "absolute",
+                    width: "24px",
+                    fill: "#1f387e",
+                    right: hover ? "-25%" : "16px",
+                    transition: "all 0.8s cubic-bezier(0.23,1,0.32,1)",
+                  }}
+                >
+                  <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+                </svg>
+              </button>
+            </div>
 
 
-              {/* <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>Creative Studio</h1>
+
+            {/* <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>Creative Studio</h1>
             <p style={{ fontSize: "18px", opacity: 0.7 }}>
               We design modern digital experiences that feel alive and interactive.
             </p> */}
-            </div>
-
-            {/* RIGHT SIDE - Image Slider */}
-            <div style={{ height: "90vh", flex: 1, position: "relative" }}>
-              <ImageSlider />
-            </div>
           </div>
+
+          {/* RIGHT SIDE - Image Slider */}
+          <div style={{ height: "90vh", flex: 1, position: "relative" }}>
+            <ImageSlider />
+          </div>
+        </div>
       </section >
 
       {/* Announcements */}
@@ -266,7 +368,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats */}
-      <section className="light-section section-pad-sm">
+      {/* <section className="light-section section-pad-sm">
         <div className="container">
           <div className="grid-4">
             {stats.map((s) => (
@@ -277,10 +379,10 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Highlights */}
-      <section className="light-section section-pad">
+      <section className="light-section section-pad" style={{backgroundColor:'#BDE8F5'}}>
         <div className="container">
           <div className="section-head" style={{ textAlign: "center" }}>
             <span className="section-tag">Convention Highlights</span>
@@ -289,9 +391,9 @@ export default function HomePage() {
             </h2>
             <div className="gold-rule" style={{ margin: "0 auto 0" }} />
           </div>
-          <div className="grid-3" style={{ marginTop: "2rem" }}>
+          <div className="grid-3" style={{ marginTop: "2rem"}}>
             {highlights.map((h) => (
-              <div key={h.title} className="card" style={{ padding: "1.8rem", textAlign: "center" }}>
+              <div key={h.title} className="card" style={{ padding: "1.8rem", textAlign: "center",backgroundColor:'#FFFDF6',boxShadow:'0 20 30px rgba(0, 0, 0, 0.76)' }}>
                 <div style={{ fontSize: "2.2rem", marginBottom: "0.8rem" }}>{h.icon}</div>
                 <h3
                   style={{
