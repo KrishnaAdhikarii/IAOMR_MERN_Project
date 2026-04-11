@@ -1,13 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import api from '../utils/api'
 import toast from 'react-hot-toast'
 import wave from '../images/wave.jpeg'
+import { useNavigate } from 'react-router-dom';
+import photo from "../images/OIP.jpeg";
+import placeholder from "../images/img.jpg";
+import { OfficeCard } from '../components/OfficeCard.jsx';
+
+
+import { useIsVisible } from "../components/isVisible.jsx";
+
+
 
 // ── SCHEDULE PAGE ──
 export function SchedulePage() {
   const [activeDay, setActiveDay] = useState(0)
   const [schedule, setSchedule] = useState({})
+
   const [loading, setLoading] = useState(true)
+
+
+
+
 
   const defaultSchedule = {
     1: [
@@ -107,137 +121,335 @@ export function SchedulePage() {
 
 // ── ABOUT PAGE ──
 export function AboutPage() {
-  return (
-    <div className="light-section" style={{ backgroundColor: '#FFFDF6',minHeight: '100vh', padding: '4rem 0' }}>
-      <div className="container">
-        <div className="section-head">
-          <span className="section-tag">About the Convention</span>
-          <h1 className="section-title">The City of <em>Destiny</em> Awaits</h1>
-          <div className="gold-rule" />
-        </div>
-        <div className="grid-2" style={{ alignItems: 'start', gap: '3rem' }}>
-          <div>
-            <p style={{ color: 'var(--txt-dark)', lineHeight: 1.9, marginBottom: '1rem', fontSize: '1rem' }}>
-              Visakhapatnam, popularly known as <strong>Vizag</strong>, is a picturesque coastal city on the eastern coast of Andhra Pradesh along the Bay of Bengal. Nestled between the Eastern Ghats and the sea, it blends natural beauty, cultural heritage, and modern urban development.
-            </p>
-            <p style={{ color: 'var(--txt-dark)', lineHeight: 1.9, marginBottom: '1rem', fontSize: '1rem' }}>
-              The city is known for its pristine beaches, scenic hills, lush greenery, and pleasant climate. A major centre for education, industry, and healthcare, Visakhapatnam hosts premier institutions and advanced infrastructure.
-            </p>
-            <p style={{ color: 'var(--txt-dark)', lineHeight: 1.9, fontSize: '1rem' }}>
-              The theme <strong style={{ color: 'var(--card-box)' }}>"Imagine, Innovate, Illuminate"</strong> reflects the spirit of Oral Medicine and Radiology — envisioning advanced diagnostic possibilities, fostering innovation through research and technology, and illuminating clinical practice with evidence-based knowledge.
-            </p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-            {[
-              { icon: '🏛️', title: 'Hosted By', desc: 'Dept. of Oral Medicine & Radiology, Anil Neerukonda Institute of Dental Sciences, Visakhapatnam' },
-              { icon: '🎓', title: 'Aegis', desc: 'Indian Academy of Oral Medicine & Radiology (IAOMR)' },
-              { icon: '📅', title: 'Dates', desc: '6th – 8th August 2026' },
-              { icon: '📍', title: 'Venue', desc: 'Sangivalasa, Visakhapatnam, Andhra Pradesh' },
-            ].map(item => (
-              <div key={item.title} className="card" style={{ padding: '1.2rem', display: 'flex', gap: '1rem', alignItems: 'flex-start',backgroundColor:'#FFFDF6' }}>
-                <span style={{ fontSize: '1.5rem' }}>{item.icon}</span>
-                <div>
-                  <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: '0.82rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--card-box)', marginBottom: '0.25rem' }}>{item.title}</div>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--txt-dark)' }}>{item.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+  const textRef = useRef(null);
+  const messageRef = useRef(null);
+  const welcome_textRef = useRef(null);
 
-        {/* Organizing Chairman Message */}
-        <div style={{ marginTop: '3.5rem' }}>
-          <h2 className="section-title">Message from the <em>Organizing Chairman</em></h2>
-          <div className="gold-rule" />
-          <div className="card" style={{ padding: '2rem', borderLeft: '4px solid var(--gold)',backgroundColor:'#FFFDF6' }}>
-            <p style={{ color: 'var(--txt-dark)', lineHeight: 1.9, fontStyle: 'italic', fontSize: '1.02rem', marginBottom: '1rem' }}>
-              "It is my great pleasure and honor to welcome you to the National Convention of Oral Medicine and Radiology, themed 'Imagine, Innovate and Illuminate'. This year's convention offers a vibrant academic programme designed to enrich delegates' knowledge and promote collaborative research."
+  
+
+
+
+
+  const textVisible = useIsVisible(textRef);
+  const messageVisible = useIsVisible(messageRef);
+  const welcome_textVisible = useIsVisible(welcome_textRef);
+
+
+
+  return (
+    <>
+      <div className="welcome">
+        <div className="welcome_content">
+
+          {/* Left Side Images */}
+          <div className="welcome_images">
+            <img src={placeholder} alt="Oval 1" className="welcome_image img_left" />
+            <img src={placeholder} alt="Oval 2" className="welcome_image img_right" />
+          </div>
+
+          {/* Right Side Text */}
+          <div
+            ref={welcome_textRef}
+            className={`welcome_textRef ${welcome_textVisible ? "slide_left_in" : "slide_right_out"}`}
+          >
+            <h1 className="welcome_title">
+              Welcome to 24th IAOMR National PG Convention
+            </h1>
+
+            <p className="welcome_description">
+              The IAOMR National PG Convention brings together Oral Medicine and Radiology professionals for a dynamic exchange of scientific knowledge, clinical excellence, and technological advancement.
+              <br /><br />
+              Join leading clinicians, researchers, practitioners, and industry innovators as we explore emerging technologies, advanced treatment methodologies, and the future of patient-centered dentistry.
             </p>
-            <p style={{ color: 'var(--txt-dark)', lineHeight: 1.9, marginBottom: '1.2rem' }}>
-              "The convention provides an excellent forum to update your knowledge, explore recent research advances, innovations, and evolving treatment modalities, while enjoying meaningful professional networking. Your visit to the City of Destiny will be professionally rewarding and memorable."
+
+            <h4 className="welcome_subtitle">Networking & Professional Exchange</h4>
+            <p className="welcome_text_small">
+              Connect with peers, senior clinicians, and faculty members to exchange ideas and strengthen professional relationships.
             </p>
-            <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: '1rem', color: 'var(--card-box)', letterSpacing: '0.08em' }}>
-              — Dr. B. Badari Ramakrishna
-            </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--txt-light)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Organizing Chairman</div>
+
+            <h4 className="welcome_subtitle">Renowned Faculty & Speakers</h4>
+            <p className="welcome_text_small">
+              Field-leading experts supporting innovation, research, and education in Oral Medicine & Radiology.
+            </p>
+          </div>
+
+        </div>
+      </div>
+      <div className="ticker">
+        <div className="ticker-track">
+          <div className="ticker-item">
+            IAOMR * National PG Convention * 2026 *
+          </div>
+          <div className="ticker-item">
+            IAOMR * National PG Convention * 2026 *
           </div>
         </div>
       </div>
-    </div>
+
+      <div className="message">
+        <div
+          ref={messageRef}
+          className={`message-content ${messageVisible ? "slide-up-in" : "slide-down-out"}`}
+        >
+          <h2 className="message-title">
+            A Message from the Organizing Chairman
+          </h2>
+
+          <p className="bold">Dear Delegates,</p>
+
+          <p>
+            It is my great pleasure and honor to welcome you to the National Convention of Oral Medicine and Radiology, themed <strong>"Imagine, Innovate and Illuminate"</strong>. This year's convention offers a vibrant academic programme designed to enrich delegates' knowledge and promote collaborative research.
+            <br /><br />
+            The convention provides an excellent forum to update your knowledge, explore recent research advances, innovations, and evolving treatment modalities, while enjoying meaningful professional networking. Your visit to the City of Destiny will be professionally rewarding and memorable.
+          </p>
+          <br />
+          <p className="bold">With Warm Regards</p>
+
+          <p className="signature">
+            Dr. B. Badari Ramakrishna<br />
+            Organizing Chairman<br />
+            24th IAOMR National PG Convention
+          </p>
+        </div>
+
+        <div className="message-img">
+          <img
+            src={photo}
+            alt="Chairman"
+          />
+        </div>
+      </div>
+    </>
   )
 }
+//---Office Bearers Page ---
+import prasanth from "../images/Dr-Prasanth-Shenoy.png"
+
+export function Office_bearers() {
+
+  const officeRef=useRef(null)
+  const officeVisible=useIsVisible(officeRef)
+
+  const members = [
+    {
+      name: "Dr Prashanth Shenoy",
+      designation: "President",
+      // img: photo,
+      img: prasanth,
+    },
+    {
+      name: "Dr Avinash Tejasvi M L",
+      designation: "Hon. Gen. Secretary",
+      img: "/assets/images/teams/Avinash.png",
+      img: photo
+
+    },
+    {
+      name: "Dr Ajay Pratap Singh Parihar",
+      designation: "Head Office Treasurer",
+      img: "/assets/images/teams/Ajay.png",
+      img: photo
+    },
+    {
+      name: "Dr V Sreenivasan",
+      designation: "President Elect",
+      img: "/assets/images/teams/Sreenivasan.png",
+      img: photo
+
+    },
+    {
+      name: "Dr Sri Krishna K",
+      designation: "Imm. Past President",
+      img: "/assets/images/teams/Krishna.png",
+      img: photo
+
+    },
+    {
+      name: "Dr Shiva Prasad S",
+      designation: "Imm. Past Secretary",
+      img: "/assets/images/teams/Shiva.png",
+      img: photo
+
+    },
+  ];
+
+  return (
+    <div ref={officeRef} className={`office-page ${officeVisible? "slide-up-in": "slide-down-out"}`}>
+      <h1 className="office-title">IAOMR Office Bearers</h1>
+
+      <div className="office-grid">
+        {members.map((m, i) => (
+          <OfficeCard
+            key={i}
+            name={m.name}
+            designation={m.designation}
+            img={m.img}
+          />
+        ))}
+      </div>
+
+      <div className="btn-wrapper">
+        <button className="read_more_btn" >
+          View More <i className="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+  );
+}
+
+
+
 
 // ── COMMITTEE PAGE ──
 export function CommitteePage() {
+  const committeeRef=useRef(null)
+  const committeeVisible=useIsVisible(committeeRef)
+
   const orgTeam = [
-    { initials: 'BR', name: 'Dr. B. Badari Ramakrishna', role: 'Organizing Chairman', phone: '+91 9885426232' },
-    { initials: 'RM', name: 'Dr. V. Rahul Marshal', role: 'Organizing Secretary', phone: '+91 9848720046' },
-    { initials: 'NR', name: 'Dr. N. Rajesh', role: 'Scientific Chairman', phone: '+91 9885067499' },
-    { initials: 'KL', name: 'Dr. K. V. Lokesh', role: 'Treasurer', phone: '+91 9885164196' },
-    { initials: 'GU', name: 'Dr. G. Upendra', role: 'Joint Secretary' },
-  ]
-  const committees = [
-    { title: 'Scientific Committee', members: ['Dr. Y. Samata', 'Dr. K. Jyothirmai', 'Dr. P. V. Sarat', 'Dr. M. Rakesh', 'Dr. M. Mary Sujatha', 'Dr. R. Sruthi'] },
-    { title: 'Registration Committee', members: ['Dr. Y. Pavan Kumar', 'Dr. P. Suresh Kumar', 'Dr. Purna Chandar Rao', 'Dr. B. Swapana Sridevi', 'Dr. C. Vani', 'Dr. B. Anupama'] },
-    { title: 'Pre-Convention Committee', members: ['Dr. K. Sridevi', 'Dr. T. Ramesh', 'Dr. G. Komali', 'Dr. Mallikamahalakshmi', 'Dr. N.S.V. Santhosh', 'Dr. E. Sumalatha'] },
-    { title: 'Reception Committee', members: ['Dr. K. Ramya', 'Dr. B. Krishnaveni', 'Dr. Bharani Devi', 'Dr. Y. Alekya', 'Dr. Rupa Chandini', 'Dr. Sethu Manjusha'] },
-    { title: 'Banquet Committee', members: ['Dr. R.C. Jagat Reddy', 'Dr. G. Ramlal', 'Dr. N. Mahesh', 'Dr. Sanjay Reddy', 'Dr. Kotya Naik Maloth', 'Dr. K. Sharon Leela'] },
-    { title: 'Hospitality Committee', members: ['Dr. Ramesh', 'Dr. Santan Reddy', 'Dr. K. Aravind', 'Dr. D. Ajit', 'Dr. S. Sailaja', 'Dr. M. Jasmine'] },
-    { title: 'Accommodation Committee', members: ['Dr. V. Sairam', 'Dr. M.P.V. Prabath', 'Dr. E. Shiva Prasad Reddy', 'Dr. M. Dayanand', 'Dr. A.D.N. Deepika', 'Dr. K.N.V. Sai Praveen'] },
-    { title: 'Trade Fair Committee', members: ['Dr. K. Ramesh Kumar', 'Dr. T. Harsha Vardhan Reddy', 'Dr. B. Raj Kumar', 'Dr. B. Kalyan Chakravarthy', 'Dr. B. Mamatha', 'Dr. Reddy Lavanya'] },
-    { title: 'E-Souvenir Committee', members: ['Dr. Ch. Lalitha', 'Dr. Faizal', 'Dr. Seema Ashwin Bhogte', 'Dr. Shefali Waghray', 'Dr. Praveen', 'Dr. Yehoshuva Reddy'] },
-    { title: 'Food Committee', members: ['Dr. M. Srinivas Raju', 'Dr. Niranjan Reddy', 'Dr. Gautam Srivastava', 'Dr. Ch. Sai Kiran', 'Dr. P. Srinivasa Rao'] },
-    { title: 'Fund Raising Committee', members: ['Dr. K. Aravinda', 'Dr. Shailender Reddy', 'Dr. Rajya Lakshmi', 'Dr. Bhuvaneswari', 'Dr. D. Naresh Naik', 'Dr. P. Bharathi'] },
-    { title: 'Gifts & Mementos Committee', members: ['Dr. Chandrasekar Reddy', 'Dr. B. Vijay Kumar', 'Dr. B. Smita', 'Dr. B. Ramesh Kumar', 'Dr. K. Pavani', 'Dr. Madhulika Naidu'] },
-  ]
+    {
+      name: "Dr. B. Badari Ramakrishna",
+      role: "Organizing Chairman",
+      img: "/assets/team/badari.png",
+      img: photo
+    },
+    {
+      name: "Dr. V. Rahul Marshal",
+      role: "Organizing Secretary",
+      img: "/assets/team/rahul.png",
+      img: photo
+
+    },
+    {
+      name: "Dr. N. Rajesh",
+      role: "Scientific Chairman",
+      img: "/assets/team/rajesh.png",
+      img: photo
+
+    },
+    {
+      name: "Dr. K. V. Lokesh",
+      role: "Treasurer",
+      img: "/assets/team/lokesh.png",
+      img: photo
+
+    },
+    {
+      name: "Dr. G. Upendra",
+      role: "Joint Secretary",
+      img: "/assets/team/upendra.png",
+      img: photo
+
+    },
+  ];
 
   return (
-    <div className="light-section" style={{ minHeight: '100vh', padding: '4rem 0' }}>
-      <div className="container">
-        <div className="section-head" style={{ textAlign: 'center' }}>
-          <span className="section-tag">Organizing Committee</span>
-          <h1 className="section-title">The Team Behind the <em>Convention</em></h1>
-          <div className="gold-rule" style={{ margin: '0 auto 1.5rem' }} />
-        </div>
+    <div ref={committeeRef} className={ `committee-page ${committeeVisible? "slide-up-in": "slide-down-out"}`}>
 
-        {/* Chief Patron */}
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <div style={{ display: 'inline-block', background: 'rgba(88,131,163,0.1)', border: '1px solid rgba(88,131,163,0.3)', borderRadius: 14, padding: '1.2rem 2.5rem' }}>
-            <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: '0.72rem', letterSpacing: '0.32em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '0.3rem' }}>Chief Patron</div>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--txt-dark)' }}>Dr. L. Vamsi Krishna Reddy</div>
-            <div style={{ fontSize: '0.82rem', color: 'var(--txt-mid)' }}>Principal, Anil Neerukonda Institute of Dental Sciences</div>
-          </div>
-        </div>
+      <h1 className="committee-title">Organizing Committee 2026</h1>
 
-        {/* Org team */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: '1.2rem', marginBottom: '3rem' }}>
-          {orgTeam.map(p => (
-            <div key={p.name} className="card" style={{ padding: '1.4rem 1rem', textAlign: 'center' }}>
-              <div style={{ width: 56, height: 56, borderRadius: '50%', margin: '0 auto 0.6rem', background: 'linear-gradient(135deg,var(--card-box),#7494ba)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond',serif", fontSize: '1.3rem', fontWeight: 700, color: '#fff', border: '2px solid rgba(88,131,163,0.3)' }}>{p.initials}</div>
-              <div style={{ fontWeight: 600, fontSize: '0.82rem', color: 'var(--txt-dark)', lineHeight: 1.3, marginBottom: '0.25rem' }}>{p.name}</div>
-              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--card-box)' }}>{p.role}</div>
-              {p.phone && <div style={{ fontSize: '0.78rem', color: 'var(--teal)', marginTop: '0.3rem', fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 600 }}>{p.phone}</div>}
-            </div>
+      {/* ORGANIZING TEAM */}
+      <section>
+
+        <div className="committee-grid">
+          {orgTeam.map((m, i) => (
+            <OfficeCard
+              key={i}
+              name={m.name}
+              designation={m.role}   // same prop reused
+              img={m.img}
+            />
           ))}
         </div>
+      </section>
+      <div className="btn-wrapper">
+        <button className="read_more_btn" >
+          View More <i className="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
 
-        {/* Other committees */}
-        <h2 className="section-title" style={{ fontSize: '1.6rem', marginBottom: '0.5rem' }}>Sub-<em>Committees</em></h2>
-        <div className="gold-rule" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.2rem', marginTop: '1rem' }}>
-          {committees.map(c => (
-            <div key={c.title} className="card" style={{ padding: 0 }}>
-              <div className="card-header">{c.title}</div>
-              <div className="card-body">
-                <p style={{ fontSize: '0.82rem', color: 'var(--txt-dark)', lineHeight: 1.85 }}>
-                  {c.members.join(' · ')}
-                </p>
-              </div>
-            </div>
-          ))}
+    </div>
+  );
+}
+export function RegisterationInfo() {
+  const registrationInfoRef = useRef(null);
+  const registrationInfoVisible = useIsVisible(registrationInfoRef);
+
+  return (
+    <div ref={registrationInfoRef} className={`registration_info ${registrationInfoVisible ? "slide-up-in" : "slide-down-out"}`}>
+
+      <h2 className="registration_info_title">
+        Registration Charges
+      </h2>
+
+      <p className="registration_info_subtitle">
+        Choose your category and secure your participation at IAOMR 2026.
+      </p>
+
+      <div className="registration_info_table_wrapper">
+        <div className="registration_info_table_glass">
+          <table className="registration_info_table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Till 15 March</th>
+                <th>Till 30 April</th>
+                <th>Till 10 July</th>
+                <th>Spot</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Student Delegate</td>
+                <td>7080/-</td>
+                <td>7670/-</td>
+                <td>8850/-</td>
+                <td>9440/-</td>
+              </tr>
+              <tr>
+                <td>Faculty Delegate</td>
+                <td>7670/-</td>
+                <td>8260/-</td>
+                <td>9440/-</td>
+                <td>10030/-</td>
+              </tr>
+              <tr>
+                <td>Accompanying Person</td>
+                <td>4720/-</td>
+                <td>5310/-</td>
+                <td>6490/-</td>
+                <td>6490/-</td>
+              </tr>
+              <tr>
+                <td>Foreign Delegate</td>
+                <td>$200</td>
+                <td>$200</td>
+                <td>$225</td>
+                <td>$225</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <p className="registration_info_note">
+        *All registration charges mentioned above are inclusive of applicable GST
+        <span style={{ display: 'block', marginTop: 4, fontSize: '1.3 rem', fontWeight: 600, opacity: 1, }}>Registration includes</span>
+        2 breakfasts, 2 lunches,  1 Gala banquet, registration kit,<br />
+        gift and attendance certificate
+      </p>
+
+      <div className="registration_info_points">
+
+        <p></p>
+        <p>*Fees are non-refundable and non-transferable.</p>
+        <p>Spot registrations are not eligible for gifts.</p>
+        <p>Accommodation & transportation are not included.</p>
+
+      </div>
+
     </div>
+
   )
 }
 
@@ -257,53 +469,269 @@ export function VenuePage() {
     { icon: '❄️', name: 'Lambasingi', desc: 'The "Kashmir of Andhra Pradesh"' },
     { icon: '💧', name: 'Devarapalli Falls', desc: 'Scenic waterfall near the city' },
   ]
+  const venueRef = useRef(null);
+  const cityRef = useRef(null);
+  const venue_Visible = useIsVisible(venueRef);
+  const city_Visible = useIsVisible(cityRef);
 
   return (
-    <div className="light-section" style={{ minHeight: '100vh', padding: '4rem 0' }}>
-      <div className="container">
-        <div className="section-head">
-          <span className="section-tag">Venue & Tourism</span>
-          <h1 className="section-title">Explore <em>Visakhapatnam</em></h1>
-          <div className="gold-rule" />
-        </div>
-        <div className="grid-2" style={{ alignItems: 'start', gap: '3rem' }}>
-          <div>
-            <div className="card" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
-              <div className="card-header" style={{ margin: '-1.5rem -1.5rem 1rem', padding: '0.7rem 1.5rem' }}>Convention Venue</div>
-              <p style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--txt-dark)' }}>Anil Neerukonda Institute of Dental Sciences</p>
-              <p style={{ color: 'var(--txt-mid)', marginTop: '0.3rem' }}>Sangivalasa, Visakhapatnam, Andhra Pradesh, India</p>
-              <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.88rem', color: 'var(--txt-mid)' }}>
-                <span>✈️ Visakhapatnam International Airport</span>
-                <span>🚆 Visakhapatnam Railway Station</span>
-                <span>🚌 National Highway access by road</span>
-              </div>
-            </div>
-            <p style={{ color: 'var(--txt-dark)', lineHeight: 1.9, fontSize: '0.98rem' }}>
-              Nestled between the Eastern Ghats and the Bay of Bengal, Visakhapatnam (Vizag) offers delegates a perfect blend of academic enrichment and tourism. The city is well-connected and vibrant, with world-class attractions for the entire family.
-            </p>
+    <><div className="Venue Page">
+      <section className="venue-section">
+        <div ref={venueRef}
+          className={`venue-container ${venue_Visible ? "slide-up-in" : "slide-down-out"}`}>
+
+          <div className="venue-head">
+            <span className="venue-tag">Venue</span>
+
+            <h1 className="venue-title">
+              Anil Neerukonda Institute of Dental Sciences, Visakhapatnam
+            </h1>
           </div>
-          <div>
-            <h3 style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: '0.88rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--card-box)', marginBottom: '1rem' }}>Tourist Attractions</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-              {attractions.map(a => (
-                <div key={a.name} className="card" style={{ padding: '0.85rem', display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{a.icon}</span>
-                  <div>
-                    <div style={{ fontWeight: 600, fontSize: '0.82rem', color: 'var(--txt-dark)' }}>{a.name}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--txt-light)', lineHeight: 1.5 }}>{a.desc}</div>
-                  </div>
-                </div>
-              ))}
+
+          <div className="venue-content">
+
+            <div className="venue-image">
+              <img
+                src={placeholder}
+                alt="Venue"
+              />
             </div>
+
+            <div className="venue-map">
+              <iframe
+                title="Venue Location"
+                src="https://www.google.com/maps?q=Anil+Neerukonda+Institute+of+Dental+Sciences+Visakhapatnam&output=embed"
+                loading="lazy"
+                allowFullScreen
+              ></iframe>
+              <div className='venue-name' style={{ textShadow: '0px 1px 02px #000' }}>
+                <i className="fa-solid fa-location-arrow"></i>                Anil Neerukonda Institute of Dental Sciences, <br />Visakhapatnam <br />
+                <button className="maps-button">Get Directions  ➜</button></div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <section className="City-section">
+        <div ref={cityRef} className={`city-text ${city_Visible ? "slide-up-in" : "slide-down-out"}`}>
+          <h2 className="city-title">
+            Discover <br /><em>Visakhapatnam</em>
+          </h2>
+          <p className="city-description">
+            Visakhapatnam, often called Vizag, is a vibrant coastal city on India’s eastern shoreline. Known for its calm beaches, green hills, and rapidly growing urban landscape, the city beautifully blends natural serenity with industrial and educational progress.
+
+            <br /><br />As one of the most important cities in Andhra Pradesh, Visakhapatnam offers an inspiring environment where healthcare, education, research, and maritime excellence come together, making it an ideal destination for academic exchange, conferences, and professional collaboration.
+          </p>
+          <p className="city-description">
+            <br /><span>🏛️ Coastal City with Rich Natural & Cultural Heritage<br /></span>
+
+            Visakhapatnam is known for its scenic coastline, cultural diversity, and historical significance. The city is home to popular landmarks such as Ramakrishna Beach, a serene stretch of shore ideal for relaxation and sunrise views, and Kailasagiri, a hilltop park offering panoramic views of the Bay of Bengal.
+
+
+            <br /><br /><span>🎓 Hub for Education, Industry & Growth<br /></span>
+
+            Visakhapatnam is rapidly emerging as a centre for education, research, and industrial development. With reputed institutions, medical colleges, and expanding research facilities, the city plays a key role in advancing science, healthcare, and innovation in the region.
+
+
+            <br /><br /><span>🚢 Strategic Port City with Global Connectivity<br /></span>
+
+            A major strength of Visakhapatnam is its maritime importance, anchored by the Visakhapatnam Port Authority, one of India’s key seaports that supports trade and economic development.
+
+            The city is well-connected through roadways, railways, and the Visakhapatnam International Airport, ensuring smooth access for national and international visitors. </p>
+        </div>
+
+        <div ref={cityRef} className={`city-images ${city_Visible ? "slide-left-in" : "slide-right-out"}`}>
+          <div className="photos_row1">
+            <div>
+              <img src={placeholder} alt="City 1" />
+            </div>
+            <div>
+              <img src={placeholder} alt="City 2" />
+              <img src={placeholder} alt="City 3" />
+            </div>
+          </div>
+
+          <div className="photos_row2">
+            <img src={placeholder} alt="City 4" />
+            <img src={placeholder} alt="City 5" />
+          </div>
+        </div>
+      </section>
+      <div className="ticker2">
+        <div className="ticker2-track">
+          <div className="ticker2-item">
+            ✶  IAOMR National PG Convention, 2026
+          </div>
+          <div className="ticker2-item">
+            ✶  6<sup>th</sup> - 8<sup>th</sup> August
+          </div>
+          <div className="ticker2-item">
+            ✶  ANIDS, Visakhapatnam
+          </div>
+          <div className="ticker2-item">
+            ✶  Register Now
+          </div>
+          <div className="ticker2-item">
+            ✶  IAOMR National PG Convention, 2026
+          </div>
+          <div className="ticker2-item">
+            ✶  6<sup>th</sup> - 8<sup>th</sup> August
+          </div>
+          <div className="ticker2-item">
+            ✶  ANIDS, Visakhapatnam
+          </div>
+          <div className="ticker2-item">
+            ✶  Register Now
           </div>
         </div>
       </div>
     </div>
+    </>
+  )
+}
+export function AbstractInfo() {
+  const abstractInfoRef = useRef(null);
+  const abstractInfoVisible = useIsVisible(abstractInfoRef);
+
+  return (
+    <section className="abstract_info">
+      <div className="abstract_info_image">
+        <img src={placeholder} alt="IAOMR Abstract Submission Illustration" />
+      </div>
+
+      <div ref={abstractInfoRef} className={`abstract_info_text ${abstractInfoVisible ? "slide-left-in" : "slide-right-out"}`}>
+        <h2 className="abstract_info_title">
+          Abstract Submission
+        </h2>
+
+        <p>
+          We invite you to submit your research abstracts for the 24th IAOMR National PG Convention, 2026. This is a fantastic opportunity to share your work with leading experts in Oral Medicine and Radiology.
+        </p>
+
+        <p>
+          Accepted abstracts will be presented as oral or poster presentations during the convention, providing a platform for networking and collaboration.
+        </p>
+
+        <p>
+          Join us in making this convention a hub of scientific exchange and professional growth. We look forward to welcoming you to Visakhapatnam in August 2026!
+        </p>
+
+        <button className="abstractInfo_button" disabled>
+          Submissions Opening Soon
+        </button>
+      </div>
+    </section>
   )
 }
 
+
+
+
 // ── CONTACT PAGE ──
+
+
 export function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    number: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log("Form Submitted:", formData);
+    alert("Message sent successfully!");
+
+    setFormData({
+      name: "",
+      email: "",
+      number: "",
+      message: "",
+    });
+  };
+
+  return (
+    <>
+      <div className="contact_wrapper">
+        <div className="contact_layout">
+
+          {/* LEFT SIDE */}
+          <div className="contact_left">
+            <h1 className="contact_heading">Contact Us</h1>
+            <p className="contact_subheading">
+              Feel free to contact us at any time for any questions or inquiries you may have.
+              We're always available to assist you.
+            </p>
+
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="contact_right">
+            <form className="contact_form" onSubmit={handleSubmit}>
+
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                value={formData.name}
+                onChange={handleChange}
+                className="contact_input"
+                required
+              />
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="contact_input"
+                required
+              />
+
+              <input
+                type="tel"
+                name="number"
+                placeholder="Your Phone Number"
+                value={formData.number}
+                onChange={handleChange}
+                className="contact_input"
+                required
+              />
+
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={handleChange}
+                className="contact_textarea"
+                required
+              />
+
+              <button type="submit" className="contact_button">
+                Send Message
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+      \    </>
+  );
+};
+
+export function ContactPage2() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [loading, setLoading] = useState(false)
   const f = (k, v) => setForm(p => ({ ...p, [k]: v }))
