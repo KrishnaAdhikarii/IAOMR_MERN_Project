@@ -11,24 +11,12 @@ import { OfficeCard } from '../components/OfficeCard.jsx';
 
 import { useIsVisible } from "../components/isVisible.jsx";
 
-
-import v1 from "../images/vizag/v1.jpg"
+import v11 from "../images/vizag/v11.jpg"
+import v14 from "../images/vizag/v14.jpg"
 import v4 from "../images/vizag/v4.jpg"
 import v5 from "../images/vizag/v5.jpg"
 import v6 from "../images/vizag/v6.jpg"
-import v7 from "../images/vizag/v7.jpg"
-import v8 from "../images/vizag/v8.jpg"
-import v9 from "../images/vizag/v9.jpg"
-import v10 from "../images/vizag/v10.jpg"
-import v11 from "../images/vizag/v11.jpg"
-import v12 from "../images/vizag/v12.jpg"
-import v13 from "../images/vizag/v13.jpg"
-import v14 from "../images/vizag/v14.jpg"
-import v15 from "../images/vizag/v15.jpg"
-import v16 from "../images/vizag/v16.jpg"
-import v17 from "../images/vizag/v17.jpg"
-import v18 from "../images/vizag/v18.jpg"
-import v19 from "../images/vizag/v19.jpg"
+
 
 import conv from "../images/conv.jpg"
 
@@ -119,7 +107,7 @@ export function AboutPage() {
         <div className="welcome_content">
 
           {/* Left Side Images */}
-          <div ref={welcome_textRef} className={`welcome_images ${ welcome_textVisible ? 'slide-up-in': 'slide-down-out'}`}>
+          <div ref={welcome_textRef} className={`welcome_images ${welcome_textVisible ? 'slide-up-in' : 'slide-down-out'}`}>
             <img src={placeholder} alt="Oval 1" className="welcome_image img_left" />
             <img src={placeholder} alt="Oval 2" className="welcome_image img_right" />
           </div>
@@ -282,6 +270,7 @@ import rajesh from "../images/rajesh.png"
 import lokesh from "../images/lokesh.png"
 import upendra from "../images/upendra.png"
 import badari from "../images/hod.png"
+import princi from "../images/princi.png"
 
 // ── COMMITTEE PAGE ──
 export function CommitteePage() {
@@ -346,7 +335,7 @@ export function CommitteePage() {
 
           {/* RIGHT IMAGE */}
           <div className="chief_photo">
-            <img src={photo} alt="Chief Patron" />
+            <img src={princi} alt="Chief Patron" />
           </div>
 
         </div>
@@ -438,20 +427,26 @@ export function RegisterationInfo() {
           </table>
         </div>
       </div>
+      <div className="registration_info_wrapper">
 
-      <p className="registration_info_note">
-        *All registration charges mentioned above are inclusive of applicable GST
-        <span style={{ display: 'block', marginTop: 4, fontSize: '1.3 rem', fontWeight: 600, opacity: 1, }}>Registration includes</span>
-        2 breakfasts, 2 lunches,  1 Gala banquet, registration kit,<br />
-        gift and attendance certificate
-      </p>
+        {/* LEFT SIDE (Points) */}
+        <div className="registration_info_points">
+          <p>*Fees are non-refundable and non-transferable.</p>
+          <p>Spot registrations are not eligible for gifts.</p>
+          <p>Accommodation & transportation are not included.</p>
+        </div>
 
-      <div className="registration_info_points">
+        {/* RIGHT SIDE (Note) */}
+        <p className="registration_info_note">
+          *All registration charges mentioned above are inclusive of applicable GST
 
-        <p></p>
-        <p>*Fees are non-refundable and non-transferable.</p>
-        <p>Spot registrations are not eligible for gifts.</p>
-        <p>Accommodation & transportation are not included.</p>
+          <span className="registration_info_subtitle">
+            Registration includes
+          </span>
+
+          <em style={{textTransform:'capitalize'}}>2 breakfasts, 2 lunches, 1 Gala banquet, registration kit,<br />
+          gift and attendance certificate</em>
+        </p>
 
       </div>
 
@@ -552,7 +547,7 @@ export function VenuePage() {
         <div ref={cityRef} className={`city-images ${city_Visible ? "slide-left-in" : "slide-right-out"}`}>
           <div className="photos_row1">
             <div>
-              <img style={{height:'380px'}} src={v11} alt="City 1" />
+              <img style={{ height: '380px' }} src={v11} alt="City 1" />
             </div>
             <div>
               <img src={v4} alt="City 2" />

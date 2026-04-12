@@ -516,15 +516,16 @@ html:hover {
   position: sticky;
   top: 20px;
 
-  height: fit-content;
-  max-height: 90vh;
+  /* height: fit-content; */
+  max-height: auto;
   overflow-y: auto;
 
   display: flex;
   flex-direction: column;
 
-  background-color: #FFF2E0;
+  background:linear-gradient(138, #FFF3DA,#fff);
   border-radius: 15px;
+  font-family: 'Kumbh Sans',sans-serif;
 
   color: #000;
 }
@@ -627,6 +628,7 @@ html:hover {
 .hero-location-info {
   display: flex;
   align-items: center;
+  font-weight: 600;
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -1621,31 +1623,56 @@ html:hover {
   font-weight: 500;
   color: #000000;
 }
-
-/* GST note */
-.registration_info_note {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-align: end;
-  color: #000000;
-  font-style: italic;
+/* WRAPPER */
+.registration_info_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap; /* responsive */
 }
 
-/* Points */
+/* LEFT - POINTS */
 .registration_info_points {
-  margin-top: 0.1rem;
+  flex: 1;
   font-size: 0.9rem;
   font-weight: 500;
-  text-align: end;
-  color: #000000;
+  text-align: left;
+  /* border-spacing: 0cap; */
+  color: #000;
   font-style: italic;
 }
 
-.registration_info_points ul {
-  padding-left: 1.5rem;
-  line-height: 1.8;
-  align-items: flex-end;
+/* RIGHT - NOTE */
+.registration_info_note {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: right;
+  color: #000;
+  font-style: italic;
+}
+
+/* Remove default spacing */
+.registration_info_points p,
+.registration_info_note {
+  margin: 0;
+  line-height: 1.4; /* tighter spacing */
+}
+
+/* Add small controlled spacing between lines */
+.registration_info_points p + p {
+  margin-top: 9px;
+}
+
+/* Subtitle spacing fix */
+.registration_info_subtitle {
+  display: block;
+  margin: 4px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 /* Optional subtle animation */
@@ -1851,7 +1878,7 @@ html:hover {
 /* Explore Section */
 .explore {
   padding: 3rem 5%;
-  background: #fff;
+  background: #BDE8F5;
 }
 
 /* Heading */
@@ -2206,7 +2233,7 @@ html:hover {
 
 .office-page {
   min-height: 100vh;
-  background: #F5EFE7;
+  background: #DBE2EF;
   padding: 3rem 1.5rem;
   color: #000000;
 }
@@ -2243,7 +2270,7 @@ html:hover {
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  background: #bde8f5;
+  background: #FEF7EA;
 }
 
 .office-card-image {
@@ -2275,23 +2302,23 @@ html:hover {
 /* TEXT OVER SVG */
 .office-card-text {
   position: absolute;
-  bottom: 30px;
+  bottom: 40px;
   font-family: 'Kumbh Sans', sans-serif;
   left: 10px;
   right: 10px;
   text-align: center;
-  color: #000;
+  color: #fff;
 }
 
 .office-card-text h3 {
-  font-size: 14px;
+  font-size: 17px;
   font-family: 'Kumbh Sans', sans-serif;
   margin: 0;
   font-weight: 700;
 }
 
 .office-card-text p {
-  font-size: 11px;
+  font-size: 13px;
   font-family: 'Kumbh Sans', sans-serif;
   margin: 2px 0 0;
 }
@@ -2334,13 +2361,14 @@ html:hover {
 .committee-page {
   min-height: 100vh;
   background: rgb(224, 247, 255);
+  background: #DBE2EF;
   padding: 3rem 1.5rem;
   color: #000000;
 }
 
 .chief_patron {
   padding: 80px 20px;
-  background: #f4f7fb;
+  background: #e9eff7;
 }
 
 /* Heading */
@@ -2357,15 +2385,17 @@ html:hover {
 
 /* FLOATING CARD */
 .chief_row {
-  max-width: 900px;
+  max-width: 700px;
+  height: 100px;
   margin: auto;
+  margin-top: 150px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 40px;
 
   /* 🔥 Floating effect */
-  background: linear-gradient(135deg, #1e3a8a, #4988C4);
+  background: linear-gradient(135deg, #FEF7EA, #9CD5FF);
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
@@ -2382,29 +2412,30 @@ html:hover {
 /* TEXT */
 .chief_text {
   font-family: "Kumbh Sans", sans-serif;
-  flex: 1;
-  color: #ffffff;
+  flex: 2;
+  color: #000;
 }
 
 .chief_text h3 {
   font-family: "Kumbh Sans", sans-serif;
-
-  font-size: 24px;
-  margin-bottom: 10px;
+  color: #000;
+  font-size: 29px;
+  margin-bottom: 00px;
 }
 
 .chief_text p {
   font-family: "Kumbh Sans", sans-serif;
-
+  margin-top: 0cm;
   font-size: 15px;
-  color: #c9a84c;
-  margin-bottom: 8px;
+  color: #000;
+  margin-bottom: 0px;
   font-weight: 600;
 }
 
 .chief_text span {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(0, 0, 0);
+  line-height-step: 1px;
 }
 
 /* IMAGE */
@@ -2412,18 +2443,17 @@ html:hover {
   flex: 1;
   display: flex;
   justify-content: center;
+  position: relative; /* important */
 }
 
 .chief_photo img {
-  width: 220px;
-  height: 220px;
-  object-fit: cover;
+  width: 400px;
+  height: auto;
   border-radius: 16px;
 
-  /* glow border */
-  border: 4px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  top: -90px; /* 🔥 moves image upward */
 
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
 }
 

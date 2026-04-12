@@ -3,10 +3,24 @@ import img1 from "../images/slider1.jpg";
 import img2 from "../images/slider2.jpeg";
 import img3 from "../images/slider3.jpg";
 
+import v7 from "../images/vizag/v7.jpg"
+import v8 from "../images/vizag/v8.jpg"
+import v9 from "../images/vizag/v9.jpg"
+import v10 from "../images/vizag/v10.jpg"
+import v12 from "../images/vizag/v12.jpg"
+import v13 from "../images/vizag/v13.jpg"
+import v15 from "../images/vizag/v15.jpg"
+import v16 from "../images/vizag/v16.jpg"
+import v17 from "../images/vizag/v17.jpg"
+import v18 from "../images/vizag/v18.jpg"
+import v19 from "../images/vizag/v19.jpg"
+
+
 const images = [
   img1,
   img2,
-  img3
+  img3,
+  // v7,v8,v9,v10,v12,v13,v15,v16,v17,v18,v19
 ];
 
 

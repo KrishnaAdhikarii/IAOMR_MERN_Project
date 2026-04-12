@@ -18,24 +18,19 @@ import placeholder from "../images/img.jpg";
 
 import v1 from "../images/vizag/v1.jpg"
 import v2 from "../images/vizag/v2.jpeg"
-import v4 from "../images/vizag/v4.jpg"
-import v5 from "../images/vizag/v5.jpg"
-import v6 from "../images/vizag/v6.jpg"
+
 import v7 from "../images/vizag/v7.jpg"
 import v8 from "../images/vizag/v8.jpg"
 import v9 from "../images/vizag/v9.jpg"
 import v10 from "../images/vizag/v10.jpg"
-import v11 from "../images/vizag/v11.jpg"
 import v12 from "../images/vizag/v12.jpg"
 import v13 from "../images/vizag/v13.jpg"
-import v14 from "../images/vizag/v14.jpg"
 import v15 from "../images/vizag/v15.jpg"
 import v16 from "../images/vizag/v16.jpg"
 import v17 from "../images/vizag/v17.jpg"
 import v18 from "../images/vizag/v18.jpg"
 import v19 from "../images/vizag/v19.jpg"
 
-import conv from "../images/conv.jpg"
 
 
 
