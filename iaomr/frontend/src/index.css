@@ -2262,7 +2262,7 @@ html:hover {
 .office-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  /* background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent); */
 }
 
 /* BADGE AREA */
