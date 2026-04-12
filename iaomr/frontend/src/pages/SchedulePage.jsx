@@ -277,11 +277,11 @@ export function Office_bearers() {
   );
 }
 
-import rahul from "../images/rahul.jpeg"
-import rajesh from "../images/rajesh.jpeg"
-import lokesh from "../images/lokesh.jpeg"
-import upendra from "../images/upendra.jpeg"
-
+import rahul from "../images/rahul.png"
+import rajesh from "../images/rajesh.png"
+import lokesh from "../images/lokesh.png"
+import upendra from "../images/upendra.png"
+import badari from "../images/hod.png"
 
 // ── COMMITTEE PAGE ──
 export function CommitteePage() {
@@ -293,7 +293,7 @@ export function CommitteePage() {
       name: "Dr. B. Badari Ramakrishna",
       role: "Organizing Chairman",
       img: "/assets/team/badari.png",
-      img: hod
+      img: badari
     },
     {
       name: "Dr. V. Rahul Marshal",

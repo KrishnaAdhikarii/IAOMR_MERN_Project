@@ -920,11 +920,11 @@ html:hover {
 
 .ticker-item {
   white-space: nowrap;
-  font-size: 130px;
+  font-size: 120px;
   font-weight: bolder;
   margin-left: 50px;
   margin-inline: calc(var(--spacing) * 6);
-  color: slategray;
+  color: #0a2647ee;
   flex-shrink: 0;
   padding-right: 40px;
   /* optional spacing */
