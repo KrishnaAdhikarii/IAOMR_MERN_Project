@@ -991,9 +991,9 @@ html:hover {
 }
 
 .message-img img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+  width: 500px;
+  height: 500px;
+  border-radius: 45%;
   object-fit: cover;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
@@ -2365,7 +2365,7 @@ html:hover {
   gap: 40px;
 
   /* 🔥 Floating effect */
-  background: linear-gradient(135deg, #0f2854, #1e3a8a);
+  background: linear-gradient(135deg, #1e3a8a, #4988C4);
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);

@@ -277,7 +277,10 @@ export function Office_bearers() {
   );
 }
 
-
+import rahul from "../images/rahul.jpeg"
+import rajesh from "../images/rajesh.jpeg"
+import lokesh from "../images/lokesh.jpeg"
+import upendra from "../images/upendra.jpeg"
 
 
 // ── COMMITTEE PAGE ──
@@ -290,34 +293,34 @@ export function CommitteePage() {
       name: "Dr. B. Badari Ramakrishna",
       role: "Organizing Chairman",
       img: "/assets/team/badari.png",
-      img: photo
+      img: hod
     },
     {
       name: "Dr. V. Rahul Marshal",
       role: "Organizing Secretary",
       img: "/assets/team/rahul.png",
-      img: photo
+      img: rahul
 
     },
     {
       name: "Dr. N. Rajesh",
       role: "Scientific Chairman",
       img: "/assets/team/rajesh.png",
-      img: photo
+      img: rajesh
 
     },
     {
       name: "Dr. K. V. Lokesh",
       role: "Treasurer",
       img: "/assets/team/lokesh.png",
-      img: photo
+      img: lokesh
 
     },
     {
       name: "Dr. G. Upendra",
       role: "Joint Secretary",
       img: "/assets/team/upendra.png",
-      img: photo
+      img: upendra
 
     },
   ];
