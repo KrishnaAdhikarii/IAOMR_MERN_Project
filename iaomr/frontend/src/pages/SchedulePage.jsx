@@ -5,10 +5,32 @@ import wave from '../images/wave.jpeg'
 import { useNavigate } from 'react-router-dom';
 import photo from "../images/OIP.jpeg";
 import placeholder from "../images/img.jpg";
+import hod from "../images/hod.png"
 import { OfficeCard } from '../components/OfficeCard.jsx';
 
 
 import { useIsVisible } from "../components/isVisible.jsx";
+
+
+import v1 from "../images/vizag/v1.jpg"
+import v4 from "../images/vizag/v4.jpg"
+import v5 from "../images/vizag/v5.jpg"
+import v6 from "../images/vizag/v6.jpg"
+import v7 from "../images/vizag/v7.jpg"
+import v8 from "../images/vizag/v8.jpg"
+import v9 from "../images/vizag/v9.jpg"
+import v10 from "../images/vizag/v10.jpg"
+import v11 from "../images/vizag/v11.jpg"
+import v12 from "../images/vizag/v12.jpg"
+import v13 from "../images/vizag/v13.jpg"
+import v14 from "../images/vizag/v14.jpg"
+import v15 from "../images/vizag/v15.jpg"
+import v16 from "../images/vizag/v16.jpg"
+import v17 from "../images/vizag/v17.jpg"
+import v18 from "../images/vizag/v18.jpg"
+import v19 from "../images/vizag/v19.jpg"
+
+import conv from "../images/conv.jpg"
 
 
 
@@ -68,54 +90,9 @@ export function SchedulePage() {
   const typeColor = { session: 'var(--card-box)', lecture: '#2e8b7a', break: '#856404', inauguration: 'var(--gold)', social: '#8e44ad', valedictory: '#e74c3c', registration: '#2980b9' }
 
   return (
-    <div className="light-section" style={{
-      backgroundImage: `linear-gradient(rgba(255,255,255,0.2 ), rgba(255,255,255,0.2)),url(${wave})`,
-      backgroundSize: "cover",
-      backgroundPosition: "left bottom",
-      backgroundRepeat: "no-repeat",
-      minHeight: "100vh",
-      padding: "4rem 0"
-    }}>
-      <div className="container">
-        <div className="section-head" style={{ textAlign: 'center' }}>
-          <span className="section-tag">Tentative Programme</span>
-          <h1 className="section-title">Convention <em>Schedule</em></h1>
-          <div className="gold-rule" style={{ margin: '0 auto 1rem' }} />
-          <p style={{ color: 'var(--txt-mid)', fontSize: '0.85rem' }}>*Programme schedule is subject to change</p>
-        </div>
-        <div className="tabs">
-          {days.map((d, i) => (
-            <button key={i} className={`tab${activeDay === i ? ' active' : ''}`} onClick={() => setActiveDay(i)}>
-              {d.label} – {d.sub}
-              <span style={{ display: 'block', fontSize: '0.65rem', opacity: 0.75, fontWeight: 400 }}>{d.date}</span>
-            </button>
-          ))}
-        </div>
-        {loading ? <div className="spinner" /> : (
-          <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-            {(schedule[activeDay + 1] || []).map((item, i) => (
-              <div key={i} style={{ display: 'flex', gap: '1.2rem', padding: '1rem 1.4rem', borderBottom: '1px solid rgba(88,131,163,0.1)', alignItems: 'flex-start', background: i % 2 === 0 ? 'rgba(255,255,255,0.7)' : 'rgba(88,131,163,0.04)', transition: 'background 0.2s' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(88,131,163,0.09)'}
-                onMouseLeave={e => e.currentTarget.style.background = i % 2 === 0 ? 'rgba(255,255,255,0.7)' : 'rgba(88,131,163,0.04)'}
-              >
-                <div style={{ minWidth: 130, fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 600, fontSize: '0.78rem', color: 'var(--card-box)', paddingTop: 2 }}>
-                  {item.startTime}{item.endTime ? ` – ${item.endTime}` : ''}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 500, color: 'var(--txt-dark)', fontSize: '0.95rem' }}>{item.title}</div>
-                  {item.speaker && <div style={{ fontSize: '0.8rem', color: 'var(--txt-light)', marginTop: 2 }}>🎤 {item.speaker}</div>}
-                </div>
-                {item.type && (
-                  <span className="badge" style={{ background: `${typeColor[item.type]}22`, color: typeColor[item.type], border: `1px solid ${typeColor[item.type]}44`, flexShrink: 0 }}>
-                    {item.type}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+    <><div className='schedule page'>
+      Schedule Will be updated shortly
+    </div></>
   )
 }
 
@@ -125,7 +102,7 @@ export function AboutPage() {
   const messageRef = useRef(null);
   const welcome_textRef = useRef(null);
 
-  
+
 
 
 
@@ -142,7 +119,7 @@ export function AboutPage() {
         <div className="welcome_content">
 
           {/* Left Side Images */}
-          <div className="welcome_images">
+          <div ref={welcome_textRef} className={`welcome_images ${ welcome_textVisible ? 'slide-up-in': 'slide-down-out'}`}>
             <img src={placeholder} alt="Oval 1" className="welcome_image img_left" />
             <img src={placeholder} alt="Oval 2" className="welcome_image img_right" />
           </div>
@@ -214,7 +191,7 @@ export function AboutPage() {
 
         <div className="message-img">
           <img
-            src={photo}
+            src={hod}
             alt="Chairman"
           />
         </div>
@@ -224,11 +201,15 @@ export function AboutPage() {
 }
 //---Office Bearers Page ---
 import prasanth from "../images/Dr-Prasanth-Shenoy.png"
-
+import avinash from "../images/dr-Avinash.png"
+import ajay from "../images/Dr-Ajay-Parihar.png"
+import shiva from "../images/Dr-Shiva-Prasad.png"
+import sreenivas from "../images/Dr-Sreenivasan.png"
+import krishna from "../images/Dr-Sri-Krishna.png"
 export function Office_bearers() {
 
-  const officeRef=useRef(null)
-  const officeVisible=useIsVisible(officeRef)
+  const officeRef = useRef(null)
+  const officeVisible = useIsVisible(officeRef)
 
   const members = [
     {
@@ -240,41 +221,39 @@ export function Office_bearers() {
     {
       name: "Dr Avinash Tejasvi M L",
       designation: "Hon. Gen. Secretary",
-      img: "/assets/images/teams/Avinash.png",
-      img: photo
+      img: avinash
 
     },
     {
       name: "Dr Ajay Pratap Singh Parihar",
       designation: "Head Office Treasurer",
-      img: "/assets/images/teams/Ajay.png",
-      img: photo
+      img: ajay
     },
     {
       name: "Dr V Sreenivasan",
       designation: "President Elect",
-      img: "/assets/images/teams/Sreenivasan.png",
-      img: photo
+      img: "../images/Dr-Ajay-Parihar.png",
+      img: sreenivas
 
     },
     {
       name: "Dr Sri Krishna K",
       designation: "Imm. Past President",
       img: "/assets/images/teams/Krishna.png",
-      img: photo
+      img: krishna
 
     },
     {
       name: "Dr Shiva Prasad S",
       designation: "Imm. Past Secretary",
       img: "/assets/images/teams/Shiva.png",
-      img: photo
+      img: shiva
 
     },
   ];
 
   return (
-    <div ref={officeRef} className={`office-page ${officeVisible? "slide-up-in": "slide-down-out"}`}>
+    <div ref={officeRef} className={`office-page ${officeVisible ? "slide-up-in" : "slide-down-out"}`}>
       <h1 className="office-title">IAOMR Office Bearers</h1>
 
       <div className="office-grid">
@@ -303,8 +282,8 @@ export function Office_bearers() {
 
 // ── COMMITTEE PAGE ──
 export function CommitteePage() {
-  const committeeRef=useRef(null)
-  const committeeVisible=useIsVisible(committeeRef)
+  const committeeRef = useRef(null)
+  const committeeVisible = useIsVisible(committeeRef)
 
   const orgTeam = [
     {
@@ -344,9 +323,34 @@ export function CommitteePage() {
   ];
 
   return (
-    <div ref={committeeRef} className={ `committee-page ${committeeVisible? "slide-up-in": "slide-down-out"}`}>
+    <div ref={committeeRef} className={`committee-page ${committeeVisible ? "slide-up-in" : "slide-down-out"}`}>
+      <section className="chief_patron">
 
+        {/* HEADING */}
+        <h2 className="chief_heading">Chief Patron</h2>
+
+        {/* CONTENT ROW */}
+        <div className="chief_row">
+
+          {/* LEFT TEXT */}
+          <div className="chief_text">
+            <h3>Dr. L. Vamsi Krishna Reddy</h3>
+            <p>Principal</p>
+            <span>
+              Anil Neerukonda Institute of Dental Sciences
+            </span>
+          </div>
+
+          {/* RIGHT IMAGE */}
+          <div className="chief_photo">
+            <img src={photo} alt="Chief Patron" />
+          </div>
+
+        </div>
+
+      </section>
       <h1 className="committee-title">Organizing Committee 2026</h1>
+
 
       {/* ORGANIZING TEAM */}
       <section>
@@ -392,9 +396,9 @@ export function RegisterationInfo() {
             <thead>
               <tr>
                 <th>Category</th>
-                <th>Till 15 March</th>
-                <th>Till 30 April</th>
-                <th>Till 10 July</th>
+                <th>Till 15 March 2026</th>
+                <th>Till 30 April 2026</th>
+                <th>Till 10 July 2026</th>
                 <th>Spot</th>
               </tr>
             </thead>
@@ -545,17 +549,17 @@ export function VenuePage() {
         <div ref={cityRef} className={`city-images ${city_Visible ? "slide-left-in" : "slide-right-out"}`}>
           <div className="photos_row1">
             <div>
-              <img src={placeholder} alt="City 1" />
+              <img style={{height:'380px'}} src={v11} alt="City 1" />
             </div>
             <div>
-              <img src={placeholder} alt="City 2" />
-              <img src={placeholder} alt="City 3" />
+              <img src={v4} alt="City 2" />
+              <img src={v14} alt="City 3" />
             </div>
           </div>
 
           <div className="photos_row2">
-            <img src={placeholder} alt="City 4" />
-            <img src={placeholder} alt="City 5" />
+            <img src={v6} alt="City 4" />
+            <img src={v5} alt="City 5" />
           </div>
         </div>
       </section>
@@ -598,7 +602,7 @@ export function AbstractInfo() {
   return (
     <section className="abstract_info">
       <div className="abstract_info_image">
-        <img src={placeholder} alt="IAOMR Abstract Submission Illustration" />
+        <img src={conv} alt="IAOMR Abstract Submission Illustration" />
       </div>
 
       <div ref={abstractInfoRef} className={`abstract_info_text ${abstractInfoVisible ? "slide-left-in" : "slide-right-out"}`}>

@@ -214,6 +214,7 @@ html:hover {
   margin-bottom: 1.5rem;
 }
 
+/* ================= NAVBAR ================= */
 .navbar {
   position: fixed;
   top: 0;
@@ -230,7 +231,6 @@ html:hover {
 }
 
 .navbar-scrolled {
-  /* background: #0f2854cc; */
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -242,6 +242,7 @@ html:hover {
   padding: 0 2vw;
 }
 
+/* ================= BRAND ================= */
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -262,30 +263,17 @@ html:hover {
   object-fit: cover;
 }
 
-.brand-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #c9a84c;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.brand-sub {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 300;
-  font-size: 0.65rem;
-  color: rgba(240, 244, 248, 0.55);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
+/* ================= NAV ================= */
 .desktop-nav {
   display: flex;
   gap: 1.6rem;
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.nav-item {
+  position: relative;
 }
 
 .nav-link {
@@ -295,34 +283,94 @@ html:hover {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  color: rgba(255, 255, 255);
+  color: #ffffff;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 .nav-link:hover {
   color: #91C8E4;
 }
 
+/* ================= DROPDOWN ================= */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: rgba(15, 40, 84, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 10px;
+  padding: 8px 0;
+  margin-top: 0px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1200;
+  animation: dropdownFade 0.25s ease;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 16px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(240, 244, 248, 0.85);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(201, 168, 76, 0.1);
+  color: #3fbcde;
+  transform: translateX(4px);
+}
+
+/* Animation */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Arrow */
+.dropdown-arrow {
+  font-size: 10px;
+  margin-left: 4px;
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* ================= RIGHT SIDE ================= */
 .nav-right {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-/* From Uiverse.io by Mike11jr */
+/* REGISTER BUTTON */
 .nav-link-register-link {
   padding: 1.1em 2em;
-  background: none;
+  background: #ffffff;
   border: 2px solid #fff;
   font-size: 10px;
+  font-family: "Kumbh Sans", sans-serif;
   color: #131313;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: all 0.3s;
   border-radius: 12px;
-  background-color: #ffffff;
-  font-weight: bolder;
+  font-weight: bold;
   box-shadow: 0 2px 0 2px #000;
 }
 
@@ -331,27 +379,27 @@ html:hover {
   position: absolute;
   width: 100px;
   height: 120%;
-  background-color: #ff6700;
+  background-color: #00eeff;
   top: 50%;
   transform: skewX(30deg) translate(-150%, -50%);
   transition: all 0.5s;
 }
 
 .nav-link-register-link:hover {
-  background-color: #4cc9f0;
+  background-color: #144272;
   color: #fff;
   box-shadow: 0 2px 0 2px #0d3b66;
 }
 
 .nav-link-register-link:hover::before {
   transform: skewX(30deg) translate(150%, -50%);
-  transition-delay: 0.1s;
 }
 
 .nav-link-register-link:active {
   transform: scale(0.9);
 }
 
+/* ================= USER ================= */
 .user-btn {
   display: flex;
   align-items: center;
@@ -361,7 +409,7 @@ html:hover {
   border-radius: 6px;
   padding: 0.45rem 0.9rem;
   cursor: pointer;
-  color: #f0f4f8;
+  color: #000;
 }
 
 .user-dropdown {
@@ -374,27 +422,13 @@ html:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   border: 1px solid rgba(88, 131, 163, 0.2);
   overflow: hidden;
-  z-index: 600;
+  z-index: 1300;
 }
 
 .user-header {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(88, 131, 163, 0.1);
   background: rgba(88, 131, 163, 0.05);
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.65rem 1rem;
-  font-size: 0.85rem;
-  color: var(--txt-dark);
-  text-decoration: none;
-}
-
-.dropdown-item:hover {
-  background: rgba(88, 131, 163, 0.08);
 }
 
 .logout-btn {
@@ -407,9 +441,10 @@ html:hover {
   border-top: 1px solid rgba(88, 131, 163, 0.1);
 }
 
+/* ================= MOBILE ================= */
 .mobile-menu {
   position: fixed;
-  top: 70px;
+  top: 90px;
   left: 0;
   right: 0;
   background: rgba(7, 17, 31, 0.98);
@@ -419,10 +454,15 @@ html:hover {
 }
 
 .mobile-link {
-  padding: 0.5rem 0;
+  padding: 0.6rem 0;
   color: rgba(240, 244, 248, 0.8);
   text-decoration: none;
   border-bottom: 1px solid rgba(88, 131, 163, 0.1);
+  font-size: 0.8rem;
+}
+
+.mobile-link:hover {
+  color: #c9a84c;
 }
 
 .mobile-menu-btn {
@@ -431,14 +471,9 @@ html:hover {
   border: none;
   cursor: pointer;
   color: rgba(240, 244, 248, 0.8);
-  padding: 0.25rem;
 }
 
-.mobile-menu-btn {
-  display: none;
-}
-
-/* Hide desktop nav and right buttons on mobile */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 900px) {
 
   .desktop-nav,
@@ -472,89 +507,122 @@ html:hover {
 }
 
 /* LEFT SIDE */
+/* =========================
+   HERO LEFT CONTAINER
+========================= */
 .hero-left {
   width: 40%;
   padding: 20px;
   position: sticky;
-  border-radius: 15px;
-  top: 0;
-  height: 90vh;
+  top: 20px;
+
+  height: fit-content;
+  max-height: 90vh;
+  overflow-y: auto;
+
   display: flex;
   flex-direction: column;
+
   background-color: #FFF2E0;
-  background-size: cover;
-  background-position: center;
-  color: #000000;
+  border-radius: 15px;
+
+  color: #000;
 }
 
+/* =========================
+   INNER WRAPPER
+========================= */
 .hero-left-inner {
   margin-left: 12%;
   margin-top: 10%;
+  font-family: 'Kumbh Sans', sans-serif;
 }
 
+/* =========================
+   LOGO
+========================= */
 .hero-logo-container {
-  height: 100px;
   width: 100px;
+  height: 100px;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .hero-logo-container img {
-  height: 100px;
-  width: 100px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 50%;
 }
 
+/* =========================
+   TITLE
+========================= */
 .hero-title p {
-  margin: 0 0 2px 0;
+  margin: 0 0 2px;
   font-size: 30px;
   font-weight: 600;
-  color: #000000;
   letter-spacing: 0.5px;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Kumbh Sans', sans-serif;
 }
 
 .hero-title h1 {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 30px;
   font-weight: 700;
   line-height: 1.1;
-  color: #000000;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Kumbh Sans', sans-serif;
 }
 
+/* =========================
+   LOCATION
+========================= */
 .hero-location {
   margin: 0;
   font-size: 23px;
   color: #205295;
   font-weight: 600;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Kumbh Sans', sans-serif;
 }
 
+/* =========================
+   DIVIDER
+========================= */
 .hero-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, #b7e4c7, transparent);
-  margin: 10px 0 20px 0;
+  margin: 10px 0 20px;
 }
 
+/* =========================
+   QUOTE
+========================= */
 .hero-quote {
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
   font-size: 24px;
   font-style: italic;
-  color: #000000;
-  text-shadow: 0 0 2px rgb(255, 255, 255), 0 0 2px rgb(255, 255, 255), 0 0 10px rgb(255, 255, 255);
   line-height: 1.6;
-  font-family: 'Oswald', sans-serif;
-  border-left: 3px solid #ffffffc8;
+  font-family: 'Kumbh Sans', sans-serif;
+
+  border-left: 3px solid #fff;
   padding-left: 12px;
+
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
 }
 
+/* =========================
+   HOSTED TEXT
+========================= */
 .hero-hosted {
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
   font-size: 16px;
-  color: #000000;
-  font-family: 'Oswald', sans-serif;
+  color: #000;
+  font-family: 'Kumbh Sans', sans-serif;
 }
 
+/* =========================
+   DATE + LOCATION INFO
+========================= */
 .hero-date,
 .hero-location-info {
   display: flex;
@@ -574,48 +642,63 @@ html:hover {
   margin-top: 2px;
 }
 
+.hero-location-info p {
+  margin: 2px 0;
+}
+
+/* =========================
+   BUTTON
+========================= */
 .hero-button {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+
   padding: 16px 36px;
-  border: 4px solid transparent;
+
   font-size: 16px;
-  background-color: white;
-  border-radius: 100px;
-  /* default */
   font-weight: 600;
+
+  background: #ffffff;
   color: #1f387e;
-  box-shadow: 0 0 0 2px #ffffff;
+
+  border: none;
+  border-radius: 100px;
+
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+
+  transition: all 0.4s ease;
+  box-shadow: 0 0 0 2px #ffffff;
 }
 
-.hero-button.hover {
+/* Hover */
+.hero-button:hover {
   border-radius: 12px;
-  color: #000;
-  box-shadow: 0 0 0 12px transparent;
+  transform: translateY(-2px);
 }
 
-.hero-button.active {
+/* Active */
+.hero-button:active {
   transform: scale(0.95);
-  box-shadow: 0 0 0 4px greenyellow;
 }
 
+/* =========================
+   BUTTON ICONS
+========================= */
 .hero-button svg {
   position: absolute;
-  width: 24px;
+  width: 22px;
   fill: #1f387e;
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.5s ease;
 }
 
 .hero-button .left-arrow {
-  left: -25%;
+  left: -30px;
 }
 
-.hero-button.hover .left-arrow {
+.hero-button:hover .left-arrow {
   left: 16px;
 }
 
@@ -623,38 +706,69 @@ html:hover {
   right: 16px;
 }
 
-.hero-button.hover .right-arrow {
-  right: -25%;
+.hero-button:hover .right-arrow {
+  right: -30px;
 }
 
+/* =========================
+   BUTTON TEXT
+========================= */
 .hero-button span.text {
   position: relative;
-  z-index: 1;
-  transform: translateX(-12px);
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.4s ease;
 }
 
-.hero-button.hover span.text {
-  transform: translateX(12px);
+.hero-button:hover span.text {
+  transform: translateX(10px);
 }
 
+/* =========================
+   BUTTON CIRCLE EFFECT
+========================= */
 .hero-button span.circle {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
+  width: 0;
+  height: 0;
+
   background-color: #BDE8F5;
   border-radius: 50%;
+
   opacity: 0;
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.6s ease;
 }
 
-.hero-button.hover span.circle {
+.hero-button:hover span.circle {
   width: 220px;
   height: 220px;
   opacity: 1;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+  .hero-left {
+    width: 100%;
+    position: relative;
+    max-height: unset;
+  }
+
+  .hero-left-inner {
+    margin-left: 0;
+    margin-top: 5%;
+  }
+
+  .hero-title h1 {
+    font-size: 24px;
+  }
+
+  .hero-title p {
+    font-size: 22px;
+  }
+
+  .hero-location {
+    font-size: 18px;
+  }
 }
 
 /* RIGHT SIDE */
@@ -871,7 +985,7 @@ html:hover {
 
 /* Image */
 .message-img {
-  width: 40%;
+  width: 50%;
   display: flex;
   justify-content: center;
 }
@@ -1024,7 +1138,7 @@ html:hover {
   /* becomes background */
   color: #F9F7F7;
   /* text flips */
-  box-shadow: 0 12px 30px rgb(15,40, 84,0.3);
+  box-shadow: 0 12px 30px rgb(15, 40, 84, 0.3);
 }
 
 /* TEXT COLOR SWAP */
@@ -1558,7 +1672,7 @@ html:hover {
   justify-content: space-between;
   gap: 2rem;
   padding: 4rem 8%;
-  background: #f9fafc;
+  background: #BDE8F5;
   flex-wrap: wrap;
   font-family: 'Kumbh Sans', sans-serif;
 }
@@ -1813,6 +1927,7 @@ html:hover {
   height: 320px;
 }
 
+
 /* 📱 Responsive */
 @media (max-width: 900px) {
   .pinterest_grid {
@@ -1831,7 +1946,7 @@ html:hover {
 .contact_wrapper {
   min-height: 100vh;
   padding: 80px 40px;
-  
+
   background: linear-gradient(#bde8f5be, #fff);
   display: flex;
   justify-content: center;
@@ -1952,7 +2067,7 @@ html:hover {
 .footer {
   background: linear-gradient(180deg, #0f2854, #0c1f40);
   color: rgba(255, 255, 255, 0.75);
-  padding-top: 60px;
+  padding-top: 35px;
   /* margin-top: 80px; */
 }
 
@@ -2109,7 +2224,7 @@ html:hover {
 .committee-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2.5rem;
+  gap: 3.5rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -2223,7 +2338,112 @@ html:hover {
   color: #000000;
 }
 
+.chief_patron {
+  padding: 80px 20px;
+  background: #f4f7fb;
+}
 
+/* Heading */
+.chief_heading {
+  text-align: center;
+  font-size: 32px;
+  font-family: "Kumbh Sans", sans-serif;
+  text-transform: uppercase;
+
+  font-weight: 700;
+  margin-bottom: 50px;
+  color: #0f2854;
+}
+
+/* FLOATING CARD */
+.chief_row {
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+
+  /* 🔥 Floating effect */
+  background: linear-gradient(135deg, #0f2854, #1e3a8a);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+  /* subtle lift */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chief_row:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+/* TEXT */
+.chief_text {
+  font-family: "Kumbh Sans", sans-serif;
+  flex: 1;
+  color: #ffffff;
+}
+
+.chief_text h3 {
+  font-family: "Kumbh Sans", sans-serif;
+
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.chief_text p {
+  font-family: "Kumbh Sans", sans-serif;
+
+  font-size: 15px;
+  color: #c9a84c;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.chief_text span {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* IMAGE */
+.chief_photo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.chief_photo img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+
+  /* glow border */
+  border: 4px solid rgba(255, 255, 255, 0.2);
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.chief_photo img:hover {
+  transform: scale(1.05);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .chief_row {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+  }
+
+  .chief_photo img {
+    width: 180px;
+    height: 180px;
+  }
+}
 
 
 
@@ -2653,9 +2873,10 @@ thead th {
   background: var(--card-box);
   color: #fff;
   padding: 0.85rem 1rem;
-  text-align: left;
+  text-align: center;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.72rem;
+  font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }

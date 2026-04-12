@@ -7,8 +7,39 @@ import CommitteePage from "./CommitteePage";
 import ImageSlider from "../components/ImageSlider";
 import { useIsVisible } from "../components/isVisible";
 import logo from "../images/event.png"
-import photo from "../images/OIP.jpeg";
+import araku from "../images/Araku_valley_view.jpg"
+import kailashgiri from "../images/kailashgiri.jpeg"
+import borra from "../images/borra.jpg"
+import rushikonda from "../images/rushikonda.jpg"
 import placeholder from "../images/img.jpg";
+
+
+
+
+import v1 from "../images/vizag/v1.jpg"
+import v2 from "../images/vizag/v2.jpeg"
+import v4 from "../images/vizag/v4.jpg"
+import v5 from "../images/vizag/v5.jpg"
+import v6 from "../images/vizag/v6.jpg"
+import v7 from "../images/vizag/v7.jpg"
+import v8 from "../images/vizag/v8.jpg"
+import v9 from "../images/vizag/v9.jpg"
+import v10 from "../images/vizag/v10.jpg"
+import v11 from "../images/vizag/v11.jpg"
+import v12 from "../images/vizag/v12.jpg"
+import v13 from "../images/vizag/v13.jpg"
+import v14 from "../images/vizag/v14.jpg"
+import v15 from "../images/vizag/v15.jpg"
+import v16 from "../images/vizag/v16.jpg"
+import v17 from "../images/vizag/v17.jpg"
+import v18 from "../images/vizag/v18.jpg"
+import v19 from "../images/vizag/v19.jpg"
+
+import conv from "../images/conv.jpg"
+
+
+
+
 // Countdown Component
 function Countdown() {
   const eventDate = new Date("August 6, 2026 09:00:00").getTime();
@@ -90,8 +121,15 @@ export default function HomePage() {
   const [hover, setHover] = useState(false);
   const [active, setActive] = useState(false);
 
+
+
+
   const collegeContentRef = useRef(null);
   const isCollegeContentVisible = useIsVisible(collegeContentRef);
+
+  const heroRef = useRef(null)
+  const isHeroVisible = useIsVisible(heroRef)
+
   const exploreRef = useRef(null);
   const isExploreVisible = useIsVisible(exploreRef);
 
@@ -119,49 +157,73 @@ export default function HomePage() {
         <div className="hero-container">
           {/* LEFT SIDE */}
           <div className="hero-left">
-            {/* <div className="hero-left-inner">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+            <div className="hero-left-inner">
+              <div ref={heroRef}
+                className={`tille ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`} style={{ display: "flex", alignItems: "center", gap: "30px" }}>
                 <div className="hero-logo-container">
                   <img src={logo} alt="logo" />
                 </div>
+
                 <div className="hero-title">
-                  <p>24<sup>th</sup> IAOMR</p>
-                  <h1>National PG Convention<br />2026</h1>
+                  <p>
+                    24<sup>th</sup> IAOMR
+                  </p>
+                  <h1>
+                    National PG Convention
+                    <br />
+                    2026
+                  </h1>
                 </div>
               </div>
-              <p className="hero-location">Visakhapatanam, Andhra Pradesh</p>
+
+              <p ref={heroRef} className={`hero-location ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}>Visakhapatanam, Andhra Pradesh</p>
+
               <div className="hero-divider" />
-              <p className="hero-quote">"Imagine - Innovate - Illuminate"</p>
-              <p className="hero-hosted">Hosted by Dept. of OMR, ANIDS, Visakhapatnam.</p>
-              <div className="hero-date">
+
+              <p ref={heroRef} className={`hero-quote ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}>"Imagine - Innovate - Illuminate"</p>
+
+              <p className="hero-hosted">
+                Hosted by Dept. of OMR, ANIDS, Visakhapatnam.
+              </p>
+
+              <div ref={heroRef} className={`hero-date ${isHeroVisible ? 'slide-left-in' : 'slide-right-out'}`}>
                 <span>📅</span>
-                <span>When: 06<sup>th</sup> – 08<sup>th</sup> August</span>
+                <span>
+                  When: 06<sup>th</sup> – 08<sup>th</sup> August
+                </span>
               </div>
-              <div className="hero-location-info">
+              <div ref={heroRef} className={`hero-location-info ${isHeroVisible ? 'slide-left-in' : 'slide-right-out'}`}>
                 <span>📍</span>
                 <div>
                   <p>ANIL NEERUKONDA INSTITUTE OF DENTAL SCIENCES</p>
                   <p>Visakhapatnam, Andhra Pradesh</p>
                 </div>
               </div>
-              <button className={`hero-button ${hover ? 'hover' : ''} ${active ? 'active' : ''}`}
+
+              <button
+                className={`hero-button ${hover ? "hover" : ""} ${active ? "active" : ""
+                  }`}
                 onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => { setHover(false); setActive(false); }}
+                onMouseLeave={() => {
+                  setHover(false);
+                  setActive(false);
+                }}
                 onMouseDown={() => setActive(true)}
                 onMouseUp={() => setActive(false)}
               >
                 <svg className="left-arrow" viewBox="0 0 24 24">
                   <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
                 </svg>
+
                 <span className="text">REGISTER NOW</span>
                 <span className="circle"></span>
+
                 <svg className="right-arrow" viewBox="0 0 24 24">
                   <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
                 </svg>
               </button>
-            </div> */}
+            </div>
           </div>
-
           {/* RIGHT SIDE */}
           <div className="hero-right">
             <ImageSlider />
@@ -326,34 +388,35 @@ export default function HomePage() {
           <div className="pinterest_grid">
 
             <div className="pin_card tall">
-              <img src={placeholder} alt="Araku Valley" />
+              <img src={araku} alt="Araku Valley" />
               <span>Araku Valley</span>
             </div>
 
             <div className="pin_card small">
-              <img src={placeholder} alt="Borra Caves" />
+              <img src={borra} alt="Borra Caves" />
               <span>Borra Caves</span>
             </div>
 
             <div className="pin_card medium">
-              <img src={placeholder} alt="Kailasagiri" />
+              <img src={kailashgiri} alt="Kailasagiri" />
               <span>Kailasagiri</span>
             </div>
 
             <div className="pin_card tall">
-              <img src={placeholder} alt="Rishikonda Beach" />
+              <img src={rushikonda} alt="Rishikonda Beach" />
               <span>Rishikonda Beach</span>
+            </div>
+            <div className="pin_card tall">
+              <img src={v2} alt="Beach Road" />
+              <span>Simhachalam</span>
             </div>
 
             <div className="pin_card medium">
-              <img src={placeholder} alt="INS Kursura Museum" />
+              <img src={v1} alt="INS Kursura Museum" />
               <span>INS Kursura Museum</span>
             </div>
 
-            <div className="pin_card small">
-              <img src={placeholder} alt="Beach Road" />
-              <span>Beach Road</span>
-            </div>
+
 
           </div>
         </div>

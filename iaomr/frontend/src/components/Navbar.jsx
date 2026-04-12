@@ -11,14 +11,14 @@ import logo5 from '../images/logo4.jpeg';
 import logo3 from '../images/meilLogo.png';
 import logo1 from '../images/event.png';
 
-// import './Navbar.css'; // ✅ REQUIRED
-
 export default function Navbar() {
   const { user, logout, isAdmin } = useAuth();
   const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
 
   const userRef = useRef(null);
   const menuRef = useRef(null);
@@ -48,7 +48,16 @@ export default function Navbar() {
   const navLinks = [
     { to: '/', label: 'Home', hash: 'home' },
     { to: '/', label: 'Registration', hash: 'registration-info' },
-    { to: '/scientific', label: 'Scientific' },
+
+    {
+      label: 'Scientific',
+      dropdown: [
+        { to: '/schedule', label: 'Schedule' },
+        { to: '/submit-abstract', label: 'Abstract Submission' },
+        { to: '/scientific', label: 'Scientific Program' },
+      ],
+    },
+
     { to: '/', label: 'Office Bearers', hash: 'Office_Bearers' },
     { to: '/', label: 'Committee', hash: 'committee' },
     { to: '/', label: 'Hotels', hash: 'hotels' },
@@ -61,35 +70,63 @@ export default function Navbar() {
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-container">
 
-        {/* Brand */}
+        {/* LOGOS */}
         <Link to="/" className="navbar-brand">
-          {logos.map((src, index) => (
-            <div key={index} className="logo-circle">
-              <img src={src} alt={`Logo ${index + 1}`} />
+          {logos.map((src, i) => (
+            <div key={i} className="logo-circle">
+              <img src={src} alt={`logo-${i}`} />
             </div>
           ))}
         </Link>
 
-        {/* Desktop Nav */}
+        {/* DESKTOP NAV */}
         <ul className="desktop-nav">
-          {navLinks.map((l) => (
-            <li key={`${l.to}-${l.hash || ''}`}>
-              {l.hash ? (
+          {navLinks.map((l, index) => (
+            <li
+              key={index}
+              className="nav-item"
+              onMouseEnter={() => l.dropdown && setDropdownOpen(index)}
+              onMouseLeave={() => setDropdownOpen(null)}
+            >
+              {l.dropdown ? (
+                <>
+                  <span className="nav-link">
+                    {l.label}
+                    <span className="dropdown-arrow">▼</span>
+                  </span>
+
+                  {dropdownOpen === index && (
+                    <div className="dropdown-menu">
+                      {l.dropdown.map((item) => (
+                        <Link
+                          key={item.to}
+                          to={item.to}
+                          className="dropdown-item"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : l.hash ? (
                 <HashLink
                   to={`/#${l.hash}`}
                   smooth
                   scroll={(el) => {
-                    const yOffset = -70;
-                    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    const yOffset = -90;
+                    const y =
+                      el.getBoundingClientRect().top +
+                      window.pageYOffset +
+                      yOffset;
                     window.scrollTo({ top: y, behavior: 'smooth' });
                   }}
-                  onClick={() => setMenuOpen(false)}
                   className="nav-link"
                 >
                   {l.label}
                 </HashLink>
               ) : (
-                <Link to={l.to} onClick={() => setMenuOpen(false)} className="nav-link">
+                <Link to={l.to} className="nav-link">
                   {l.label}
                 </Link>
               )}
@@ -97,7 +134,7 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Right Side */}
+        {/* RIGHT SIDE */}
         <div className="nav-right">
           <Link to="/register-delegate" className="nav-link-register-link">
             Register Now
@@ -113,20 +150,16 @@ export default function Navbar() {
               {userOpen && (
                 <div className="user-dropdown">
                   <div className="user-header">
-                    <div className="user-name">{user.name}</div>
-                    <div className="user-email">{user.email}</div>
+                    <div>{user.name}</div>
+                    <div>{user.email}</div>
                   </div>
 
-                  {[{ to: '/dashboard', icon: <FiGrid size={13} />, label: 'Dashboard' },
-                  { to: '/profile', icon: <FiSettings size={13} />, label: 'Profile' },
-                  ...(isAdmin ? [{ to: '/admin', icon: <FiShield size={13} />, label: 'Admin Panel' }] : []),
+                  {[ 
+                    { to: '/dashboard', icon: <FiGrid size={13} />, label: 'Dashboard' },
+                    { to: '/profile', icon: <FiSettings size={13} />, label: 'Profile' },
+                    ...(isAdmin ? [{ to: '/admin', icon: <FiShield size={13} />, label: 'Admin Panel' }] : []),
                   ].map((item) => (
-                    <Link
-                      key={item.to}
-                      to={item.to}
-                      onClick={() => setUserOpen(false)}
-                      className="dropdown-item"
-                    >
+                    <Link key={item.to} to={item.to} className="dropdown-item">
                       {item.icon} {item.label}
                     </Link>
                   ))}
@@ -143,7 +176,7 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Mobile hamburger */}
+          {/* MOBILE BUTTON */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="mobile-menu-btn"
@@ -154,25 +187,36 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* MOBILE MENU */}
       {menuOpen && (
         <div className="mobile-menu">
-          {navLinks.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === '/'}
-              onClick={() => setMenuOpen(false)}
-              className="mobile-link"
-            >
-              {l.label}
-            </NavLink>
-          ))}
+          {navLinks.map((l) =>
+            l.dropdown ? (
+              l.dropdown.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setMenuOpen(false)}
+                  className="mobile-link"
+                >
+                  {item.label}
+                </NavLink>
+              ))
+            ) : (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                onClick={() => setMenuOpen(false)}
+                className="mobile-link"
+              >
+                {l.label}
+              </NavLink>
+            )
+          )}
 
-          {/* ✅ ADDED (no removal, only addition) */}
           <Link
             to="/register-delegate"
-            className="mobile-link register-mobile"
+            className="mobile-link"
             onClick={() => setMenuOpen(false)}
           >
             Register Now
