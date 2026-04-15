@@ -13,7 +13,7 @@ app.use(helmet());
 
 // ─── CORS ───
 app.use(cors({
-  origin: process.env.CLIENT_URL, // MUST be your Vercel URL
+  origin: ["http://localhost:5173", process.env.CLIENT_URL], // MUST be your Vercel URL
   credentials: true,
 }));
 
@@ -53,7 +53,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 // ─── Routes ───
 app.use('/api/auth', authLimiter, require('./routes/auth'));
-app.use('/api/registrations', require('./routes/registrations'));
+// app.use('/api/registrations', require('./routes/registrations'));
+app.use('/api/registration', require('./routes/registration'));
 app.use('/api/abstracts', require('./routes/abstracts'));
 app.use('/api/schedule', require('./routes/schedule'));
 app.use('/api/announcements', require('./routes/announcements'));
