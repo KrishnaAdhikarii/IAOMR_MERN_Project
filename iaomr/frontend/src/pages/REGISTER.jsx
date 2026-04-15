@@ -286,4 +286,4 @@ const handleSubmit = async (e) => {
   );
 }
 
-export default RegistrationForm
+// export default RegistrationForm
