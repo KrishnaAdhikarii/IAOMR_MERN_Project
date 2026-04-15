@@ -76,7 +76,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
     console.log("🔥 SUBMIT FIRED");
     console.log("8",import.meta.env.VITE_API_URL);
-    console.log("RAZORPAY KEY:", import.meta.env.VITE_RAZORPAY_KEY_ID);
+    console.log("RAZORPAY KEY:",'8', import.meta.env.VITE_RAZORPAY_KEY_ID);
 
   try {
     const { data: order } = await api.post("/registration/create-order", {
@@ -285,3 +285,5 @@ const handleSubmit = async (e) => {
     </div>
   );
 }
+
+export default RegistrationForm
