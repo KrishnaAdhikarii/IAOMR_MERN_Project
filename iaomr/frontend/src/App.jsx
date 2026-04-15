@@ -88,7 +88,7 @@ function AppRoutes() {
           <Route path="/admin/registrations" element={<AdminRoute><AdminRegistrations /></AdminRoute>} />
           <Route path="/admin/abstracts" element={<AdminRoute><AdminAbstracts /></AdminRoute>} />
           <Route path="/admin/schedule" element={<AdminRoute><AdminSchedule /></AdminRoute>} />
-          <Route path="/admin/announcements" element={<AdminRoute><AdminAnnouncements /></AdminRoute>} />
+          {/* <Route path="/admin/announcements" element={<AdminRoute><AdminAnnouncements /></AdminRoute>} /> */}
           <Route path="/admin/messages" element={<AdminRoute><AdminMessages /></AdminRoute>} />
           <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
 

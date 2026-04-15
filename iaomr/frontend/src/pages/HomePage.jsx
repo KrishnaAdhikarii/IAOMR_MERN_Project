@@ -226,7 +226,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Announcements */}
 
 
       {/* About Page */}

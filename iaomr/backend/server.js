@@ -13,7 +13,7 @@ app.use(helmet());
 
 // ─── CORS ───
 app.use(cors({
-  origin: ["http://localhost:5173", process.env.CLIENT_URL], // MUST be your Vercel URL
+  origin: ["http://localhost:5173", "https://iaomr-mern-project.vercel.app"], // MUST be your Vercel URL
   credentials: true,
 }));
 
