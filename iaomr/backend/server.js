@@ -52,14 +52,15 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.error('❌ MongoDB error:', err));
 
 // ─── Routes ───
-app.use('/api/auth', authLimiter, require('./routes/auth'));
-// app.use('/api/registrations', require('./routes/registrations'));
 app.use('/api/registration', require('./routes/registration'));
-app.use('/api/abstracts', require('./routes/abstracts'));
-app.use('/api/schedule', require('./routes/schedule'));
-app.use('/api/announcements', require('./routes/announcements'));
-app.use('/api/contact', require('./routes/contact'));
-app.use('/api/admin', require('./routes/admin'));
+
+// app.use('/api/auth', authLimiter, require('./routes/auth'));
+// app.use('/api/registrations', require('./routes/registrations'));
+// app.use('/api/abstracts', require('./routes/abstracts'));
+// app.use('/api/schedule', require('./routes/schedule'));
+// app.use('/api/announcements', require('./routes/announcements'));
+// app.use('/api/contact', require('./routes/contact'));
+// app.use('/api/admin', require('./routes/admin'));
 
 // ─── Health Check ───
 app.get('/api/health', (req, res) => {
