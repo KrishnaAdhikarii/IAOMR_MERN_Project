@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { ScrollToTop } from "./components/ScrollToTop";
 
+import RegistrationForm from './pages/REGISTER';
 
 
 // Layout
@@ -73,11 +74,11 @@ function AppRoutes() {
 
           {/* Auth */}
           <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
-          <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
+          {/* <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} /> */}
 
           {/* User */}
           <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-          <Route path="/register-delegate" element={<RegistrationPage />} />
+          <Route path="/register-delegate" element={<RegistrationForm />} />
           <Route path="/submit-abstract" element={<PrivateRoute><AbstractPage /></PrivateRoute>} />
           <Route path="/my-registrations" element={<PrivateRoute><MyRegistrationsPage /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
