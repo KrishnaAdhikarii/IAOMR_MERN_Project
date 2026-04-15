@@ -75,6 +75,7 @@ export default function RegistrationForm() {
 const handleSubmit = async (e) => {
   e.preventDefault();
     console.log("🔥 SUBMIT FIRED");
+    console.log(import.meta.env.VITE_API_URL);
 
   try {
     const { data: order } = await api.post("/registration/create-order", {
