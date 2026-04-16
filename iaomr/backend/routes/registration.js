@@ -17,9 +17,10 @@ const razorpay = new Razorpay({
 router.post("/create-order", async (req, res) => {
   try {
     const { amount } = req.body;
+    console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
 
     const order = await razorpay.orders.create({
-      amount: amount * 100,
+      amount: amount * 100 ,
       currency: "INR",
       payment_capture: 1,
     });
@@ -30,12 +31,22 @@ router.post("/create-order", async (req, res) => {
   }
 });
 // hh
-
+router.get("/test-email", async (req, res) => {
+  try {
+    await sendEmail("krishnaadhikari0213@gmail.com", Buffer.from("Test"));
+    res.send("Email sent");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
 /* =========================
    VERIFY PAYMENT + SAVE + EMAIL
+
 ========================= */
 router.post("/verify-payment", async (req, res) => {
   try {
+    console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
     const {
       razorpay_order_id,
       razorpay_payment_id,
@@ -45,7 +56,7 @@ router.post("/verify-payment", async (req, res) => {
     } = req.body;
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
-
+    console.log("SECRET:", process.env.RAZORPAY_KEY_SECRET);
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(body.toString())
@@ -72,9 +83,9 @@ router.post("/verify-payment", async (req, res) => {
       message: "Payment verified & registration saved",
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Verification failed" });
-  }
+  console.error("VERIFY ERROR:", err);
+  res.status(500).json({ message: err.message });
+}
 });
 
 /* =========================

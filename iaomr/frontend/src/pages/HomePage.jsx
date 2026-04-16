@@ -128,12 +128,7 @@ export default function HomePage() {
   const exploreRef = useRef(null);
   const isExploreVisible = useIsVisible(exploreRef);
 
-  useEffect(() => {
-    api
-      .get("/announcements")
-      .then((r) => setAnnouncements(r.data.data || []))
-      .catch(() => { });
-  }, []);
+
 
 
 

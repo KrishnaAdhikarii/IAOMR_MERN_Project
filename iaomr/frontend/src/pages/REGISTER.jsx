@@ -76,7 +76,9 @@ const handleSubmit = async (e) => {
   e.preventDefault();
     console.log("🔥 SUBMIT FIRED");
     console.log("8",import.meta.env.VITE_API_URL);
-    console.log("RAZORPAY KEY:",'8', import.meta.env.VITE_RAZORPAY_KEY_ID);
+    console.log("RAZORPAY KEY:",'8', import.meta.env.VITE_RAZORPAY_KEY);
+    // console.log("KEY SECRET:", import.meta.env.RAZORPAY_KEY_SECRET);
+
 
   try {
     const { data: order } = await api.post("/registration/create-order", {
@@ -85,7 +87,7 @@ const handleSubmit = async (e) => {
     });
 
     const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      key: import.meta.env.VITE_RAZORPAY_KEY,
       amount: order.amount,
       currency: "INR",
       name: "Conference Registration",

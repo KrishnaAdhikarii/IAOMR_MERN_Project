@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config();
 // nn
 const app = express();
 
@@ -53,6 +53,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // ─── Routes ───
 app.use('/api/registration', require('./routes/registration'));
+
 
 // app.use('/api/auth', authLimiter, require('./routes/auth'));
 // app.use('/api/registrations', require('./routes/registrations'));
