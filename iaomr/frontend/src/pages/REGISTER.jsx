@@ -77,7 +77,7 @@ const handleSubmit = async (e) => {
     console.log("🔥 SUBMIT FIRED");
     console.log("8",import.meta.env.VITE_API_URL);
     console.log("RAZORPAY KEY:",'8', import.meta.env.VITE_RAZORPAY_KEY);
-    // console.log("KEY SECRET:", import.meta.env.RAZORPAY_KEY_SECRET);
+    console.log("KEY SECRET:", import.meta.env.RAZORPAY_KEY_SECRET);
 
 
   try {
