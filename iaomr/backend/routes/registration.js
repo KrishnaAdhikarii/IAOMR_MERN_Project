@@ -20,7 +20,7 @@ router.post("/create-order", async (req, res) => {
     console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
 
     const order = await razorpay.orders.create({
-      amount: amount * 100 ,
+      amount: amount * 100,
       currency: "INR",
       payment_capture: 1,
     });
@@ -46,7 +46,7 @@ router.get("/test-email", async (req, res) => {
 ========================= */
 router.post("/verify-payment", async (req, res) => {
   try {
-    console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
+    console.log("BODY:", req.body);   // 👈 ADD THIS
     const {
       razorpay_order_id,
       razorpay_payment_id,
@@ -54,6 +54,13 @@ router.post("/verify-payment", async (req, res) => {
       form,
       amount,
     } = req.body;
+
+    console.log("FORM:", form);       // 👈 ADD THIS
+    if (!form) {
+      return res.status(400).json({ message: "Form missing" });
+    }
+
+
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
     console.log("SECRET:", process.env.RAZORPAY_KEY_SECRET);
@@ -83,9 +90,9 @@ router.post("/verify-payment", async (req, res) => {
       message: "Payment verified & registration saved",
     });
   } catch (err) {
-  console.error("VERIFY ERROR:", err);
-  res.status(500).json({ message: err.message });
-}
+    console.error("VERIFY ERROR FULL:", err); // 👈 IMPORTANT
+    res.status(500).json({ message: err.message });
+  }
 });
 
 /* =========================
