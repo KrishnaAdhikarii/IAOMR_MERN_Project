@@ -85,7 +85,7 @@ const handleSubmit = async (e) => {
     });
 
     const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY,
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: "INR",
       name: "Conference Registration",
