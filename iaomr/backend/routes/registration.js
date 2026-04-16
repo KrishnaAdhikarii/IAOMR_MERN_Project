@@ -76,7 +76,7 @@ router.post("/verify-payment", async (req, res) => {
 
     const pdfBuffer = await generatePDF(registration);
 
-    await sendEmail(registration.email, pdfBuffer);
+    // await sendEmail(registration.email, pdfBuffer);
 
     res.json({
       success: true,
