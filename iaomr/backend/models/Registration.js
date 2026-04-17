@@ -20,6 +20,8 @@ const registrationSchema = new mongoose.Schema(
     accompanyingName: String,
     amount: Number,
     paymentId: String,
+    regNumber: { type: String, unique: true },
+    qrCode: String,
     orderId: String,
     status: { type: String, default: "PENDING" },
   },

@@ -22,6 +22,8 @@ import ScientificPage from './pages/ScientificPage'
 // Auth pages
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import PaymentSuccess from "./pages/PaymentSuccess";
+
 
 // User pages
 import DashboardPage from './pages/DashboardPage'
@@ -74,11 +76,12 @@ function AppRoutes() {
 
           {/* Auth */}
           <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
+          <Route path="/register-delegate" element={<RegistrationForm />} />
+          <Route path="/payment-success/:regNumber" element={<PaymentSuccess />} />
           {/* <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} /> */}
 
           {/* User */}
           <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-          <Route path="/register-delegate" element={<RegistrationForm />} />
           <Route path="/submit-abstract" element={<PrivateRoute><AbstractPage /></PrivateRoute>} />
           <Route path="/my-registrations" element={<PrivateRoute><MyRegistrationsPage /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />

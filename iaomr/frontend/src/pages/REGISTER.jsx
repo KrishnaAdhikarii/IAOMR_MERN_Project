@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from '../utils/api' ;
+import api from '../utils/api';
 
 
 const PRICING = {
@@ -40,22 +40,42 @@ export default function RegistrationForm() {
 
   const pricingType = getType();
 
-  const totalAmount = (() => {
-    if (!form.category) return 0;
+  const totalData = (() => {
+    if (!form.category) return { amount: 0, currency: "INR" };
 
-    let base =
-      form.category === "Faculty"
-        ? PRICING.faculty[pricingType]
-        : PRICING.student[pricingType];
+    const isForeign =
+      form.country && form.country.toLowerCase() !== "india";
 
-    let total = base;
+    // ✅ Category mapping
+    const categoryMap = {
+      Faculty: "faculty",
+      Practitioner: "faculty",
+      "Post Graduate": "student",
+    };
 
-    if (form.accompanying) {
-      total += PRICING.accompanying[pricingType];
+    let pricingKey = categoryMap[form.category];
+
+    // ✅ Override for foreign
+    if (isForeign) {
+      pricingKey = "foreign";
     }
 
-    return total;
+    if (!pricingKey) return { amount: 0, currency: "INR" };
+
+    let amount = PRICING[pricingKey][pricingType];
+
+    if (form.accompanying) {
+      amount += PRICING.accompanying[pricingType];
+    }
+
+    return {
+      amount,
+      currency: isForeign ? "USD" : "INR",
+    };
   })();
+
+  const totalAmount = totalData.amount;
+  const currency = totalData.currency;
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -66,65 +86,67 @@ export default function RegistrationForm() {
         type === "checkbox"
           ? checked
           : type === "file"
-          ? files[0]
-          : value,
+            ? files[0]
+            : value,
     }));
   };
 
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     console.log("🔥 SUBMIT FIRED");
-    console.log("8",import.meta.env.VITE_API_URL);
-    console.log("RAZORPAY KEY:",'8', import.meta.env.VITE_RAZORPAY_KEY);
+    console.log("8", import.meta.env.VITE_API_URL);
+    console.log("RAZORPAY KEY:", '8', import.meta.env.VITE_RAZORPAY_KEY);
     console.log("KEY SECRET:", import.meta.env.VITE_RAZORPAY_SECRET);
 
 
-  try {
-    const { data: order } = await api.post("/registration/create-order", {
-      amount: totalAmount,
-      form,
-    });
+    try {
+      const { data: order } = await api.post("/registration/create-order", {
+        amount: totalAmount,
+        form,
+      });
 
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY,
-      amount: order.amount,
-      currency: "INR",
-      name: "Conference Registration",
-      description: "Delegate Fee",
-      order_id: order.id,
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY,
+        amount: order.amount,
+        currency: "INR",
+        name: "Conference Registration",
+        description: "Delegate Fee",
+        order_id: order.id,
 
-      handler: async function (response) {
-        try {
-          await api.post("/registration/verify-payment", {
-            ...response,
-            form,
-            amount: totalAmount,
-          });
+        handler: async function (response) {
+          try {
+            const { data } = await api.post("/registration/verify-payment", {
+              ...response,
+              form,
+              amount: totalAmount,
+            });
 
-          alert("Payment successful & receipt sent!");
-        } catch (err) {
-          alert("Payment done, but verification failed!");
-        }
-      },
+            console.log("VERIFY RESPONSE:", "8",data); // 👈 ADD THIS
 
-      prefill: {
-        name: form.name,
-        email: form.email,
-        contact: form.phone,
-      },
+            window.location.href = `/payment-success/${data.regNumber}`;
+          } catch (err) {
+            alert("Payment done, but verification failed!");
+          }
+        },
 
-      theme: {
-        color: "#1976d2",
-      },
-    };
+        prefill: {
+          name: form.name,
+          email: form.email,
+          contact: form.phone,
+        },
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  } catch (error) {
-    alert("Failed to start payment. Please try again.");
-  }
-};
+        theme: {
+          color: "#1976d2",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      alert("Failed to start payment. Please try again.");
+    }
+  };
 
   return (
     <div className="registration-form-container">
@@ -277,7 +299,7 @@ const handleSubmit = async (e) => {
         {/* Pricing */}
         <div className="registration-form-pricing">
           <div className="registration-form-tier">{pricingType.toUpperCase()} FEE</div>
-          <div className="registration-form-amount">₹{totalAmount}</div>
+          <div className="registration-form-amount">{currency === "INR" ? "₹" : "$"}{totalAmount}</div>
         </div>
 
         <button className="registration-form-submit" type="submit">

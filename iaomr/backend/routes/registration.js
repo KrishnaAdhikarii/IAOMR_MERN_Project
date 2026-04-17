@@ -4,6 +4,9 @@ const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const PDFDocument = require("pdfkit");
+const QRCode = require("qrcode");
+
+
 const Registration = require("../models/Registration");
 
 const razorpay = new Razorpay({
@@ -11,13 +14,18 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+function generateRegNumber() {
+  const year = new Date().getFullYear();
+  const random = Math.floor(100000 + Math.random() * 900000);
+  return `IAOMR-${year}-${random}`;
+}
+
 /* =========================
    CREATE ORDER
 ========================= */
 router.post("/create-order", async (req, res) => {
   try {
     const { amount } = req.body;
-    console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
 
     const order = await razorpay.orders.create({
       amount: amount * 100,
@@ -46,7 +54,6 @@ router.get("/test-email", async (req, res) => {
 ========================= */
 router.post("/verify-payment", async (req, res) => {
   try {
-    console.log("BODY:", req.body);   // 👈 ADD THIS
     const {
       razorpay_order_id,
       razorpay_payment_id,
@@ -55,15 +62,8 @@ router.post("/verify-payment", async (req, res) => {
       amount,
     } = req.body;
 
-    console.log("FORM:", form);       // 👈 ADD THIS
-    if (!form) {
-      return res.status(400).json({ message: "Form missing" });
-    }
-
-
-
     const body = razorpay_order_id + "|" + razorpay_payment_id;
-    console.log("SECRET:", process.env.RAZORPAY_KEY_SECRET);
+
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(body.toString())
@@ -73,30 +73,82 @@ router.post("/verify-payment", async (req, res) => {
       return res.status(400).json({ message: "Invalid signature" });
     }
 
+    // ✅ Generate Reg No
+    let regNumber;
+    let exists = true;
+
+    while (exists) {
+      regNumber = generateRegNumber();
+      const check = await Registration.findOne({ regNumber });
+      if (!check) exists = false;
+    }
+
+    // ✅ Generate QR
+    const qrData = JSON.stringify({
+      regNumber,
+      name: form.name,
+      paymentId: razorpay_payment_id,
+    });
+
+    const qrCode = await QRCode.toDataURL(qrData);
+
+    // ✅ Save
     const registration = await Registration.create({
-      ...form,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      category: form.category,
       amount,
       paymentId: razorpay_payment_id,
       orderId: razorpay_order_id,
       status: "PAID",
+      regNumber,
+      qrCode,
+      formData: form,
     });
 
-    const pdfBuffer = await generatePDF(registration);
-
-    await sendEmail(registration.email, pdfBuffer);
 
     res.json({
       success: true,
-      message: "Payment verified & registration saved",
+      regNumber,
+      qrCode,
+      amount,
+      name: registration.name,
     });
+
+    console.log("VERIFY HIT");
+console.log("Generated Reg:", regNumber);
+
+    const pdfBuffer = await generatePDF(registration);
+    sendEmail(registration.email, pdfBuffer)
+      .then(() => console.log("Email sent"))
+      .catch(err => console.error("Email failed:", err));
+
   } catch (err) {
-    console.error("VERIFY ERROR FULL:", err); // 👈 IMPORTANT
+    console.error(err);
     res.status(500).json({ message: err.message });
   }
 });
 
+
 /* =========================
-   PDF GENERATOR
+   GET REGISTRATION (for success page)
+========================= */
+router.get("/:regNumber", async (req, res) => {
+  try {
+    const data = await Registration.findOne({
+      regNumber: req.params.regNumber,
+    });
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+/* =========================
+   PDF
 ========================= */
 function generatePDF(data) {
   return new Promise((resolve) => {
@@ -109,20 +161,19 @@ function generatePDF(data) {
     doc.fontSize(18).text("Registration Receipt", { align: "center" });
     doc.moveDown();
 
-    doc.fontSize(12).text(`Name: ${data.name}`);
+    doc.text(`Name: ${data.name}`);
     doc.text(`Email: ${data.email}`);
     doc.text(`Phone: ${data.phone}`);
-    doc.text(`Category: ${data.category}`);
-    doc.text(`Amount Paid: ₹${data.amount}`);
-    doc.text(`Payment ID: ${data.paymentId}`);
-    doc.text(`Order ID: ${data.orderId}`);
+    doc.text(`Reg No: ${data.regNumber}`);
+    doc.text(`Amount: ₹${data.amount}`);
 
     doc.end();
   });
 }
 
+
 /* =========================
-   EMAIL SENDER
+   EMAIL
 ========================= */
 async function sendEmail(to, pdfBuffer) {
   const transporter = nodemailer.createTransport({
@@ -136,8 +187,8 @@ async function sendEmail(to, pdfBuffer) {
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to,
-    subject: "Registration Receipt - IAOMR",
-    text: "Your registration is successful. Receipt attached.",
+    subject: "Registration Successful",
+    text: "Your registration is confirmed. Receipt attached.",
     attachments: [
       {
         filename: "receipt.pdf",
