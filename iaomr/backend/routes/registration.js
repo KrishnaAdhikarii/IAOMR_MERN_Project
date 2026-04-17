@@ -117,7 +117,7 @@ router.post("/verify-payment", async (req, res) => {
     });
 
     console.log("VERIFY HIT");
-console.log("Generated Reg:", regNumber);
+    console.log("Generated Reg:", regNumber);
 
     const pdfBuffer = await generatePDF(registration);
     sendEmail(registration.email, pdfBuffer)
