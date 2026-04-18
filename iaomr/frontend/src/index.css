@@ -230,6 +230,10 @@ html:hover {
   width: 100%;
 }
 
+.nav-item{
+  position: fixed;
+}
+
 .navbar-scrolled {
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
 }
@@ -321,6 +325,65 @@ html:hover {
 }
 
 .dropdown-item:hover {
+  background: rgba(201, 168, 76, 0.1);
+  color: #3fbcde;
+  transform: translateX(4px);
+}
+
+.status-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.status-btn {
+  background: transparent;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  color: #fff;
+  padding: 16px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.status-btn:hover {
+  background: rgba(201, 168, 76, 0.1);
+  color: #3fbcde;
+}
+
+.status-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+
+  min-width: 230px;
+  background: rgba(15, 40, 84, 0.95);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 10px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1200;
+
+  overflow: hidden;
+  animation: dropdownFade 0.2s ease;
+}
+
+.status-item {
+  display: block;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: rgba(240, 244, 248, 0.85);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: 0.25s;
+}
+
+.status-item:hover {
   background: rgba(201, 168, 76, 0.1);
   color: #3fbcde;
   transform: translateX(4px);
@@ -1970,6 +2033,7 @@ html:hover {
 
 /* src/styles/Contact.css */
 /* Wrapper */
+
 .contact_wrapper {
   min-height: 100vh;
   padding: 80px 40px;
@@ -2367,6 +2431,7 @@ html:hover {
 }
 
 .chief_patron {
+  margin-bottom: 50px;
   padding: 80px 20px;
   background: #e9eff7;
 }
@@ -2654,6 +2719,82 @@ html:hover {
   }
 }
 
+.hotels {
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F9F7F7;
+}
+
+h2 {
+  margin-bottom: 40px;
+}
+
+/* BOOK WRAPPER */
+.book {
+  position: relative;
+  width: 700px;
+  height: 360px;
+  perspective: 2000px;
+}
+
+/* PAGES */
+.page {
+  position: absolute;
+  width: 260px;
+  height: 340px;
+  transform-origin: left center;
+  transition: transform 0.6s ease, z-index 0.3s;
+  cursor: pointer;
+}
+
+/* IMAGE */
+.page img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+}
+
+/* STATUS LABEL */
+.status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0, 120, 255, 0.85);
+  border-radius: 999px;
+}
+
+/* STACK (book pages) */
+.page:nth-child(1) { left: 0px; z-index: 4; }
+.page:nth-child(2) { left: 80px; z-index: 3; }
+.page:nth-child(3) { left: 160px; z-index: 2; }
+.page:nth-child(4) { left: 240px; z-index: 1; }
+
+/* 📖 BOOK OPEN EFFECT */
+.book:hover .page:nth-child(1) {
+  transform: rotateY(-35deg) translateX(-40px);
+}
+
+.book:hover .page:nth-child(2) {
+  transform: rotateY(-20deg) translateX(20px);
+}
+
+.book:hover .page:nth-child(3) {
+  transform: rotateY(10deg) translateX(60px);
+}
+
+.book:hover .page:nth-child(4) {
+  transform: rotateY(25deg) translateX(100px);
+}
+
 
 
 
@@ -2806,7 +2947,7 @@ html:hover {
   margin: 0 auto 0;
 }
 
-.grid-3 {
+/* .grid-3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
@@ -2839,7 +2980,7 @@ html:hover {
   font-size: 0.88rem;
   color: var(--txt-mid);
   line-height: 1.75;
-}
+} */
 
 /* ── Cards ── */
 .card {

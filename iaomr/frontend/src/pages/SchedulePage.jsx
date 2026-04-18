@@ -609,11 +609,11 @@ export function AbstractInfo() {
         </h2>
 
         <p>
-          We invite you to submit your research abstracts for the 24th IAOMR National PG Convention, 2026. This is a fantastic opportunity to share your work with leading experts in Oral Medicine and Radiology.
+          We invite you to submit your abstracts for the 24th IAOMR National PG Convention, 2026. This is a fantastic opportunity to share your work with leading experts in Oral Medicine and Radiology.
         </p>
 
         <p>
-          Accepted abstracts will be presented as oral or poster presentations during the convention, providing a platform for networking and collaboration.
+          Accepted abstracts will be presented as paper or poster presentations during the convention, providing a platform for networking and collaboration.
         </p>
 
         <p>

@@ -342,28 +342,33 @@ export default function HomePage() {
         <Countdown />
       </section>
 
-      <section id='hotels' className="hotels" style={{ height: '90vh', backgroundColor: '#F9F7F7' }}>
-        <div className="container">
-          <h2>Recommended Hotels in Visakhapatnam</h2>
-          <div className="grid-3">
-            <div className="hotel-card">
-              <img src={placeholder} alt="Hotel The Park" />
-              <h3>Hotel The Park</h3>
-              <p>5-star beachfront hotel with luxurious amenities, fine dining, and stunning sea views.</p>
-            </div>
-            <div className="hotel-card">
-              <img src={placeholder} alt="Novotel Visakhapatnam Varun Beach" />
-              <h3>Novotel Visakhapatnam Varun Beach</h3>
-              <p>Modern 5-star hotel offering elegant rooms, a rooftop pool, and oceanfront dining.</p>
-            </div>
-            <div className="hotel-card">
-              <img src={placeholder} alt="Dolphin Hotel" />
-              <h3>Dolphin Hotel</h3>
-              <p>Comfortable 4-star hotel with spacious rooms, a pool, and convenient city access.</p>
-            </div>
+      <section className="hotels">
+        <h2>Recommended Hotels in Visakhapatnam</h2>
+
+        <div className="book">
+          <div className="page">
+            <img src={placeholder} alt="Hotel The Park" />
+            <span className="status">Hotel The Park</span>
+          </div>
+
+          <div className="page">
+            <img src={placeholder} alt="Novotel" />
+            <span className="status">Novotel Varun Beach</span>
+          </div>
+
+          <div className="page">
+            <img src={placeholder} alt="Dolphin Hotel" />
+            <span className="status">Dolphin Hotel</span>
+          </div>
+
+          <div className="page">
+            <img src={placeholder} alt="Radisson Blu" />
+            <span className="status">Radisson Blu</span>
           </div>
         </div>
       </section>
+
+
       <section>
         <div ref={exploreRef} className={`explore ${isExploreVisible ? 'slide-up-in' : 'slide-down-out'}`}>
 
@@ -381,7 +386,7 @@ export default function HomePage() {
               <span>Araku Valley</span>
             </div>
 
-            <div className="pin_card small">
+            <div className="pin_card medium">
               <img src={borra} alt="Borra Caves" />
               <span>Borra Caves</span>
             </div>

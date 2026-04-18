@@ -18,6 +18,8 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const [dropdownOpen, setDropdownOpen] = useState(null);
 
   const userRef = useRef(null);
@@ -140,41 +142,44 @@ export default function Navbar() {
             Register Now
           </Link>
 
-          {user ? (
-            <div className="user-menu" ref={userRef}>
-              <button onClick={() => setUserOpen(!userOpen)} className="user-btn">
-                <FiUser size={14} />
-                {user.name?.split(' ')[0]}
-              </button>
-
-              {userOpen && (
-                <div className="user-dropdown">
-                  <div className="user-header">
-                    <div>{user.name}</div>
-                    <div>{user.email}</div>
-                  </div>
-
-                  {[ 
-                    { to: '/dashboard', icon: <FiGrid size={13} />, label: 'Dashboard' },
-                    { to: '/profile', icon: <FiSettings size={13} />, label: 'Profile' },
-                    ...(isAdmin ? [{ to: '/admin', icon: <FiShield size={13} />, label: 'Admin Panel' }] : []),
-                  ].map((item) => (
-                    <Link key={item.to} to={item.to} className="dropdown-item">
-                      {item.icon} {item.label}
-                    </Link>
-                  ))}
-
-                  <button onClick={handleLogout} className="logout-btn">
-                    <FiLogOut size={13} /> Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link to="/login" className="btn btn-outline btn-sm login-btn">
+          <div
+            className="status-wrapper"
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
+          >
+            <button
+              className="status-btn"
+              onClick={() => setOpen(!open)}
+            >
               Know Your Status
-            </Link>
-          )}
+            </button>
+
+            {open && (
+              <div className="status-menu">
+                <Link to="/status/registration-id" className="status-item">
+                  Registration ID
+                </Link>
+
+                <Link to="/status/payment-status" className="status-item">
+                  Payment Status
+                </Link>
+
+                <Link to="/status/abstract-submission" className="status-item">
+                  Abstract Submission Status
+                </Link>
+
+                <Link to="/status/abstract-result" className="status-item">
+                  Abstract Accepted / Rejected
+                </Link>
+
+                <Link to="/status/PPT-submission" className="status-item">
+                  Presentation Submission Status
+                </Link>
+
+              </div>
+            )}
+          </div>
+
 
           {/* MOBILE BUTTON */}
           <button
