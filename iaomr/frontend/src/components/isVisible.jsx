@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useIsVisible = (ref, threshold = 0.3) => {
+export const useIsVisible = (ref, threshold = 0.2) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

@@ -20,6 +20,9 @@ import v6 from "../images/vizag/v6.jpg"
 
 import conv from "../images/conv.jpg"
 
+import college from "../images/college.jpeg"
+import hall from "../images/hall.jpeg"
+
 
 
 // ── SCHEDULE PAGE ──
@@ -78,7 +81,7 @@ export function SchedulePage() {
   const typeColor = { session: 'var(--card-box)', lecture: '#2e8b7a', break: '#856404', inauguration: 'var(--gold)', social: '#8e44ad', valedictory: '#e74c3c', registration: '#2980b9' }
 
   return (
-    <><div className='schedule page'>
+    <><div className='schedule_page'>      
       Schedule Will be updated shortly
     </div></>
   )
@@ -108,8 +111,8 @@ export function AboutPage() {
 
           {/* Left Side Images */}
           <div ref={welcome_textRef} className={`welcome_images ${welcome_textVisible ? 'slide-up-in' : 'slide-down-out'}`}>
-            <img src={placeholder} alt="Oval 1" className="welcome_image img_left" />
-            <img src={placeholder} alt="Oval 2" className="welcome_image img_right" />
+            <img src={hall} alt="Oval 1" className="welcome_image img_left" />
+            <img src={college} alt="Oval 2" className="welcome_image img_right" />
           </div>
 
           {/* Right Side Text */}
@@ -198,6 +201,8 @@ export function Office_bearers() {
 
   const officeRef = useRef(null)
   const officeVisible = useIsVisible(officeRef)
+  const navigate = useNavigate();
+
 
   const members = [
     {
@@ -256,8 +261,10 @@ export function Office_bearers() {
       </div>
 
       <div className="btn-wrapper">
-        <button className="read_more_btn" >
-          View More <i className="fa-solid fa-arrow-right"></i>
+        <button
+          className="read_more_btn"
+          onClick={() => navigate("/office-committee")}
+        >          View More <i className="fa-solid fa-arrow-right"></i>
         </button>
       </div>
 
@@ -276,6 +283,9 @@ import princi from "../images/princi.png"
 export function CommitteePage() {
   const committeeRef = useRef(null)
   const committeeVisible = useIsVisible(committeeRef)
+  const navigate = useNavigate();
+
+
 
   const orgTeam = [
     {
@@ -359,7 +369,10 @@ export function CommitteePage() {
         </div>
       </section>
       <div className="btn-wrapper">
-        <button className="read_more_btn" >
+        <button
+          className="read_more_btn"
+          onClick={() => navigate("/committee-details")}
+        >
           View More <i className="fa-solid fa-arrow-right"></i>
         </button>
       </div>
@@ -379,7 +392,7 @@ export function RegisterationInfo() {
       </h2>
 
       <p className="registration_info_subtitle">
-        Choose your category and secure your participation at IAOMR 2026.
+        Choose your category and secure your participation at IAOMR PG Convention 2026.
       </p>
 
       <div className="registration_info_table_wrapper">
@@ -388,9 +401,9 @@ export function RegisterationInfo() {
             <thead>
               <tr>
                 <th>Category</th>
-                <th>Till 15 March 2026</th>
-                <th>Till 30 April 2026</th>
-                <th>Till 10 July 2026</th>
+                <th>Till 15<sup>th</sup> March 2026</th>
+                <th>Till 30<sup>th</sup>April 2026</th>
+                <th>Till 10 <sup>th</sup> July 2026</th>
                 <th>Spot</th>
               </tr>
             </thead>
@@ -431,9 +444,9 @@ export function RegisterationInfo() {
 
         {/* LEFT SIDE (Points) */}
         <div className="registration_info_points">
-          <p>*Fees are non-refundable and non-transferable.</p>
-          <p>Spot registrations are not eligible for gifts.</p>
-          <p>Accommodation & transportation are not included.</p>
+          <p>*Registration Fees are non-refundable and non-transferable.</p>
+          <p>*Spot registrations are not eligible for gifts.</p>
+          <p>*Registration Fees doesn't include Accommodation & transportation.</p>
         </div>
 
         {/* RIGHT SIDE (Note) */}
@@ -444,8 +457,8 @@ export function RegisterationInfo() {
             Registration includes
           </span>
 
-          <em style={{textTransform:'capitalize'}}>2 breakfasts, 2 lunches, 1 Gala banquet, registration kit,<br />
-          gift and attendance certificate</em>
+          <em style={{ textTransform: 'capitalize' }}>2 breakfasts, 2 lunches, 1 Gala banquet, registration kit,<br />
+            gift and attendance certificate</em>
         </p>
 
       </div>
@@ -494,7 +507,7 @@ export function VenuePage() {
 
             <div className="venue-image">
               <img
-                src={placeholder}
+                src={college}
                 alt="Venue"
               />
             </div>

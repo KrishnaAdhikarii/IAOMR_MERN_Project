@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import api from '../utils/api';
 
 
+import placeholder from "../images/img.jpg";
+
+
 const PRICING = {
   student: { early: 7080, regular: 7670, late: 8850, spot: 9440 },
   faculty: { early: 7670, regular: 8260, late: 9440, spot: 10030 },
@@ -43,22 +46,18 @@ export default function RegistrationForm() {
   const totalData = (() => {
     if (!form.category) return { amount: 0, currency: "INR" };
 
-    const isForeign =
-      form.country && form.country.toLowerCase() !== "india";
+    // const isForeign =
+    //   form.country && form.country.toLowerCase() !== "india";
 
     // ✅ Category mapping
     const categoryMap = {
       Faculty: "faculty",
       Practitioner: "faculty",
       "Post Graduate": "student",
+      "Foreign Delegate": "foreign",
     };
-
+    const USD_TO_INR = 83; // you can later replace with live API
     let pricingKey = categoryMap[form.category];
-
-    // ✅ Override for foreign
-    if (isForeign) {
-      pricingKey = "foreign";
-    }
 
     if (!pricingKey) return { amount: 0, currency: "INR" };
 
@@ -70,13 +69,22 @@ export default function RegistrationForm() {
 
     return {
       amount,
-      currency: isForeign ? "USD" : "INR",
+      currency: pricingKey === "foreign" ? "USD" : "INR",
     };
+
+
+
+
   })();
 
   const totalAmount = totalData.amount;
   const currency = totalData.currency;
+  const USD_TO_INR = 83; // you can later replace with live API
 
+  const displayAmount =
+    currency === "USD"
+      ? `₹${totalAmount * USD_TO_INR} ($${totalAmount})`
+      : `₹${totalAmount}`;
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
@@ -122,7 +130,7 @@ export default function RegistrationForm() {
               amount: totalAmount,
             });
 
-            console.log("VERIFY RESPONSE:", "8",data); // 👈 ADD THIS
+            console.log("VERIFY RESPONSE:", "8", data); // 👈 ADD THIS
 
             window.location.href = `/payment-success/${data.regNumber}`;
           } catch (err) {
@@ -149,19 +157,22 @@ export default function RegistrationForm() {
   };
 
   return (
+    <>
     <div className="registration-form-container">
+          <div className="banner"><img src={placeholder}></img></div>
+
       <h1 className="registration-form-title">Delegate Registration</h1>
 
       <form className="registration-form-card" onSubmit={handleSubmit}>
         {/* Email */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Email ID *</label>
+          <label className="registration-form-label">EMAIL ID *</label>
           <input className="registration-form-input" name="email" required onChange={handleChange} />
         </div>
 
         {/* Name */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Name of Delegate *</label>
+          <label className="registration-form-label">NAME OF THE DELEGATE * ( Please Fill in Capital Letters )</label>
           <input
             className="registration-form-input"
             name="name"
@@ -177,7 +188,7 @@ export default function RegistrationForm() {
 
         {/* Gender */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Gender *</label>
+          <label className="registration-form-label">GENDER *</label>
           <div className="registration-form-radio-group">
             <label>
               <input type="radio" name="gender" value="Male" required onChange={handleChange} />
@@ -192,24 +203,26 @@ export default function RegistrationForm() {
 
         {/* Photo */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Upload Photo *</label>
+          <label className="registration-form-label">UPLOAD PHOTO * <e style={{ fontSize: '9px', color: '#FF0000' }}> Upload 1 Supported file.Max 10MB</e></label>
           <input className="registration-form-input" type="file" name="photo" accept="image/*" required onChange={handleChange} />
         </div>
 
         {/* Phone */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Mobile Number *</label>
+          <label className="registration-form-label">MOBILE NUMBER *</label>
           <input className="registration-form-input" name="phone" required onChange={handleChange} />
         </div>
 
         {/* Category */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Category *</label>
+          <label className="registration-form-label">CATEGORY *</label>
           <select className="registration-form-select" name="category" required onChange={handleChange}>
             <option value="">Select</option>
             <option>Faculty</option>
             <option>Practitioner</option>
             <option>Post Graduate</option>
+            <option>Foreign Delegate</option>
+
           </select>
         </div>
 
@@ -224,12 +237,14 @@ export default function RegistrationForm() {
                 <option>HOD</option>
                 <option>Professor</option>
                 <option>Associate Professor</option>
-                <option>Assistant Professor</option>
+                <option>Assistant Professor/Senior Lecturer</option>
+                <option>Tutor </option>
+
               </select>
             </div>
 
             <div className="registration-form-group">
-              <label className="registration-form-label">IAOMR Number</label>
+              <label className="registration-form-label">IAOMR Number (LM/ALM)</label>
               <input className="registration-form-input" name="iaomrNumber" onChange={handleChange} />
             </div>
           </>
@@ -238,7 +253,7 @@ export default function RegistrationForm() {
         {/* PG */}
         {form.category === "Post Graduate" && (
           <div className="registration-form-group">
-            <label className="registration-form-label">Year</label>
+            <label className="registration-form-label">YEAR</label>
             <select className="registration-form-select" name="pgYear" onChange={handleChange}>
               <option>1st year</option>
               <option>2nd year</option>
@@ -249,49 +264,64 @@ export default function RegistrationForm() {
 
         {/* DCI */}
         <div className="registration-form-group">
-          <label className="registration-form-label">DCI Registration No.</label>
+          <label className="registration-form-label">DCI REGISTRATION NUMBER</label>
           <input className="registration-form-input" name="dciNumber" onChange={handleChange} />
         </div>
 
         {/* Location */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Country *</label>
+          <label className="registration-form-label">COUNTRY *</label>
           <input className="registration-form-input" name="country" required onChange={handleChange} />
         </div>
 
         <div className="registration-form-group">
-          <label className="registration-form-label">State *</label>
+          <label className="registration-form-label">STATE *</label>
           <input className="registration-form-input" name="state" required onChange={handleChange} />
         </div>
 
         <div className="registration-form-group">
-          <label className="registration-form-label">City *</label>
+          <label className="registration-form-label">CITY *</label>
           <input className="registration-form-input" name="city" required onChange={handleChange} />
         </div>
 
         {/* Institution */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Institution *</label>
+          <label className="registration-form-label">INSTITUTION / CLINIC NAME / OTHERS *</label>
           <input className="registration-form-input" name="institution" required onChange={handleChange} />
         </div>
 
         {/* Address */}
         <div className="registration-form-group">
-          <label className="registration-form-label">Address *</label>
+          <label className="registration-form-label">ADDRESS *</label>
           <textarea className="registration-form-textarea" name="address" required onChange={handleChange} />
         </div>
+        
+        <div className="registration-form-group">
+          <label className="registration-form-label">FOOD PREFERENCES *</label>
+          <div className="registration-form-radio-group">
+            <label>
+              <input type="radio" name="gender" value="Male" required onChange={handleChange} />
+              NON-VEG
+            </label>
+            <label>
+              <input type="radio" name="gender" value="Female" onChange={handleChange} />
+              VEG
+            </label>
+          </div>
+        </div>
+        
 
         {/* Accompanying */}
         <div className="registration-form-group">
           <label>
             <input type="checkbox" name="accompanying" onChange={handleChange} />
-            Add Accompanying Person
+            ADD ACCOMPANYING PERSON
           </label>
         </div>
 
         {form.accompanying && (
           <div className="registration-form-group">
-            <label className="registration-form-label">Accompanying Name</label>
+            <label className="registration-form-label">ACCOMPANYING NAME</label>
             <input className="registration-form-input" name="accompanyingName" onChange={handleChange} />
           </div>
         )}
@@ -299,7 +329,7 @@ export default function RegistrationForm() {
         {/* Pricing */}
         <div className="registration-form-pricing">
           <div className="registration-form-tier">{pricingType.toUpperCase()} FEE</div>
-          <div className="registration-form-amount">{currency === "INR" ? "₹" : "$"}{totalAmount}</div>
+          <div className="registration-form-amount">  {displayAmount}</div>
         </div>
 
         <button className="registration-form-submit" type="submit">
@@ -307,6 +337,7 @@ export default function RegistrationForm() {
         </button>
       </form>
     </div>
+    </>
   );
 }
 

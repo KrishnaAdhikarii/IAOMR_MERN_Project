@@ -13,11 +13,16 @@ import borra from "../images/borra.jpg"
 import rushikonda from "../images/rushikonda.jpg"
 import placeholder from "../images/img.jpg";
 
+import hero from "../images/hero.png"
+
 
 
 
 import v1 from "../images/vizag/v1.jpg"
 import v2 from "../images/vizag/v2.jpeg"
+import wave from "../images/beach.gif"
+import college2 from "../images/college3.jpeg"
+
 
 import v7 from "../images/vizag/v7.jpg"
 import v8 from "../images/vizag/v8.jpg"
@@ -131,7 +136,6 @@ export default function HomePage() {
 
 
 
-
   const highlights = [
     { icon: <i class="fa-solid fa-file-pen"></i>, title: "Guest & Keynote Lectures", desc: "Eminent national faculty across oral medicine & radiology" },
     { icon: <i class="fa-solid fa-person-chalkboard"></i>, title: "Paper & Poster Presentations", desc: "Present your research to a national audience" },
@@ -147,72 +151,104 @@ export default function HomePage() {
         <div className="hero-container">
           {/* LEFT SIDE */}
           <div className="hero-left">
+
+            {/* 🎥 Background Video */}
+            {/* <video className="hero-bg-video" autoPlay muted loop playsInline>
+              <source src="wave" type="video/mp4" />
+            </video> */}
+
             <div className="hero-left-inner">
-              <div ref={heroRef}
-                className={`tille ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`} style={{ display: "flex", alignItems: "center", gap: "30px" }}>
+              <div
+                ref={heroRef}
+                className={`tille ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}
+                style={{ display: "flex", alignItems: "center", gap: "30px" }}
+              >
                 <div className="hero-logo-container">
                   <img src={logo} alt="logo" />
                 </div>
 
                 <div className="hero-title">
-                  <p>
-                    24<sup>th</sup> IAOMR
-                  </p>
                   <h1>
-                    National PG Convention
+                    24<sup>th</sup> IAOMR
                     <br />
+                    NATIONAL
+                    <br />
+                    PG CONVENTION
+
                     2026
                   </h1>
                 </div>
               </div>
 
-              <p ref={heroRef} className={`hero-location ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}>Visakhapatanam, Andhra Pradesh</p>
-
-              <div className="hero-divider" />
-
-              <p ref={heroRef} className={`hero-quote ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}>"Imagine - Innovate - Illuminate"</p>
-
-              <p className="hero-hosted">
-                Hosted by Dept. of OMR, ANIDS, Visakhapatnam.
+              <p ref={heroRef} className={`hero-location ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}>
+                Visakhapatanam, Andhra Pradesh
               </p>
 
+              <div className="hero-divider" />
+              <div style={{ paddingLeft: '50px' }}>
+                <p ref={heroRef} className={`hero-quote ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}>
+                  "Imagine - Innovate - Illuminate"
+                </p>
+              </div>
+
+
+
               <div ref={heroRef} className={`hero-date ${isHeroVisible ? 'slide-left-in' : 'slide-right-out'}`}>
-                <span>📅</span>
+                <span><i class="fa-solid fa-calendar"></i></span>
                 <span>
-                  When: 06<sup>th</sup> – 08<sup>th</sup> August
+                  06<sup>th</sup> – 08<sup>th</sup> AUGUST 2026
                 </span>
               </div>
+              <p className="hero-hosted">
+
+              </p>
               <div ref={heroRef} className={`hero-location-info ${isHeroVisible ? 'slide-left-in' : 'slide-right-out'}`}>
-                <span>📍</span>
+                <span><i class="fa-solid fa-location-dot"></i></span>
                 <div>
-                  <p>ANIL NEERUKONDA INSTITUTE OF DENTAL SCIENCES</p>
-                  <p>Visakhapatnam, Andhra Pradesh</p>
+                  <p> Hosted by <br />
+                    Department of Oral Medicine and Radiology <br />
+                    ANIL NEERUKONDA INSTITUTE OF DENTAL SCIENCES</p>
+                  {/* <p>VISAKHAPATNAM, ANDHRA PRADESH</p> */}
                 </div>
               </div>
+              <div style={{ display: 'flex', marginLeft: '150px' }}>
+                <button
+                  className={`hero-button ${hover ? "hover" : ""} ${active ? "active" : ""}`}
+                  onMouseEnter={() => setHover(true)}
+                  onMouseLeave={() => {
+                    setHover(false);
+                    setActive(false);
+                  }}
+                  onMouseDown={() => setActive(true)}
+                  onMouseUp={() => setActive(false)}
+                >
+                  <svg className="left-arrow" viewBox="0 0 24 24">
+                    <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+                  </svg>
 
-              <button
-                className={`hero-button ${hover ? "hover" : ""} ${active ? "active" : ""
-                  }`}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => {
-                  setHover(false);
-                  setActive(false);
-                }}
-                onMouseDown={() => setActive(true)}
-                onMouseUp={() => setActive(false)}
-              >
-                <svg className="left-arrow" viewBox="0 0 24 24">
-                  <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-                </svg>
+                  <span className="text">REGISTER NOW</span>
+                  <span className="circle"></span>
 
-                <span className="text">REGISTER NOW</span>
-                <span className="circle"></span>
-
-                <svg className="right-arrow" viewBox="0 0 24 24">
-                  <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
-                </svg>
-              </button>
+                  <svg className="right-arrow" viewBox="0 0 24 24">
+                    <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" />
+                  </svg>
+                </button>
+              </div>
             </div>
+            <p className="hero-wave-text">
+  Join us for a memorable 2026 convention!
+</p>
+            <svg class="hero-wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
+              <path fill="rgba(56, 191, 248, 0.35)"
+                d="M0,160 C240,240 480,80 720,160 C960,240 1200,80 1440,160 L1440,320 L0,320 Z">
+              </path>
+            </svg>
+
+            <svg class="hero-wave hero-wave-2" viewBox="0 0 1440 320" preserveAspectRatio="none">
+              <path fill="rgba(37,99,235,0.35)"
+                d="M0,160 C240,80 480,240 720,160 C960,80 1200,240 1440,160 L1440,320 L0,320 Z">
+              </path>
+            </svg>
           </div>
           {/* RIGHT SIDE */}
           <div className="hero-right">
@@ -263,7 +299,7 @@ export default function HomePage() {
 
         <div className="college-left">
           <img
-            src={placeholder}
+            src={college2}
             alt="College"
             className="college-image"
           />
@@ -277,7 +313,7 @@ export default function HomePage() {
             <p>
               Anil Neerukonda Institute of Dental Sciences, popularly known as ANIDS, is one of the emerging dental institutions in Visakhapatnam. Established in 2013, the institute is committed to delivering high-quality dental education, clinical training, and community-oriented healthcare.
 
-              Affiliated with Dr. YSR University of Health Sciences and recognized by the Dental Council of India, ANIDS follows a structured curriculum designed to meet national academic and professional standards. It offers undergraduate (BDS) and postgraduate (MDS) programs across multiple dental specialties.
+              Affiliated with Dr. NTR University of Health Sciences and recognized by the Dental Council of India, ANIDS follows a structured curriculum designed to meet national academic and professional standards. It offers undergraduate (BDS) and postgraduate (MDS) programs across multiple dental specialties.
 
               <br /><br />The campus is equipped with modern infrastructure, well-established departments, advanced laboratories, and a fully functional dental hospital. Students receive extensive hands-on clinical training by treating patients under expert supervision, helping them build strong practical skills and clinical confidence.
 
@@ -318,9 +354,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      <section id="venue">
-        <VenuePage />
-      </section>
 
       <section id="Office_Bearers">
         <Office_bearers />
@@ -333,41 +366,47 @@ export default function HomePage() {
       <section id="registration-info">
         <RegisterationInfo />
       </section>
+      <section id="countdown">
+        <Countdown />
+      </section>
+
 
       <section id="abstract">
         <AbstractInfo />
       </section>
 
-      <section id="countdown">
-        <Countdown />
+
+
+      <section id="venue">
+        <VenuePage />
       </section>
 
-      <section className="hotels">
-        <h2>Recommended Hotels in Visakhapatnam</h2>
 
-        <div className="book">
-          <div className="page">
-            <img src={placeholder} alt="Hotel The Park" />
-            <span className="status">Hotel The Park</span>
+      <section id="hotels" className="hotels">
+        <h2 className="hotel_heading">Recommended Hotels in Visakhapatnam</h2>
+
+        <div className="hotel_container">
+          <div className="hotel_card">
+            <img className="hotel_img" src={placeholder} alt="Hotel The Park" />
+            <div className="hotel_description">Hotel The Park</div>
           </div>
 
-          <div className="page">
-            <img src={placeholder} alt="Novotel" />
-            <span className="status">Novotel Varun Beach</span>
+          <div className="hotel_card">
+            <img className="hotel_img" src={placeholder} alt="Novotel" />
+            <div className="hotel_description">Novotel Varun Beach</div>
           </div>
 
-          <div className="page">
-            <img src={placeholder} alt="Dolphin Hotel" />
-            <span className="status">Dolphin Hotel</span>
+          <div className="hotel_card">
+            <img className="hotel_img" src={placeholder} alt="Dolphin Hotel" />
+            <div className="hotel_description">Dolphin Hotel</div>
           </div>
 
-          <div className="page">
-            <img src={placeholder} alt="Radisson Blu" />
-            <span className="status">Radisson Blu</span>
+          <div className="hotel_card">
+            <img className="hotel_img" src={placeholder} alt="Radisson Blu" />
+            <div className="hotel_description">Radisson Blu</div>
           </div>
         </div>
       </section>
-
 
       <section>
         <div ref={exploreRef} className={`explore ${isExploreVisible ? 'slide-up-in' : 'slide-down-out'}`}>

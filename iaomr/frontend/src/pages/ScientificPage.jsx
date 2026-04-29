@@ -6,7 +6,6 @@ import Footer from "../components/Footer";
 const ScientificPage = () => {
     return (
         <>
-            <Navbar />
 
             <div style={{
                 minHeight: "80vh",
@@ -21,7 +20,6 @@ const ScientificPage = () => {
             <p style={{fontFamily:'Kumbh Sans, sans serrif'}}>We are working on this page and will update the content shortly. Thank you for your patience.</p>
         </div >
 
-            <Footer />
         </>
     );
 };

@@ -14,9 +14,18 @@ import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import SchedulePage from './pages/SchedulePage'
+// import SubmitAbstractPage from './pages/AbstractSubmisssion'
 import CommitteePage from './pages/CommitteePage'
+import {
+  SubmitAbstractPage,
+  SubmitPosterPage,
+  SubmitPPTPage
+} from './components/SubmissionPage'
+
 import VenuePage from './pages/VenuePage'
 import ContactPage from './pages/ContactPage'
+import OrganizingCommittee from './pages/Commitee'
+import OfficeCommittee from './pages/IAOMROfficeBearers';
 import ScientificPage from './pages/ScientificPage'
 
 // Auth pages
@@ -27,7 +36,9 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 
 // User pages
 import DashboardPage from './pages/DashboardPage'
-import RegistrationPage from './pages/RegistrationPage'
+import RegistrationIdStatus from "./pages/RegistrationIdStatus";
+
+// import RegistrationPage from './pages/RegistrationPage'
 import AbstractPage from './pages/AbstractPage'
 import MyRegistrationsPage from './pages/MyRegistrationsPage'
 import ProfilePage from './pages/ProfilePage'
@@ -69,8 +80,13 @@ function AppRoutes() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/schedule" element={<SchedulePage />} />
+          <Route path="/submit-abstract" element={<SubmitAbstractPage />} />
+          <Route path="/submit-poster" element={<SubmitPosterPage />} />
+          <Route path="/submit-ppt" element={<SubmitPPTPage />} />
           <Route path="/scientific" element={<ScientificPage />} />
           <Route path="/committee" element={<CommitteePage />} />
+          <Route path="/committee-details" element={<OrganizingCommittee />} />
+          <Route path="/office-committee" element={<OfficeCommittee />} />
           <Route path="/venue" element={<VenuePage />} />
           <Route path="/contact" element={<ContactPage />} />
 
@@ -81,8 +97,12 @@ function AppRoutes() {
           {/* <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} /> */}
 
           {/* User */}
+          <Route
+            path="/status/registration-id"
+            element={<RegistrationIdStatus />}
+          />
+
           <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-          <Route path="/submit-abstract" element={<PrivateRoute><AbstractPage /></PrivateRoute>} />
           <Route path="/my-registrations" element={<PrivateRoute><MyRegistrationsPage /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
 
