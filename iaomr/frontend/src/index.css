@@ -46,7 +46,9 @@ import wave
   --shadow-hover: 0 8px 32px rgba(88, 131, 163, 0.28);
   --transition: 0.3s ease;
 }
-
+html, body {
+  overflow-x: hidden;
+}
 html {
   scroll-behavior: smooth;
   font-size: 16px;
@@ -559,7 +561,7 @@ html:hover {
 
 .hero-container {
   height: 90vh;
-  margin: 20px;
+  /* margin: 20px; */
   margin-top: 70px;
   border-radius: 12px;
   display: flex;
