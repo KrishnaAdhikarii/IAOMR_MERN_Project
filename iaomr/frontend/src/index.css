@@ -46,9 +46,12 @@ import wave
   --shadow-hover: 0 8px 32px rgba(88, 131, 163, 0.28);
   --transition: 0.3s ease;
 }
-html, body {
+
+html,
+body {
   overflow-x: hidden;
 }
+
 html {
   scroll-behavior: smooth;
   font-size: 16px;
@@ -62,6 +65,7 @@ body {
   overflow-x: hidden;
   line-height: 1.6;
   min-width: 100%;
+  margin-top: 90px;
   min-height: 100vh;
 }
 
@@ -217,7 +221,7 @@ html:hover {
 
 /* ================= NAVBAR ================= */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -229,6 +233,8 @@ html:hover {
   height: 90px;
   display: flex;
   width: 100%;
+  overflow: visible;
+
 }
 
 .nav-item {
@@ -271,10 +277,13 @@ html:hover {
 /* ================= NAV ================= */
 .desktop-nav {
   display: flex;
-  gap: 1.6rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  justify-content: space-between;
+  /* equal distribution */
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  /* control width */
+  margin: 0 auto;
 }
 
 .nav-item {
@@ -284,7 +293,8 @@ html:hover {
 .nav-link {
   font-family: 'Kumbh Sans', sans-serif;
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+  /* letter-spacing: 0.08em; */
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
@@ -561,7 +571,7 @@ html:hover {
 
 .hero-container {
   height: 90vh;
-  /* margin: 20px; */
+  margin: 20px;
   margin-top: 70px;
   border-radius: 12px;
   display: flex;
@@ -610,8 +620,13 @@ html:hover {
 }
 
 @keyframes waveMove {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* INNER WRAPPER */
@@ -734,10 +749,10 @@ html:hover {
   border-radius: 100px;
   cursor: pointer;
   overflow: hidden;
-  box-shadow: 0 0 0 2px #ffffff;
+  box-shadow: 2px 2px 2px #000000;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.35s ease,
-              border-radius 0.35s ease;
+    box-shadow 0.35s ease,
+    border-radius 0.35s ease;
 }
 
 .hero-button:hover {
@@ -749,7 +764,9 @@ html:hover {
   transform: scale(0.95);
 }
 
-.hero-button span.circle { z-index: 0; }
+.hero-button span.circle {
+  z-index: 0;
+}
 
 .hero-button svg,
 .hero-button span.text {
@@ -762,11 +779,16 @@ html:hover {
   width: 22px;
   fill: #1f387e;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              fill 0.3s ease;
+    fill 0.3s ease;
 }
 
-.hero-button .left-arrow { left: -30px; }
-.hero-button .right-arrow { right: 16px; }
+.hero-button .left-arrow {
+  left: -30px;
+}
+
+.hero-button .right-arrow {
+  right: 16px;
+}
 
 .hero-button:hover .left-arrow {
   left: 16px;
@@ -818,14 +840,19 @@ html:hover {
   font-weight: 600;
   color: #205295;
   font-family: 'Kumbh Sans', sans-serif;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
   animation: floatText 3s ease-in-out infinite alternate;
 }
 
 @keyframes floatText {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-6px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-6px);
+  }
 }
 
 /* EXISTING RESPONSIVE */
@@ -840,9 +867,17 @@ html:hover {
     margin-top: 5%;
   }
 
-  .hero-title h1 { font-size: 24px; }
-  .hero-title p { font-size: 22px; }
-  .hero-location { font-size: 18px; }
+  .hero-title h1 {
+    font-size: 24px;
+  }
+
+  .hero-title p {
+    font-size: 22px;
+  }
+
+  .hero-location {
+    font-size: 18px;
+  }
 }
 
 /* RIGHT SIDE */
@@ -883,32 +918,84 @@ html:hover {
   .hero-container {
     flex-direction: column;
     height: auto;
+    margin-top: 50px;
   }
 
   .hero-right {
-    
     display: none;
+  }
+
+  .hero-left {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .hero-left-inner {
+    margin: 20px;
+    margin-top: 20px;
+  }
+
+  /* prevent wave overflow on mobile */
+  .hero-wave {
+    height: 150px;
+    width: 150%;
+  }
+
+  .hero-wave-2 {
+    bottom: -10px;
   }
 }
 
 /* Small mobile */
 @media (max-width: 600px) {
-  .hero-left-inner {
-    margin: 20px;
-    margin-top: 30px;
+  .hero-left {
+    padding: 16px;
   }
 
-  .hero-title h1 { font-size: 20px; }
-  .hero-title p { font-size: 18px; }
-  .hero-location { font-size: 16px; }
+  .hero-left-inner {
+    margin: 16px;
+    margin-top: 10px;
+  }
+
+  .hero-logo-container {
+    width: 70px;
+    height: 70px;
+  }
+
+  .hero-title p {
+    font-size: 16px;
+  }
+
+  .hero-title h1 {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+  .hero-location {
+    font-size: 14px;
+  }
 
   .hero-quote {
-    font-size: 18px;
-    padding-left: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    padding-left: 8px;
+  }
+
+  .hero-hosted {
+    font-size: 13px;
+  }
+
+  .hero-date span,
+  .hero-location-info span {
+    font-size: 13px;
   }
 
   .hero-button {
-    padding: 12px 24px;
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .hero-wave-text {
     font-size: 14px;
   }
 }
@@ -1286,7 +1373,8 @@ html:hover {
 
 .college-section {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   font-family: Arial, sans-serif;
 }
 
@@ -1489,7 +1577,7 @@ html:hover {
 
 /* Title */
 .venue-title {
-  font-size: 55px;
+  font-size: clamp(28px, 4vw, 55px);
   font-family: 'Kumbh Sans', sans-serif;
   font-weight: 700;
   color: #ffffff;
@@ -1847,6 +1935,14 @@ html:hover {
   margin-bottom: 3.5rem;
 
 }
+.registration_info_subtitle2{
+ display: block;
+  margin: 4px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  /* margin-bottom: 3.5rem; */
+}
 
 /* Optional subtle animation */
 .registration_info_table_glass {
@@ -1969,7 +2065,7 @@ html:hover {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
-  padding: 0rem;
+  padding: 2rem;
   background: #0F2854;
   color: white;
 }
@@ -2632,21 +2728,19 @@ html:hover {
 /* FLOATING CARD */
 .chief_row {
   max-width: 700px;
-  height: 100px;
   margin: auto;
   margin-top: 150px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 40px;
 
-  /* 🔥 Floating effect */
   background: linear-gradient(135deg, #FEF7EA, #9CD5FF);
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
 
-  /* subtle lift */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -2694,13 +2788,13 @@ html:hover {
 }
 
 .chief_photo img {
-  width: 400px;
+  width: 350px;
+  /* max-width: 100%; */
   height: auto;
   border-radius: 16px;
 
   position: relative;
-  top: -90px;
-  /* 🔥 moves image upward */
+  top: -60px;
 
   transition: transform 0.3s ease;
 }
@@ -2709,17 +2803,56 @@ html:hover {
   transform: scale(1.05);
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .chief_row {
     flex-direction: column;
     text-align: center;
-    padding: 30px;
+
+    padding: 25px;
+    gap: 15px;
+
+    margin-top: 80px;
+
+    /* ❗ IMPORTANT FIX */
+    height: auto;
+    /* remove fixed height effect */
+    min-height: unset;
+  }
+
+  .chief_photo {
+    justify-content: center;
   }
 
   .chief_photo img {
     width: 180px;
-    height: 180px;
+    /* smaller image for mobile */
+    max-width: 100%;
+    height: auto;
+
+    top: 0;
+    /* remove floating effect */
+  }
+
+  .chief_heading {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .chief_text {
+    flex: unset;
+  }
+
+  .chief_text h3 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .chief_text p {
+    font-size: 14px;
+  }
+
+  .chief_text span {
+    font-size: 13px;
   }
 }
 
@@ -3229,7 +3362,8 @@ html:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   /* full screen vertical centering */
   text-align: center;
   font-weight: 900;
@@ -3335,5 +3469,62 @@ html:hover {
     padding: 20px;
     /* ✅ reduce padding */
     width: auto;
+  }
+}
+
+
+
+/* ✅ SMALL LAPTOP FIX (1024px - 1280px) */
+@media (max-width: 1200px) and (min-width: 900px) {
+
+  .hero-container {
+    flex-direction: row;
+    height: auto;
+  }
+
+  .hero-left {
+    width: 55%;
+    padding: 20px;
+  }
+
+  .hero-right {
+    width: 45%;
+    height: auto;
+  }
+
+  .hero-title h1 {
+    font-size: 24px;
+  }
+
+  .hero-title p {
+    font-size: 20px;
+  }
+
+  .venue-title {
+    font-size: 36px;
+  }
+
+  .city-title {
+    font-size: 32px;
+  }
+
+  .highlights-title {
+    font-size: 32px;
+  }
+
+  .hotel_container {
+    flex-wrap: wrap;
+  }
+
+  .hotel_card {
+    width: 45%;
+  }
+
+  .college-section {
+    height: auto;
+  }
+
+  .college-image {
+    transform: none;
   }
 }

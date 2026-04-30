@@ -453,8 +453,8 @@ export function RegisterationInfo() {
         <p className="registration_info_note">
           *All registration charges mentioned above are inclusive of applicable GST
 
-          <span className="registration_info_subtitle">
-            Registration includes
+          <span className="registration_info_subtitle2">
+            Registration includes 
           </span>
 
           <em style={{ textTransform: 'capitalize' }}>2 breakfasts, 2 lunches, 1 Gala banquet, registration kit,<br />
