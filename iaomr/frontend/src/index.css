@@ -585,7 +585,7 @@ html:hover {
    HERO LEFT CONTAINER
 ========================= */
 .hero-left {
-  width: 45%;
+    width: 45%;
   padding: 20px;
   font-family: "Kumbh Sans", sans-serif;
   backdrop-filter: blur(10px);
@@ -733,6 +733,13 @@ html:hover {
   margin: 2px 0;
 }
 
+
+.hero_button{
+ display: flex;
+  justify-content: center;
+  margin-left: 0;
+
+}
 /* BUTTON */
 .hero-button {
   align-self: center;
@@ -901,7 +908,100 @@ html:hover {
 .hero-container {
   overflow-x: hidden;
 }
+.tille {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
 
+@media (max-width: 600px) {
+  .tille {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .hero-quote {
+    padding-left: 10px;
+  }
+
+  .hero-left-inner div[style] {
+    padding-left: 0 !important;
+  }
+}
+@media (max-width: 900px) {
+  .hero-container {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+@media (max-width: 900px) {
+  .hero-container {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+@media (max-width: 600px) {
+  .hero_button {
+    width: 100%;
+  }
+
+  /* .hero-button {
+    width: 100%;
+    justify-content: center;
+  } */
+}@media (max-width: 600px) {
+  .hero-left-inner {
+    margin: 0;
+    padding: 12px;
+  }
+}
+@media (max-width: 600px) {
+
+  .hero-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    margin: 10px;
+  }
+
+  .hero-left-inner {
+    margin: 0;
+    padding: 12px;
+  }
+
+  .tille {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .hero_button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-button {
+    width: 65%;
+    margin-bottom: 40px;
+    justify-content: center;
+  }
+
+  .hero-quote {
+    padding-left: 10px;
+    font-size: 15px;
+  }
+
+  .hero-left-inner div[style] {
+    padding-left: 0 !important;
+  }
+
+  .hero-wave {
+    width: 120%;
+    height: 120px;
+  }
+}
 /* Tablet */
 @media (max-width: 1200px) {
   .hero-left {
@@ -3252,7 +3352,8 @@ html:hover {
   }
 
   .hero-button {
-    width: 100%;
+    width: 65%;
+    margin-bottom: 40px;
     justify-content: center;
     padding: 14px;
   }

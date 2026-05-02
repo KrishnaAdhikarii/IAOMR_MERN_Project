@@ -161,7 +161,6 @@ export default function HomePage() {
               <div
                 ref={heroRef}
                 className={`tille ${isHeroVisible ? 'slide-up-in' : 'slide-down-out'}`}
-                style={{ display: "flex", alignItems: "center", gap: "30px" }}
               >
                 <div className="hero-logo-container">
                   <img src={logo} alt="logo" />
@@ -194,7 +193,7 @@ export default function HomePage() {
 
 
               <div ref={heroRef} className={`hero-date ${isHeroVisible ? 'slide-left-in' : 'slide-right-out'}`}>
-                <span><i class="fa-solid fa-calendar"></i></span>
+                <span><i className="fa-solid fa-calendar"></i></span>
                 <span>
                   06<sup>th</sup> – 08<sup>th</sup> AUGUST 2026
                 </span>
@@ -203,7 +202,7 @@ export default function HomePage() {
 
               </p>
               <div ref={heroRef} className={`hero-location-info ${isHeroVisible ? 'slide-left-in' : 'slide-right-out'}`}>
-                <span><i class="fa-solid fa-location-dot"></i></span>
+                <span><i className="fa-solid fa-location-dot"></i></span>
                 <div>
                   <p> Hosted by <br />
                     Department of Oral Medicine and Radiology <br />
@@ -211,7 +210,7 @@ export default function HomePage() {
                   {/* <p>VISAKHAPATNAM, ANDHRA PRADESH</p> */}
                 </div>
               </div>
-              <div style={{ display: 'flex', marginLeft: '150px' }}>
+              <div className="hero_button">
                 <button
                   className={`hero-button ${hover ? "hover" : ""} ${active ? "active" : ""}`}
                   onMouseEnter={() => setHover(true)}
@@ -309,7 +308,7 @@ export default function HomePage() {
           <div
             ref={collegeContentRef}
             className={`college-content ${isCollegeContentVisible ? 'fade-in' : 'fade-out'}`}>
-            <h1>About Anil Neerukonda Institute of Dental Sciences, <br />Vishakapatnam</h1>
+            <h1>About <br/> Anil Neerukonda Institute of Dental Sciences, <br />Vishakapatnam</h1>
             <p>
               Anil Neerukonda Institute of Dental Sciences, popularly known as ANIDS, is one of the emerging dental institutions in Visakhapatnam. Established in 2013, the institute is committed to delivering high-quality dental education, clinical training, and community-oriented healthcare.
 

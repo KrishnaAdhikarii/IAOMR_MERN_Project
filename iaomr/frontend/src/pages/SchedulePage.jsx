@@ -160,7 +160,7 @@ export function AboutPage() {
           className={`message-content ${messageVisible ? "slide-up-in" : "slide-down-out"}`}
         >
           <h2 className="message-title">
-            A Message from the Organizing Chairman
+             Message from the Organizing Chairman
           </h2>
 
           <p className="bold">Dear Delegates,</p>
@@ -326,7 +326,8 @@ export function CommitteePage() {
 
   return (
     <div ref={committeeRef} className={`committee-page ${committeeVisible ? "slide-up-in" : "slide-down-out"}`}>
-      <section className="chief_patron">
+      <section className="chief_patron">x
+        ]]
 
         {/* HEADING */}
         <h2 className="chief_heading">Chief Patron</h2>
@@ -351,7 +352,7 @@ export function CommitteePage() {
         </div>
 
       </section>
-      <h1 className="committee-title">Organizing Committee 2026</h1>
+      <h1 className="committee-title">Organizing Committee</h1>
 
 
       {/* ORGANIZING TEAM */}
@@ -520,7 +521,7 @@ export function VenuePage() {
                 allowFullScreen
               ></iframe>
               <div className='venue-name' style={{ textShadow: '0px 1px 02px #000' }}>
-                <i className="fa-solid fa-location-arrow"></i>                Anil Neerukonda Institute of Dental Sciences, <br />Visakhapatnam <br />
+                {/* <i className="fa-solid fa-location-arrow"></i>                Anil Neerukonda Institute of Dental Sciences, <br />Visakhapatnam <br /> */}
                 <button className="maps-button">Get Directions  ➜</button></div>
             </div>
 
