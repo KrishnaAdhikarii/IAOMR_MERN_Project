@@ -118,7 +118,7 @@ export function AboutPage() {
           {/* Right Side Text */}
           <div
             ref={welcome_textRef}
-            className={`welcome_textRef ${welcome_textVisible ? "slide_left_in" : "slide_right_out"}`}
+            className={`welcome_text ${welcome_textVisible ? "slide_left_in" : "slide_right_out"}`}
           >
             <h1 className="welcome_title">
               Welcome to 24th IAOMR National PG Convention
@@ -326,8 +326,7 @@ export function CommitteePage() {
 
   return (
     <div ref={committeeRef} className={`committee-page ${committeeVisible ? "slide-up-in" : "slide-down-out"}`}>
-      <section className="chief_patron">x
-        ]]
+      <section className="chief_patron">
 
         {/* HEADING */}
         <h2 className="chief_heading">Chief Patron</h2>
@@ -561,7 +560,7 @@ export function VenuePage() {
         <div ref={cityRef} className={`city-images ${city_Visible ? "slide-left-in" : "slide-right-out"}`}>
           <div className="photos_row1">
             <div>
-              <img style={{ height: '380px' }} src={v11} alt="City 1" />
+              <img style={{ maxHeight: '380px' }} src={v11} alt="City 1" />
             </div>
             <div>
               <img src={v4} alt="City 2" />
