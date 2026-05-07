@@ -766,7 +766,8 @@ html:hover {
 /* INNER WRAPPER */
 .hero-left-inner {
   margin-left: 12%;
-  margin-top: 10%;
+  margin: 10%;
+  height: 100%;
   position: relative;
   z-index: 2;
   font-family: 'Kumbh Sans', sans-serif;
@@ -1197,7 +1198,6 @@ html:hover {
 @media (max-width: 600px) {
   .hero-left {
     padding: 16px;
-    height: 100%;
   }
 
   .hero-left-inner {
