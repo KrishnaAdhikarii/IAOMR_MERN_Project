@@ -537,9 +537,11 @@ html:hover {
 
   z-index: 9999;
 }
-.mobile-menu-btn{
-    display: none;
-  }
+
+.mobile-menu-btn {
+  display: none;
+}
+
 .mobile-link,
 .mobile-sublink {
   display: block;
@@ -660,7 +662,8 @@ html:hover {
     font-size: 0.65rem;
     padding: 8px 12px;
   }
-  .mobile-menu-btn{
+
+  .mobile-menu-btn {
     display: none;
   }
 }
@@ -728,8 +731,9 @@ html:hover {
 
   color: #000;
   position: relative;
-  overflow: hidden;
-  background: linear-gradient(to bottom, #eaf6ff, #f7fbff);
+  overflow-x: hidden;
+  overflow-y: visible;
+    background: linear-gradient(to bottom, #eaf6ff, #f7fbff);
 }
 
 .hero-wave {
@@ -1083,10 +1087,12 @@ html:hover {
     width: 100%;
   }
 
-  /* .hero-button {
-    width: 100%;
+  .hero-button {
+    width: auto;
+    max-width: 100%;
+    min-width: 180px;
     justify-content: center;
-  } */
+  }
 }
 
 @media (max-width: 600px) {
@@ -1122,8 +1128,9 @@ html:hover {
   }
 
   .hero-button {
-    width: 65%;
-    margin-bottom: 40px;
+    width: auto;
+    max-width: 100%;
+    min-width: 180px;
     justify-content: center;
   }
 
@@ -1190,6 +1197,7 @@ html:hover {
 @media (max-width: 600px) {
   .hero-left {
     padding: 16px;
+    height: 100%;
   }
 
   .hero-left-inner {
@@ -1237,6 +1245,43 @@ html:hover {
 
   .hero-wave-text {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero_button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-button {
+    width: 85%;
+    max-width: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-button .left-arrow {
+    left: -20px;
+  }
+
+  .hero-button:hover .left-arrow {
+    left: 12px;
+  }
+
+  .hero-button .right-arrow {
+    right: 12px;
+  }
+
+  .hero-button:hover .right-arrow {
+    right: -20px;
+  }
+}
+
+@media(max-width:320px){
+  .hero-button .right-arrow {
+    right: 5px;
   }
 }
 
@@ -2923,6 +2968,7 @@ html:hover {
   gap: 40px;
   padding: 0 24px;
 }
+
 /* ================= BRAND ================= */
 
 .footer_brand h2 {
@@ -3112,6 +3158,7 @@ html:hover {
 
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
+
 /* ================= UNIFORM FOOTER SECTIONS ================= */
 
 .footer_section {
@@ -3460,7 +3507,7 @@ html:hover {
 
     width: 100%;
     padding: 0 12px;
-  justify-items: center;
+    justify-items: center;
     box-sizing: border-box;
   }
 
