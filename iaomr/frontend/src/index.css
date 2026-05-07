@@ -1281,7 +1281,7 @@ html:hover {
 
 @media(max-width:320px){
   .hero-button .right-arrow {
-    right: 5px;
+    right: 2px;
   }
 }
 

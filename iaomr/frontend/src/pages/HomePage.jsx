@@ -233,7 +233,7 @@ export default function HomePage() {
                   </svg>
                 </button>
               </div>
-            
+            </div>
             <p className="hero-wave-text">
               Join us for a memorable 2026 convention!
             </p>
@@ -248,7 +248,6 @@ export default function HomePage() {
                 d="M0,160 C240,80 480,240 720,160 C960,80 1200,240 1440,160 L1440,320 L0,320 Z">
               </path>
             </svg>
-          </div>
           </div>
           {/* RIGHT SIDE */}
           <div className="hero-right">
