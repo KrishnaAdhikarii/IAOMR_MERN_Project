@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom'
-import { FiMapPin } from 'react-icons/fi'
+import {
+  FiMapPin,
+  FiPhone,
+  FiMail,
+} from 'react-icons/fi'
 
 export default function Footer() {
+
   const quickLinks = [
     { to: '/about', label: 'About Convention' },
-    { to: '/schedule', label: 'Schedule' },
+    { to: '/schedule', label: 'Scientific Schedule' },
     { to: '/committee', label: 'Committee' },
     { to: '/venue', label: 'Venue & Tourism' },
     { to: '/register-delegate', label: 'Register Now' },
@@ -12,75 +17,100 @@ export default function Footer() {
     { to: '/contact', label: 'Contact Us' },
   ]
 
-  const contacts = [
-    {
-      name: 'Dr. B. Badari Ramakrishna',
-      role: 'Organizing Chairman',
-      phone: '+91 9885426232'
-    },
-    {
-      name: 'Dr. V. Rahul Marshal',
-      role: 'Organizing Secretary',
-      phone: '+91 9848720046'
-    }
-  ]
-
   return (
     <footer className="footer">
+
       <div className="footer_container">
 
-        {/* BRAND */}
-        <div className="footer_brand">
-          <h2>IAOMR</h2>
+        {/* 1. BRAND */}
+        <div className="footer_section">
+          <h2>IAOMR 2026</h2>
+
           <p className="footer_tagline">
-            24th National PG Convention · 2026
+            24th National PG Convention
           </p>
 
           <p className="footer_desc">
-            Dept. of Oral Medicine & Radiology,<br />
+            Department of Oral Medicine & Radiology,
+            <br />
             ANIDS, Visakhapatnam, Andhra Pradesh
           </p>
 
-          <span className="footer_quote">
-            "Imagine · Innovate · Illuminate"
-          </span>
+          <div className="footer_quote">
+            Imagine · Innovate · Illuminate
+          </div>
         </div>
 
-        {/* LINKS */}
-        <div className="footer_links">
-          <h4>Quick Links</h4>
-          {quickLinks.map((l) => (
-            <Link key={l.to} to={l.to} className="footer_link">
-              {l.label}
+        {/* 2. QUICK LINKS */}
+        <div className="footer_section">
+          <h3>Quick Links</h3>
+
+          {quickLinks.map((link) => (
+            <Link key={link.to} to={link.to} className="footer_link">
+              {link.label}
             </Link>
           ))}
         </div>
 
-        {/* CONTACT */}
-        <div className="footer_contact">
-          <h4>Contact</h4>
+        {/* 3. STUDENT COORDINATORS */}
+        <div className="footer_section">
+          <h3>Student Coordinators</h3>
 
-          {contacts.map((c) => (
-            <div key={c.phone} className="footer_contact_card">
-              <p className="name">{c.name}</p>
-              <p className="role">{c.role}</p>
-              <a href={`tel:${c.phone}`} className="phone">
-                {c.phone}
-              </a>
-            </div>
-          ))}
+          <div className="student_contact">
+            <span>Dr. Samruth Unnisa</span>
+            <a href="tel:+916304905152">
+              <FiPhone /> +91 6304905152
+            </a>
+          </div>
 
-          <div className="footer_location">
-            <FiMapPin size={14} />
-            <span>Sangivalasa, Visakhapatnam</span>
+          <div className="student_contact">
+            <span>Dr. K. Sharon</span>
+            <a href="tel:+919502085963">
+              <FiPhone /> +91 9502085963
+            </a>
+          </div>
+
+          <div className="student_contact">
+            <span>Dr. Y. Madhusudhan Rao</span>
+            <a href="tel:+919160743909">
+              <FiPhone /> +91 9160743909
+            </a>
           </div>
         </div>
+
+        {/* 4. CONTACT */}
+        <div className="footer_section">
+          <h3>Contact</h3>
+
+          <div className="contact_card">
+            <h4>Dr. B. Badari Ramakrishna</h4>
+            <p>Organizing Chairman</p>
+            <a href="tel:+919885426232">
+              <FiPhone /> +91 9885426232
+            </a>
+          </div>
+
+          <div className="contact_card">
+            <h4>Dr. V. Rahul Marshal</h4>
+            <p>Organizing Secretary</p>
+            <a href="tel:+919848720046">
+              <FiPhone /> +91 9848720046
+            </a>
+          </div>
+
+          <div className="footer_location">
+            <FiMapPin />
+            <span>Sangivalasa, Visakhapatnam, Andhra Pradesh</span>
+          </div>
+        </div>
+
       </div>
 
       {/* BOTTOM */}
       <div className="footer_bottom">
         © 2026 IAOMR PG Convention · All Rights Reserved
       </div>
+
     </footer>
   )
 }

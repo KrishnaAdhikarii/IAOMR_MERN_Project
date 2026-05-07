@@ -81,7 +81,7 @@ export function SchedulePage() {
   const typeColor = { session: 'var(--card-box)', lecture: '#2e8b7a', break: '#856404', inauguration: 'var(--gold)', social: '#8e44ad', valedictory: '#e74c3c', registration: '#2980b9' }
 
   return (
-    <><div className='schedule_page'>      
+    <><div className='schedule_page'>
       Schedule Will be updated shortly
     </div></>
   )
@@ -160,7 +160,7 @@ export function AboutPage() {
           className={`message-content ${messageVisible ? "slide-up-in" : "slide-down-out"}`}
         >
           <h2 className="message-title">
-             Message from the Organizing Chairman
+            Message from the Organizing Chairman
           </h2>
 
           <p className="bold">Dear Delegates,</p>
@@ -454,7 +454,7 @@ export function RegisterationInfo() {
           *All registration charges mentioned above are inclusive of applicable GST
 
           <span className="registration_info_subtitle2">
-            Registration includes 
+            Registration includes
           </span>
 
           <em style={{ textTransform: 'capitalize' }}>2 breakfasts, 2 lunches, 1 Gala banquet, registration kit,<br />
@@ -485,9 +485,12 @@ export function VenuePage() {
     { icon: '💧', name: 'Devarapalli Falls', desc: 'Scenic waterfall near the city' },
   ]
   const venueRef = useRef(null);
-  const cityRef = useRef(null);
+  const cityTextRef = useRef(null);
+  const cityImagesRef = useRef(null);
+
+  const textVisible = useIsVisible(cityTextRef);
+  const imagesVisible = useIsVisible(cityImagesRef);
   const venue_Visible = useIsVisible(venueRef);
-  const city_Visible = useIsVisible(cityRef);
 
   return (
     <><div className="Venue Page">
@@ -530,7 +533,7 @@ export function VenuePage() {
       </section>
 
       <section className="City-section">
-        <div ref={cityRef} className={`city-text ${city_Visible ? "slide-up-in" : "slide-down-out"}`}>
+        <div ref={cityTextRef} className={`city-text ${textVisible ? "slide-up-in" : "slide-down-out"}`}>
           <h2 className="city-title">
             Discover <br /><em>Visakhapatnam</em>
           </h2>
@@ -557,7 +560,7 @@ export function VenuePage() {
             The city is well-connected through roadways, railways, and the Visakhapatnam International Airport, ensuring smooth access for national and international visitors. </p>
         </div>
 
-        <div ref={cityRef} className={`city-images ${city_Visible ? "slide-left-in" : "slide-right-out"}`}>
+        <div ref={cityImagesRef} className={`city-images ${imagesVisible ? "slide-left-in" : "slide-right-out"}`}>
           <div className="photos_row1">
             <div>
               <img style={{ maxHeight: '380px' }} src={v11} alt="City 1" />

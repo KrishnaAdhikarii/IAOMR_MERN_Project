@@ -135,7 +135,7 @@ export default function OfficeCommittee() {
     },
 
     {
-      title: "Executive Members",
+      title: "Executive Committee Members",
       members: [
         { name: "Dr Mohit Pal Singh", img: photo },
         { name: "Dr T Saravanan", img: photo },

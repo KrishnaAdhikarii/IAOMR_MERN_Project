@@ -48,7 +48,7 @@ function Countdown() {
 
   function getTimeRemaining() {
     const now = new Date().getTime();
-    const distance = eventDate - now;
+    const distance = Math.max(eventDate - now, 0);
 
     return {
       days: Math.floor(distance / (1000 * 60 * 60 * 24)),
@@ -308,7 +308,7 @@ export default function HomePage() {
           <div
             ref={collegeContentRef}
             className={`college-content ${isCollegeContentVisible ? 'fade-in' : 'fade-out'}`}>
-            <h1>About <br/> Anil Neerukonda Institute of Dental Sciences, <br />Vishakapatnam</h1>
+            <h1>About <br /> Anil Neerukonda Institute of Dental Sciences, <br />Vishakapatnam</h1>
             <p>
               Anil Neerukonda Institute of Dental Sciences, popularly known as ANIDS, is one of the emerging dental institutions in Visakhapatnam. Established in 2013, the institute is committed to delivering high-quality dental education, clinical training, and community-oriented healthcare.
 

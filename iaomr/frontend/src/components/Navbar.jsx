@@ -173,66 +173,100 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-
       {/* MOBILE MENU */}
       {menuOpen && (
         <div className="mobile-menu">
 
-          {navLinks.map((l, i) =>
-            l.dropdown
-              ? l.dropdown.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setMenuOpen(false)}
+          {navLinks.map((l, i) => (
+            <div key={i} className="mobile-menu-section">
+
+              {l.dropdown ? (
+                <>
+                  <p className="mobile-section-title">
+                    {l.label}
+                  </p>
+
+                  {l.dropdown.map((item) => (
+                    <NavLink
+                      key={item.to}
+                      to={item.to}
+                      onClick={() => setMenuOpen(false)}
+                      className="mobile-sublink"
+                    >
+                      {item.label}
+                    </NavLink>
+                  ))}
+                </>
+              ) : l.hash ? (
+                <HashLink
+                  smooth
+                  to={`/#${l.hash}`}
                   className="mobile-link"
+                  onClick={() => setMenuOpen(false)}
                 >
-                  {item.label}
-                </NavLink>
-              ))
-              : (
+                  {l.label}
+                </HashLink>
+              ) : (
                 <NavLink
-                  key={i}
-                  to={l.to || '/'}
+                  to={l.to}
                   onClick={() => setMenuOpen(false)}
                   className="mobile-link"
                 >
                   {l.label}
                 </NavLink>
-              )
-          )}
+              )}
+            </div>
+          ))}
 
-          {/* ✅ ADD STATUS SECTION HERE */}
-          <div className="mobile-status">
-            <p className="mobile-section-title">Know Your Status</p>
+          {/* STATUS */}
+          <div className="mobile-menu-section">
+            <p className="mobile-section-title">
+              Know Your Status
+            </p>
 
-            <Link to="/status/registration-id" className="mobile-link" onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/status/registration-id"
+              className="mobile-sublink"
+              onClick={() => setMenuOpen(false)}
+            >
               Registration ID
             </Link>
 
-            <Link to="/status/abstract-submission" className="mobile-link" onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/status/abstract-submission"
+              className="mobile-sublink"
+              onClick={() => setMenuOpen(false)}
+            >
               Abstract Submission Status
             </Link>
 
-            <Link to="/status/abstract-result" className="mobile-link" onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/status/abstract-result"
+              className="mobile-sublink"
+              onClick={() => setMenuOpen(false)}
+            >
               Abstract Accepted / Rejected
             </Link>
 
-            <Link to="/status/PPT-submission" className="mobile-link" onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/status/PPT-submission"
+              className="mobile-sublink"
+              onClick={() => setMenuOpen(false)}
+            >
               Presentation Submission Status
             </Link>
           </div>
 
+          {/* REGISTER BUTTON */}
           <Link
             to="/register-delegate"
-            className="mobile-link"
+            className="mobile-register-btn"
             onClick={() => setMenuOpen(false)}
           >
             Register Now
           </Link>
 
         </div>
-      )}
-    </nav>
+      )}    </nav>
   );
 }

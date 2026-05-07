@@ -10,105 +10,119 @@ import upendra from "../images/upendra.png";
 
 const styles = {
   page: {
-    // backgroundImage: "url('/assets/bg.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    padding: "30px 15px",
-    fontFamily: "serif",
+    minHeight: "100vh",
+    padding: "20px clamp(12px, 3vw, 40px)",
+    fontFamily: "system-ui, Arial, sans-serif",
+    background: "linear-gradient(180deg, #f6f9fc, #eef4f8)",
+    color: "#1f2d3d",
+    justifyContent: "center"
   },
 
   sectionDivider: {
     display: "flex",
     alignItems: "center",
-    margin: "25px 0",
+    gap: "12px",
+    margin: "40px 0 20px",
   },
+
   line: {
     flex: 1,
-    height: "2px",
-    background: "#2c4a63",
+    height: "1px",
+    background: "#c7d3dd",
   },
+
   pill: {
-    padding: "6px 18px",
-    background: "#5c7f94",
+    padding: "8px 18px",
+    background: "#0f4c75",
     color: "#fff",
-    borderRadius: "20px",
-    margin: "0 10px",
-    letterSpacing: "2px",
-    fontWeight: "bold",
+    borderRadius: "999px",
+    fontSize: "13px",
+    letterSpacing: "1.5px",
+    fontWeight: 600,
+    whiteSpace: "nowrap",
   },
 
   // Chief Patron
   chiefRow: {
     display: "flex",
-    marginLeft:"25%",
-    width:"700px",
     flexWrap: "wrap",
+    maxWidth: "600px",
+    gap: "20px",
     alignItems: "center",
-    justifyContent: "space-between",
-    background: "#6e8fa3",
+    justifyContent: "center",
+    background: "linear-gradient(135deg, #0f4c75, #3282b8)",
     padding: "20px",
-    borderRadius: "15px",
-        boxShadow:"0 3px 12px rgba(0, 0, 0, 0.3)",
-
-  },
-  chiefText: {
+    borderRadius: "16px",
     color: "#fff",
-    maxWidth: "500px",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+    alignSelf: "center",
+    margin: "0 auto",
+    "@media (max-width: 768px)": {
+      flexDirection: "column",
+      textAlign: "center",
+      justifyContent: "center",
+    },
   },
+
+  chiefText: {
+    flex: 1,
+    minWidth: "220px",
+  },
+
   chiefImg: {
-    width: "180px",
+    width: "140px",
+    height: "140px",
+    objectFit: "cover",
     borderRadius: "50%",
+    backgroundColor:'beige',
+    border: "3px solid #fff",
   },
 
   // Team
   teamRow: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
     gap: "20px",
-    
+    justifyItems: "center",
   },
+
   member: {
     textAlign: "center",
-    width: "140px",
   },
+
   avatar: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "25px",
-    boxShadow:"0 3px 12px rgba(0, 0, 0, 0.3)",
+    width: "110px",
+    height: "110px",
+    borderRadius: "18px",
     objectFit: "cover",
+    boxShadow: "0 6px 16px rgba(0,0,0,0.15)",
   },
 
-  // Advisors box
+  // Advisors
   advisorBox: {
-    background: "linear-gradient(135deg, #FEF7EA, #9CD5FF)",
-    padding: "20px",
-    borderRadius: "10px",
-    display: "flex",
-    flexWrap: "wrap",
-        boxShadow:"0 3px 12px rgba(0, 0, 0, 0.3)",
-
-    justifyContent: "space-between",
-    color: "#000",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: "16px",
+    padding: "18px",
+    borderRadius: "14px",
+    background: "#ffffff",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+    border: "1px solid #e6eef5",
   },
 
   // Cards
   grid: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: "25px",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+    gap: "20px",
   },
-  card: {
-    flex: "1 1 320px",
-    maxWidth: "400px",
-    background: "linear-gradient(135deg, #FEF7EA, #9CD5FF)",
-    borderRadius: "30px",
-    padding: "20px",
-    textTransform: "uppercase",
-        boxShadow:"0 3px 12px rgba(0, 0, 0, 0.3)",
 
+  card: {
+    background: "#ffffff",
+    borderRadius: "18px",
+    padding: "18px",
+    border: "1px solid #e6eef5",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
   },
 };
 
@@ -173,21 +187,21 @@ export default function FullCommitteePage() {
 
       <div style={styles.advisorBox}>
         <div>
-          Dr. A. Ravi Kiran<br/>
-          Dr. K. Sri Krishna<br/>
-          Dr. R. Sudhakara Reddy<br/>
+          Dr. A. Ravi Kiran<br />
+          Dr. K. Sri Krishna<br />
+          Dr. R. Sudhakara Reddy<br />
           Dr. T. Rama Swamy
         </div>
         <div>
-          Dr. K. Vinay Kumar Reddy<br/>
-          Dr. D. Ramaraju<br/>
-          Dr. V. Nagalakshmi<br/>
+          Dr. K. Vinay Kumar Reddy<br />
+          Dr. D. Ramaraju<br />
+          Dr. V. Nagalakshmi<br />
           Dr. P. Aruna
         </div>
         <div>
-          Dr. N. Kannan<br/>
-          Dr. B. Vamsi Pavani<br/>
-          Dr. M. Manjula<br/>
+          Dr. N. Kannan<br />
+          Dr. B. Vamsi Pavani<br />
+          Dr. M. Manjula<br />
           Dr. N. Venkateswarlu
         </div>
       </div>
@@ -201,49 +215,49 @@ export default function FullCommitteePage() {
 
       <div style={styles.grid}>
         <Card title="Registration Committee" members={[
-          "Dr. Y. Pavan Kumar","Dr. P. Suresh Kumar","Dr. Purna Chandar Rao",
-          "Dr. B. Swapana Sridevi","Dr. C. Vani","Dr. B. Anupama"
-        ]}/>
+          "Dr. Y. Pavan Kumar", "Dr. P. Suresh Kumar", "Dr. Purna Chandar Rao",
+          "Dr. B. Swapana Sridevi", "Dr. C. Vani", "Dr. B. Anupama"
+        ]} />
         <Card title="Pre-Convention Committee" members={[
-          "Dr. K. Sridevi","Dr. T. Ramesh","Dr. G. Komali",
-          "Dr. Mallikamahalakshmi","Dr. N. S. V. Santhosh","Dr. E. Sumalatha"
-        ]}/>
+          "Dr. K. Sridevi", "Dr. T. Ramesh", "Dr. G. Komali",
+          "Dr. Mallikamahalakshmi", "Dr. N. S. V. Santhosh", "Dr. E. Sumalatha"
+        ]} />
         <Card title="Scientific Committee" members={[
-          "Dr. Y. Samata","Dr. K. Jyothirmai","Dr. P. V. Sarat",
-          "Dr. M. Rakesh","Dr. M. Mary Sujatha","Dr. R. Sruthi"
-        ]}/>
+          "Dr. Y. Samata", "Dr. K. Jyothirmai", "Dr. P. V. Sarat",
+          "Dr. M. Rakesh", "Dr. M. Mary Sujatha", "Dr. R. Sruthi"
+        ]} />
         <Card title="Reception Committee" members={[
-          "Dr. K. Ramya","Dr. B. Krishnaveni","Dr. Bharani Devi",
-          "Dr. Y. Alekya","Dr. Rupa Chandini","Dr. Sethu Manjusha"
-        ]}/>
+          "Dr. K. Ramya", "Dr. B. Krishnaveni", "Dr. Bharani Devi",
+          "Dr. Y. Alekya", "Dr. Rupa Chandini", "Dr. Sethu Manjusha"
+        ]} />
         <Card title="Banquet Committee" members={[
-          "Dr. R. C. Jagat Reddy","Dr. G. Ramlal","Dr. N. Mahesh",
-          "Dr. Sanjay Reddy","Dr. Kotya Naik Maloth","Dr. K. Sharon Leela"
-        ]}/>
+          "Dr. R. C. Jagat Reddy", "Dr. G. Ramlal", "Dr. N. Mahesh",
+          "Dr. Sanjay Reddy", "Dr. Kotya Naik Maloth", "Dr. K. Sharon Leela"
+        ]} />
         <Card title="Hospitality Committee" members={[
-          "Dr. Ramesh","Dr. Santan Reddy","Dr. K. Aravind",
-          "Dr. D. Ajit","Dr. S. Sailaja","Dr. M. Jasmine"
-        ]}/>
+          "Dr. Ramesh", "Dr. Santan Reddy", "Dr. K. Aravind",
+          "Dr. D. Ajit", "Dr. S. Sailaja", "Dr. M. Jasmine"
+        ]} />
         <Card title="Trade Fair Committee" members={[
-          "Dr. K. Ramesh Kumar","Dr. T. Harsha Vardhan Reddy","Dr. B. Raj Kumar",
-          "Dr. B. Kalyan Chakravarthy","Dr. B. Mamatha","Dr. Reddy Lavanya"
-        ]}/>
+          "Dr. K. Ramesh Kumar", "Dr. T. Harsha Vardhan Reddy", "Dr. B. Raj Kumar",
+          "Dr. B. Kalyan Chakravarthy", "Dr. B. Mamatha", "Dr. Reddy Lavanya"
+        ]} />
         <Card title="Accommodation Committee" members={[
-          "Dr. V. Sairam","Dr. M. P. V. Prabath","Dr. E. Shiva Prasad Reddy",
-          "Dr. M. Dayanand","Dr. A. D. N. Deepika","Dr. K. N. V. Sai Praveen"
-        ]}/>
+          "Dr. V. Sairam", "Dr. M. P. V. Prabath", "Dr. E. Shiva Prasad Reddy",
+          "Dr. M. Dayanand", "Dr. A. D. N. Deepika", "Dr. K. N. V. Sai Praveen"
+        ]} />
         <Card title="Travel Committee" members={[
-          "Dr. Suman","Dr. E. Venkatesh","Dr. Balaji Babu",
-          "Dr. Sameeulla Shaik","Dr. P. B. S. Srinivas"
-        ]}/>
+          "Dr. Suman", "Dr. E. Venkatesh", "Dr. Balaji Babu",
+          "Dr. Sameeulla Shaik", "Dr. P. B. S. Srinivas"
+        ]} />
         <Card title="Food Committee" members={[
-          "Dr. M. Srinivas Raju","Dr. Niranjan Reddy","Dr. Gautam Srivastava",
-          "Dr. Ch. Sai Kiran","Dr. P. Srinivasa Rao"
-        ]}/>
+          "Dr. M. Srinivas Raju", "Dr. Niranjan Reddy", "Dr. Gautam Srivastava",
+          "Dr. Ch. Sai Kiran", "Dr. P. Srinivasa Rao"
+        ]} />
         <Card title="E Souvenir Committee" members={[
-          "Dr. Ch. Lalitha","Dr. Faizal","Dr. Seema Ashwin Bhogte",
-          "Dr. Shefali Waghray","Dr. Praveen","Dr. Yehoshuva Reddy","Dr. Ch V Raman"
-        ]}/>
+          "Dr. Ch. Lalitha", "Dr. Faizal", "Dr. Seema Ashwin Bhogte",
+          "Dr. Shefali Waghray", "Dr. Praveen", "Dr. Yehoshuva Reddy", "Dr. Ch V Raman"
+        ]} />
       </div>
 
     </div>
