@@ -13,9 +13,16 @@ app.use(helmet());
 
 // ─── CORS ───
 app.use(cors({
-  origin: ["http://localhost:5173", "https://iaomr-mern-project.vercel.app"], // MUST be your Vercel URL
+  origin: [
+    "http://localhost:5173",
+    "https://iaomr-mern-project.vercel.app",
+    "https://www.iaomrpgconvene2026.com"
+  ],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
+app.options("*", cors());
 
 // ─── Rate Limiting ───
 const limiter = rateLimit({
