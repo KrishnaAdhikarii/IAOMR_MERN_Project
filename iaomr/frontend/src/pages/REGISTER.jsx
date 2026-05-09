@@ -37,6 +37,7 @@ export default function RegistrationForm() {
     city: "",
     institution: "",
     address: "",
+    foodPreference: "",
     accompanying: false,
     accompanyingName: "",
   });
@@ -79,7 +80,7 @@ export default function RegistrationForm() {
 
   const totalAmount = totalData.amount;
   const currency = totalData.currency;
-  const USD_TO_INR = 83; // you can later replace with live API
+  const USD_TO_INR = 90; // you can later replace with live API
 
   const displayAmount =
     currency === "USD"
@@ -103,9 +104,9 @@ export default function RegistrationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("🔥 SUBMIT FIRED");
-    console.log("8", import.meta.env.VITE_API_URL);
-    console.log("RAZORPAY KEY:", '8', import.meta.env.VITE_RAZORPAY_KEY);
-    console.log("KEY SECRET:", import.meta.env.VITE_RAZORPAY_SECRET);
+    // console.log("8", import.meta.env.VITE_API_URL);
+    // console.log("RAZORPAY KEY:", '8', import.meta.env.VITE_RAZORPAY_KEY);
+    // console.log("KEY SECRET:", import.meta.env.VITE_RAZORPAY_SECRET);
 
 
     try {
@@ -124,11 +125,41 @@ export default function RegistrationForm() {
 
         handler: async function (response) {
           try {
-            const { data } = await api.post("/registration/verify-payment", {
-              ...response,
-              form,
-              amount: totalAmount,
-            });
+            const formData = new FormData();
+
+            formData.append(
+              "form",
+              JSON.stringify(form)
+            );
+
+            formData.append(
+              "razorpay_order_id",
+              response.razorpay_order_id
+            );
+
+            formData.append(
+              "razorpay_payment_id",
+              response.razorpay_payment_id
+            );
+
+            formData.append(
+              "razorpay_signature",
+              response.razorpay_signature
+            );
+
+            formData.append(
+              "amount",
+              totalAmount
+            );
+
+            if (form.photo) {
+              formData.append(
+                "photo",
+                form.photo
+              );
+            }
+
+            await api.post("/registration/verify-payment", formData);
 
             console.log("VERIFY RESPONSE:", "8", data); // 👈 ADD THIS
 
@@ -158,185 +189,200 @@ export default function RegistrationForm() {
 
   return (
     <>
-    <div className="registration-form-container">
-          <div className="banner"><img src={placeholder}></img></div>
+      <div className="registration-form-container">
+        <div className="banner"><img src={placeholder}></img></div>
 
-      <h1 className="registration-form-title">Delegate Registration</h1>
+        <h1 className="registration-form-title">Delegate Registration</h1>
 
-      <form className="registration-form-card" onSubmit={handleSubmit}>
-        {/* Email */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">EMAIL ID *</label>
-          <input className="registration-form-input" name="email" required onChange={handleChange} />
-        </div>
-
-        {/* Name */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">NAME OF THE DELEGATE * ( Please Fill in Capital Letters )</label>
-          <input
-            className="registration-form-input"
-            name="name"
-            required
-            onChange={(e) =>
-              setForm((prev) => ({
-                ...prev,
-                name: e.target.value.toUpperCase(),
-              }))
-            }
-          />
-        </div>
-
-        {/* Gender */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">GENDER *</label>
-          <div className="registration-form-radio-group">
-            <label>
-              <input type="radio" name="gender" value="Male" required onChange={handleChange} />
-              Male
-            </label>
-            <label>
-              <input type="radio" name="gender" value="Female" onChange={handleChange} />
-              Female
-            </label>
-          </div>
-        </div>
-
-        {/* Photo */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">UPLOAD PHOTO * <e style={{ fontSize: '9px', color: '#FF0000' }}> Upload 1 Supported file.Max 10MB</e></label>
-          <input className="registration-form-input" type="file" name="photo" accept="image/*" required onChange={handleChange} />
-        </div>
-
-        {/* Phone */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">MOBILE NUMBER *</label>
-          <input className="registration-form-input" name="phone" required onChange={handleChange} />
-        </div>
-
-        {/* Category */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">CATEGORY *</label>
-          <select className="registration-form-select" name="category" required onChange={handleChange}>
-            <option value="">Select</option>
-            <option>Faculty</option>
-            <option>Practitioner</option>
-            <option>Post Graduate</option>
-            <option>Foreign Delegate</option>
-
-          </select>
-        </div>
-
-        {/* Faculty */}
-        {form.category === "Faculty" && (
-          <>
-            <div className="registration-form-group">
-              <label className="registration-form-label">Designation</label>
-              <select className="registration-form-select" name="designation" onChange={handleChange}>
-                <option>Principal</option>
-                <option>Vice Principal</option>
-                <option>HOD</option>
-                <option>Professor</option>
-                <option>Associate Professor</option>
-                <option>Assistant Professor/Senior Lecturer</option>
-                <option>Tutor </option>
-
-              </select>
-            </div>
-
-            <div className="registration-form-group">
-              <label className="registration-form-label">IAOMR Number (LM/ALM)</label>
-              <input className="registration-form-input" name="iaomrNumber" onChange={handleChange} />
-            </div>
-          </>
-        )}
-
-        {/* PG */}
-        {form.category === "Post Graduate" && (
+        <form className="registration-form-card" onSubmit={handleSubmit}>
+          {/* Email */}
           <div className="registration-form-group">
-            <label className="registration-form-label">YEAR</label>
-            <select className="registration-form-select" name="pgYear" onChange={handleChange}>
-              <option>1st year</option>
-              <option>2nd year</option>
-              <option>3rd year</option>
+            <label className="registration-form-label">EMAIL ID *</label>
+            <input className="registration-form-input" name="email" required onChange={handleChange} />
+          </div>
+
+          {/* Name */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">NAME OF THE DELEGATE * ( Please Fill in Capital Letters )</label>
+            <input
+              className="registration-form-input"
+              name="name"
+              required
+              onChange={(e) =>
+                setForm((prev) => ({
+                  ...prev,
+                  name: e.target.value.toUpperCase(),
+                }))
+              }
+            />
+          </div>
+
+          {/* Gender */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">GENDER *</label>
+            <div className="registration-form-radio-group">
+              <label>
+                <input type="radio" name="gender" value="Male" required onChange={handleChange} />
+                Male
+              </label>
+              <label>
+                <input type="radio" name="gender" value="Female" onChange={handleChange} />
+                Female
+              </label>
+            </div>
+          </div>
+
+          {/* Photo */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">UPLOAD PHOTO * <e style={{ fontSize: '9px', color: '#FF0000' }}> Upload 1 Supported file.Max 10MB</e></label>
+            <input className="registration-form-input" type="file" name="photo" accept="image/*" required onChange={handleChange} />
+          </div>
+
+          {/* Phone */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">MOBILE NUMBER *</label>
+            <input className="registration-form-input" name="phone" required onChange={handleChange} />
+          </div>
+
+          {/* Category */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">CATEGORY *</label>
+            <select className="registration-form-select" name="category" required onChange={handleChange}>
+              <option value="">Select</option>
+              <option>Faculty</option>
+              <option>Practitioner</option>
+              <option>Post Graduate</option>
+              <option>Foreign Delegate</option>
+
             </select>
           </div>
-        )}
 
-        {/* DCI */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">DCI REGISTRATION NUMBER</label>
-          <input className="registration-form-input" name="dciNumber" onChange={handleChange} />
-        </div>
+          {/* Faculty */}
+          {form.category === "Faculty" && (
+            <>
+              <div className="registration-form-group">
+                <label className="registration-form-label">Designation</label>
+                <select className="registration-form-select" name="designation" onChange={handleChange}>
+                  <option>Principal</option>
+                  <option>Vice Principal</option>
+                  <option>HOD</option>
+                  <option>Professor</option>
+                  <option>Associate Professor</option>
+                  <option>Assistant Professor/Senior Lecturer</option>
+                  <option>Tutor </option>
 
-        {/* Location */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">COUNTRY *</label>
-          <input className="registration-form-input" name="country" required onChange={handleChange} />
-        </div>
+                </select>
+              </div>
 
-        <div className="registration-form-group">
-          <label className="registration-form-label">STATE *</label>
-          <input className="registration-form-input" name="state" required onChange={handleChange} />
-        </div>
+              <div className="registration-form-group">
+                <label className="registration-form-label">IAOMR Number (LM/ALM)</label>
+                <input className="registration-form-input" name="iaomrNumber" onChange={handleChange} />
+              </div>
+            </>
+          )}
 
-        <div className="registration-form-group">
-          <label className="registration-form-label">CITY *</label>
-          <input className="registration-form-input" name="city" required onChange={handleChange} />
-        </div>
+          {/* PG */}
+          {form.category === "Post Graduate" && (
+            <div className="registration-form-group">
+              <label className="registration-form-label">YEAR</label>
+              <select className="registration-form-select" name="pgYear" onChange={handleChange}>
+                <option>1st year</option>
+                <option>2nd year</option>
+                <option>3rd year</option>
+              </select>
+            </div>
+          )}
 
-        {/* Institution */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">INSTITUTION / CLINIC NAME / OTHERS *</label>
-          <input className="registration-form-input" name="institution" required onChange={handleChange} />
-        </div>
-
-        {/* Address */}
-        <div className="registration-form-group">
-          <label className="registration-form-label">ADDRESS *</label>
-          <textarea className="registration-form-textarea" name="address" required onChange={handleChange} />
-        </div>
-        
-        <div className="registration-form-group">
-          <label className="registration-form-label">FOOD PREFERENCES *</label>
-          <div className="registration-form-radio-group">
-            <label>
-              <input type="radio" name="gender" value="Male" required onChange={handleChange} />
-              NON-VEG
-            </label>
-            <label>
-              <input type="radio" name="gender" value="Female" onChange={handleChange} />
-              VEG
-            </label>
-          </div>
-        </div>
-        
-
-        {/* Accompanying */}
-        <div className="registration-form-group">
-          <label>
-            <input type="checkbox" name="accompanying" onChange={handleChange} />
-            ADD ACCOMPANYING PERSON
-          </label>
-        </div>
-
-        {form.accompanying && (
+          {/* DCI */}
           <div className="registration-form-group">
-            <label className="registration-form-label">ACCOMPANYING NAME</label>
-            <input className="registration-form-input" name="accompanyingName" onChange={handleChange} />
+            <label className="registration-form-label">DCI REGISTRATION NUMBER</label>
+            <input className="registration-form-input" name="dciNumber" onChange={handleChange} />
           </div>
-        )}
 
-        {/* Pricing */}
-        <div className="registration-form-pricing">
-          <div className="registration-form-tier">{pricingType.toUpperCase()} FEE</div>
-          <div className="registration-form-amount">  {displayAmount}</div>
-        </div>
+          {/* Location */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">COUNTRY *</label>
+            <input className="registration-form-input" name="country" required onChange={handleChange} />
+          </div>
 
-        <button className="registration-form-submit" type="submit">
-          Submit & Pay
-        </button>
-      </form>
-    </div>
+          <div className="registration-form-group">
+            <label className="registration-form-label">STATE *</label>
+            <input className="registration-form-input" name="state" required onChange={handleChange} />
+          </div>
+
+          <div className="registration-form-group">
+            <label className="registration-form-label">CITY *</label>
+            <input className="registration-form-input" name="city" required onChange={handleChange} />
+          </div>
+
+          {/* Institution */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">INSTITUTION / CLINIC NAME / OTHERS *</label>
+            <input className="registration-form-input" name="institution" required onChange={handleChange} />
+          </div>
+
+          {/* Address */}
+          <div className="registration-form-group">
+            <label className="registration-form-label">ADDRESS *</label>
+            <textarea className="registration-form-textarea" name="address" required onChange={handleChange} />
+          </div>
+
+          <div className="registration-form-group">
+            <label className="registration-form-label">
+              FOOD PREFERENCES *
+            </label>
+
+            <div className="registration-form-radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="foodPreference"
+                  value="NON-VEG"
+                  required
+                  onChange={handleChange}
+                />
+                NON-VEG
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="foodPreference"
+                  value="VEG"
+                  onChange={handleChange}
+                />
+                VEG
+              </label>
+            </div>
+          </div>
+
+
+          {/* Accompanying */}
+          <div className="registration-form-group">
+            <label>
+              <input type="checkbox" name="accompanying" onChange={handleChange} />
+              ADD ACCOMPANYING PERSON
+            </label>
+          </div>
+
+          {form.accompanying && (
+            <div className="registration-form-group">
+              <label className="registration-form-label">ACCOMPANYING NAME</label>
+              <input className="registration-form-input" name="accompanyingName" onChange={handleChange} />
+            </div>
+          )}
+
+          {/* Pricing */}
+          <div className="registration-form-pricing">
+            <div className="registration-form-tier">{pricingType.toUpperCase()} FEE</div>
+            <div className="registration-form-amount">  {displayAmount}</div>
+          </div>
+
+          <button className="registration-form-submit" type="submit">
+            Submit & Pay
+          </button>
+        </form>
+      </div>
     </>
   );
 }

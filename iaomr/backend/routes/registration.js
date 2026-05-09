@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const PDFDocument = require("pdfkit");
 const QRCode = require("qrcode");
+const upload = require("../middleware/upload");
 
 
 const Registration = require("../models/Registration");
@@ -52,25 +53,54 @@ router.get("/test-email", async (req, res) => {
    VERIFY PAYMENT + SAVE + EMAIL
 
 ========================= */
-router.post("/verify-payment", async (req, res) => {
+router.post("/verify-payment", (req, res, next) => {
+  console.log("🔥 HIT VERIFY ROUTE");
+  next();
+}, upload.single("photo"), async (req, res) => {
   try {
+
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
     const {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      form,
       amount,
     } = req.body;
 
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    if (
+      !razorpay_order_id ||
+      !razorpay_payment_id ||
+      !razorpay_signature
+    ) {
+      return res.status(400).json({
+        message: "Missing Razorpay fields",
+        body: req.body,
+      });
+    }
+
+    // multipart/form-data sends form as string
+    if (!req.body.form) {
+      return res.status(400).json({ message: "Form data missing" });
+    }
+
+    const form = JSON.parse(req.body.form);
+
+    const body =
+      razorpay_order_id + "|" + razorpay_payment_id;
 
     const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .createHmac(
+        "sha256",
+        process.env.RAZORPAY_KEY_SECRET
+      )
       .update(body.toString())
       .digest("hex");
 
     if (expectedSignature !== razorpay_signature) {
-      return res.status(400).json({ message: "Invalid signature" });
+      return res
+        .status(400)
+        .json({ message: "Invalid signature" });
     }
 
     // ✅ Generate Reg No
@@ -79,7 +109,11 @@ router.post("/verify-payment", async (req, res) => {
 
     while (exists) {
       regNumber = generateRegNumber();
-      const check = await Registration.findOne({ regNumber });
+
+      const check = await Registration.findOne({
+        regNumber,
+      });
+
       if (!check) exists = false;
     }
 
@@ -97,16 +131,34 @@ router.post("/verify-payment", async (req, res) => {
       name: form.name,
       email: form.email,
       phone: form.phone,
+      gender: form.gender,
       category: form.category,
+      designation: form.designation,
+      iaomrNumber: form.iaomrNumber,
+      pgYear: form.pgYear,
+      dciNumber: form.dciNumber,
+      country: form.country,
+      state: form.state,
+      city: form.city,
+      institution: form.institution,
+      address: form.address,
+      accompanying: form.accompanying,
+      accompanyingName: form.accompanyingName,
+      foodPreference: form.foodPreference,
+      photo: req.file
+        ? {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        }
+        : undefined,
+
       amount,
       paymentId: razorpay_payment_id,
       orderId: razorpay_order_id,
       status: "PAID",
       regNumber,
       qrCode,
-      formData: form,
     });
-
 
     res.json({
       success: true,
@@ -119,14 +171,47 @@ router.post("/verify-payment", async (req, res) => {
     console.log("VERIFY HIT");
     console.log("Generated Reg:", regNumber);
 
-    const pdfBuffer = await generatePDF(registration);
+    const pdfBuffer = await generatePDF(
+      registration
+    );
+
     sendEmail(registration.email, pdfBuffer)
       .then(() => console.log("Email sent"))
-      .catch(err => console.error("Email failed:", err));
+      .catch((err) =>
+        console.error("Email failed:", err)
+      );
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: err.message });
+
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+);
+router.get("/photo/:id", async (req, res) => {
+  try {
+    const registration =
+      await Registration.findById(req.params.id);
+
+    if (
+      !registration ||
+      !registration.photo ||
+      !registration.photo.data
+    ) {
+      return res.status(404).send("No photo");
+    }
+
+    res.set(
+      "Content-Type",
+      registration.photo.contentType
+    );
+
+    res.send(registration.photo.data);
+
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
 
@@ -138,11 +223,14 @@ router.get("/:regNumber", async (req, res) => {
   try {
     const data = await Registration.findOne({
       regNumber: req.params.regNumber,
-    });
+    }).select("-photo");
 
     res.json(data);
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message,
+    });
   }
 });
 

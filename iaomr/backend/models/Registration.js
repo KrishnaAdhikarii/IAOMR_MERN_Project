@@ -3,9 +3,13 @@ const mongoose = require("mongoose");
 const registrationSchema = new mongoose.Schema(
   {
     name: String,
-    email: { type: String, unique: true },
+email: String,
     phone: String,
     gender: String,
+    photo: {
+      data: Buffer,
+      contentType: String,
+    },
     category: String,
     designation: String,
     iaomrNumber: String,
@@ -18,6 +22,7 @@ const registrationSchema = new mongoose.Schema(
     address: String,
     accompanying: Boolean,
     accompanyingName: String,
+    foodPreference: String,
     amount: Number,
     paymentId: String,
     regNumber: { type: String, unique: true },
@@ -27,5 +32,9 @@ const registrationSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// registrationSchema.index({ regNumber: 1 });
+// registrationSchema.index({ paymentId: 1 });
+// registrationSchema.index({ email: 1 });
 
 module.exports = mongoose.model("Registration", registrationSchema);
