@@ -87,18 +87,18 @@ export default function RegistrationForm() {
       ? `₹${totalAmount * USD_TO_INR} ($${totalAmount})`
       : `₹${totalAmount}`;
   const handleChange = (e) => {
-  const { name, value, type, checked, files } = e.target;
+    const { name, value, type, checked, files } = e.target;
 
-  setForm((prev) => ({
-    ...prev,
-    [name]:
-      type === "checkbox"
-        ? checked
-        : type === "file"
-        ? files?.[0]   // IMPORTANT
-        : value,
-  }));
-};
+    setForm((prev) => ({
+      ...prev,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : type === "file"
+            ? files?.[0]   // IMPORTANT
+            : value,
+    }));
+  };
 
 
   const handleSubmit = async (e) => {
@@ -108,7 +108,7 @@ export default function RegistrationForm() {
     // console.log("RAZORPAY KEY:", '8', import.meta.env.VITE_RAZORPAY_KEY);
     // console.log("KEY SECRET:", import.meta.env.VITE_RAZORPAY_SECRET);
 
-      console.log("PHOTO FILE:", form.photo);
+    console.log("PHOTO FILE:", form.photo);
 
     try {
       const { data: order } = await api.post("/registration/create-order", {
@@ -166,7 +166,11 @@ export default function RegistrationForm() {
 
             window.location.href = `/payment-success/${data.regNumber}`;
           } catch (err) {
-            alert("Payment done, but verification failed!");
+            console.error("VERIFY ERROR:", err.response?.data || err);
+            alert(
+              err.response?.data?.message ||
+              "Payment done, but verification failed!"
+            );
           }
         },
 
