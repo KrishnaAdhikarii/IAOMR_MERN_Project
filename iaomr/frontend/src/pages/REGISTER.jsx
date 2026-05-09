@@ -128,10 +128,7 @@ export default function RegistrationForm() {
           try {
             const formData = new FormData();
 
-            formData.append(
-              "form",
-              JSON.stringify(form)
-            );
+            formData.append("form", JSON.stringify(form));
 
             formData.append(
               "razorpay_order_id",
@@ -148,25 +145,30 @@ export default function RegistrationForm() {
               response.razorpay_signature
             );
 
-            formData.append(
-              "amount",
-              totalAmount
-            );
+            formData.append("amount", totalAmount);
 
             if (form.photo) {
-              formData.append(
-                "photo",
-                form.photo
-              );
+              formData.append("photo", form.photo);
             }
 
-            await api.post("/registration/verify-payment", formData);
+            const verifyRes = await api.post(
+              "/registration/verify-payment",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
 
-            console.log("VERIFY RESPONSE:", "8", data); // 👈 ADD THIS
+            console.log("VERIFY RESPONSE:", verifyRes.data);
 
-            window.location.href = `/payment-success/${data.regNumber}`;
+            window.location.href =
+              `/payment-success/${verifyRes.data.regNumber}`;
+
           } catch (err) {
             console.error("VERIFY ERROR:", err.response?.data || err);
+
             alert(
               err.response?.data?.message ||
               "Payment done, but verification failed!"
