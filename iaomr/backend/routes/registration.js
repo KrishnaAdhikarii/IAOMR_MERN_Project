@@ -118,10 +118,9 @@ function generatePDF(data) {
 }
 
 /* =========================
-   EMAIL
+   EMAIL FUNCTION (FIXED)
 ========================= */
 async function sendEmail(registration, pdfBuffer) {
-
   console.log("MAIL FUNCTION CALLED");
 
   const whatsappLinks = {
@@ -136,22 +135,21 @@ async function sendEmail(registration, pdfBuffer) {
     "https://chat.whatsapp.com/GENERAL-LINK";
 
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
-  transporter.verify((error) => {
-    if (error) {
-      console.log("❌ SMTP ERROR:", error);
-    } else {
-      console.log("✅ SMTP READY");
-    }
-  });
+  try {
+    await transporter.verify();
+    console.log("✅ SMTP VERIFIED");
+  } catch (err) {
+    console.error("❌ SMTP VERIFY FAILED:", err);
+  }
 
   const html = `
   <div style="font-family:Arial;">
@@ -167,20 +165,25 @@ async function sendEmail(registration, pdfBuffer) {
   </div>
   `;
 
-  const info = await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: registration.email,
-    subject: "Registration Confirmed - IAOMR 2026",
-    html,
-    attachments: [
-      {
-        filename: "receipt.pdf",
-        content: pdfBuffer,
-      },
-    ],
-  });
+  try {
+    const info = await transporter.sendMail({
+      from: `"IAOMR Registration" <${process.env.EMAIL_USER}>`,
+      to: registration.email,
+      subject: "Registration Confirmed - IAOMR 2026",
+      html,
+      attachments: [
+        {
+          filename: "receipt.pdf",
+          content: pdfBuffer,
+        },
+      ],
+    });
 
-  console.log("MAIL SENT:", info.messageId);
+    console.log("MAIL SENT:", info.messageId);
+
+  } catch (err) {
+    console.error("SEND MAIL ERROR:", err);
+  }
 }
 
 /* =========================
@@ -252,22 +255,23 @@ router.post(
 
       console.log("SAVED:", regNumber);
 
-      // RESPONSE FIRST (FIX FOR TIMEOUT)
+      // RESPONSE FIRST (important for Render timeout safety)
       res.json({
         success: true,
         regNumber,
       });
 
-      // BACKGROUND EMAIL
-      (async () => {
+      // BACKGROUND EMAIL (Render-safe)
+      setImmediate(async () => {
         try {
           const pdfBuffer = await generatePDF(registration);
+          console.log("📧 EMAIL STARTED");
           await sendEmail(registration, pdfBuffer);
           console.log("EMAIL DONE");
         } catch (err) {
           console.error("EMAIL ERROR:", err);
         }
-      })();
+      });
 
     } catch (err) {
       console.error(err);
@@ -296,7 +300,7 @@ router.get("/photo/:id", async (req, res) => {
 });
 
 /* =========================
-   GET BY REG NUMBER (FIXED 404 SAFETY)
+   GET BY REG NUMBER
 ========================= */
 router.get("/:regNumber", async (req, res) => {
   try {
