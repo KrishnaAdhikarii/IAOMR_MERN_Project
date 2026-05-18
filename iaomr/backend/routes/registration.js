@@ -6,19 +6,24 @@ const nodemailer = require("nodemailer");
 const PDFDocument = require("pdfkit");
 const QRCode = require("qrcode");
 const upload = require("../middleware/upload");
-
+const mongoose = require("mongoose");
 
 const Registration = require("../models/Registration");
 
+/* =========================
+   RAZORPAY INIT
+========================= */
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+/* =========================
+   REG NUMBER GENERATOR
+========================= */
 async function generateRegNumber(category) {
   const year = new Date().getFullYear();
 
-  // CATEGORY PREFIX
   const categoryMap = {
     "Post Graduate": "PG",
     Faculty: "FAC",
@@ -28,29 +33,18 @@ async function generateRegNumber(category) {
 
   const prefix = categoryMap[category] || "GEN";
 
-  // FIND LAST REGISTRATION
   const lastRegistration = await Registration.findOne({
     regNumber: new RegExp(`^IAOMR-${year}-${prefix}`),
-  })
-    .sort({ createdAt: -1 });
+  }).sort({ createdAt: -1 });
 
   let nextNumber = 1;
 
   if (lastRegistration) {
-    const lastRegNo = lastRegistration.regNumber;
-
-    // EXTRACT NUMBER
-    const match = lastRegNo.match(/(\d+)$/);
-
-    if (match) {
-      nextNumber = parseInt(match[1]) + 1;
-    }
+    const match = lastRegistration.regNumber.match(/(\d+)$/);
+    if (match) nextNumber = parseInt(match[1]) + 1;
   }
 
-  // PAD WITH ZEROS
-  const paddedNumber = String(nextNumber).padStart(2, "0");
-
-  return `IAOMR-${year}-${prefix}${paddedNumber}`;
+  return `IAOMR-${year}-${prefix}${String(nextNumber).padStart(2, "0")}`;
 }
 
 /* =========================
@@ -67,221 +61,14 @@ router.post("/create-order", async (req, res) => {
     });
 
     res.json(order);
-
   } catch (err) {
     console.error(err);
-
-    res.status(500).json({
-      message: "Order creation failed",
-    });
+    res.status(500).json({ message: "Order creation failed" });
   }
 });
-
-
-// hh
-router.get("/test-email", async (req, res) => {
-  try {
-    await sendEmail(
-      {
-        name: "Test User",
-        email: "krishnaadhikari0213@gmail.com",
-        regNumber: "TEST001",
-        category: "Post Graduate",
-      },
-      Buffer.from("Test PDF")
-    ); res.send("Email sent");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err.message);
-  }
-});
-/* =========================
-   VERIFY PAYMENT + SAVE + EMAIL
-
-========================= */
-const mongoose = require("mongoose");
-
-router.post("/verify-payment", (req, res, next) => {
-  console.log("🔥 HIT VERIFY ROUTE");
-  next();
-},
-  upload.single("photo"),
-  async (req, res) => {
-    try {
-      console.log("BODY:", req.body);
-      console.log("FILE:", req.file);
-
-      const {
-        razorpay_order_id,
-        razorpay_payment_id,
-        razorpay_signature,
-        amount,
-      } = req.body;
-
-      if (
-        !razorpay_order_id ||
-        !razorpay_payment_id ||
-        !razorpay_signature
-      ) {
-        return res.status(400).json({
-          message: "Missing Razorpay fields",
-        });
-      }
-
-      if (!req.body.form) {
-        return res
-          .status(400)
-          .json({ message: "Form data missing" });
-      }
-
-      let form;
-
-      try {
-        form = JSON.parse(req.body.form);
-      } catch (err) {
-        return res.status(400).json({
-          message: "Invalid form JSON",
-        });
-      }
-
-      // VERIFY SIGNATURE
-      const body =
-        razorpay_order_id +
-        "|" +
-        razorpay_payment_id;
-
-      const expectedSignature = crypto
-        .createHmac(
-          "sha256",
-          process.env.RAZORPAY_KEY_SECRET
-        )
-        .update(body.toString())
-        .digest("hex");
-
-      if (expectedSignature !== razorpay_signature) {
-        return res
-          .status(400)
-          .json({ message: "Invalid signature" });
-      }
-
-      // GENERATE UNIQUE REG NUMBER
-      const regNumber = await generateRegNumber(
-        form.category
-      );
-
-      // GENERATE QR
-      const qrData = JSON.stringify({
-        regNumber,
-        name: form.name,
-        paymentId: razorpay_payment_id,
-      });
-
-      const qrCode = await QRCode.toDataURL(qrData);
-
-      // CREATE REGISTRATION OBJECT
-      const registration = new Registration({
-        ...form,
-
-        amount,
-
-        paymentId: razorpay_payment_id,
-
-        orderId: razorpay_order_id,
-
-        regNumber,
-
-        qrCode,
-
-        status: "PAID",
-
-        photo: req.file
-          ? {
-            data: req.file.buffer,
-            contentType: req.file.mimetype,
-          }
-          : undefined,
-      });
-
-      // SAVE TO DB
-      await registration.save();
-
-      console.log("✅ SAVED:", registration.regNumber);
-
-      // GENERATE PDF
-      const pdfBuffer = await generatePDF(
-        registration
-      );
-
-      // SEND EMAIL
-      try {
-        await sendEmail(registration, pdfBuffer);
-        console.log("✅ Email sent successfully");
-      } catch (err) {
-        console.error("❌ EMAIL ERROR FULL:", err);
-      }
-
-      // SEND RESPONSE
-      res.json({
-        success: true,
-        regNumber: registration.regNumber,
-      });
-
-    } catch (err) {
-      console.error(err);
-
-      res.status(500).json({
-        message: err.message,
-      });
-    }
-  }
-);
-router.get("/photo/:id", async (req, res) => {
-  try {
-    const registration =
-      await Registration.findById(req.params.id);
-
-    if (
-      !registration ||
-      !registration.photo ||
-      !registration.photo.data
-    ) {
-      return res.status(404).send("No photo");
-    }
-
-    res.set(
-      "Content-Type",
-      registration.photo.contentType
-    );
-
-    res.send(registration.photo.data);
-
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
 
 /* =========================
-   GET REGISTRATION (for success page)
-========================= */
-router.get("/:regNumber", async (req, res) => {
-  try {
-    const data = await Registration.findOne({
-      regNumber: req.params.regNumber,
-    }).select("-photo");
-
-    res.json(data);
-
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-});
-
-
-/* =========================
-   PDF
+   PDF GENERATOR
 ========================= */
 function generatePDF(data) {
   return new Promise((resolve) => {
@@ -304,204 +91,58 @@ function generatePDF(data) {
   });
 }
 
+/* =========================
+   TRANSPORTER (GLOBAL - FIXED)
+========================= */
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, // MUST BE APP PASSWORD
+  },
+});
 
 /* =========================
-   EMAIL
+   EMAIL FUNCTION
 ========================= */
 async function sendEmail(registration, pdfBuffer) {
-  console.log("Mail Sent");
-  // CATEGORY-BASED WHATSAPP LINKS
+
   const whatsappLinks = {
-    "Post Graduate":
-      "https://chat.whatsapp.com/PG-LINK",
-
-    Faculty:
-      "https://chat.whatsapp.com/FACULTY-LINK",
-
-    Practitioner:
-      "https://chat.whatsapp.com/PRACTITIONER-LINK",
-
-    "Foreign Delegate":
-      "https://chat.whatsapp.com/FOREIGN-LINK",
+    "Post Graduate": "https://chat.whatsapp.com/PG-LINK",
+    Faculty: "https://chat.whatsapp.com/FACULTY-LINK",
+    Practitioner: "https://chat.whatsapp.com/PRA-LINK",
+    "Foreign Delegate": "https://chat.whatsapp.com/FOREIGN-LINK",
   };
 
   const whatsappLink =
     whatsappLinks[registration.category] ||
     "https://chat.whatsapp.com/GENERAL-LINK";
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  transporter.verify((error, success) => {
-    if (error) {
-      console.log("❌ Transport Error:", error);
-    } else {
-      console.log("✅ Server ready to send emails");
-    }
-  });
-
   const html = `
-  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-    
-    <h2 style="color:#0b5394;">
-      Registration Confirmed – Your ID & Payment Receipt
-    </h2>
+  <div style="font-family:Arial; line-height:1.6;">
+    <h2>Registration Confirmed</h2>
 
-    <p>
-      Dear Dr. <strong>${registration.name}</strong>,
-    </p>
+    <p>Dear Dr. <b>${registration.name}</b>,</p>
 
-    <p>
-      Thank you for registering for the
-      <strong>24th NATIONAL IAOMR PG CONVENTION 2026</strong>,
-      scheduled to be held from
-      <strong>6th to 8th August 2026</strong>
-      at
-      <strong>
-        Anil Neerukonda Institute Of Dental Sciences,
-        Visakhapatnam, Andhra Pradesh
-      </strong>.
-    </p>
+    <p>Your registration is confirmed for IAOMR 2026.</p>
 
-    <p>
-      We are pleased to confirm that your registration
-      has been successfully completed and your payment
-      has been received.
-    </p>
+    <h3>Details:</h3>
+    <p><b>ID:</b> ${registration.regNumber}</p>
+    <p><b>Name:</b> ${registration.name}</p>
+    <p><b>Email:</b> ${registration.email}</p>
+    <p><b>Category:</b> ${registration.category}</p>
 
-    <hr />
-
-    <h3>📋 REGISTRATION DETAILS</h3>
-
-    <p>
-      <strong>🪪 Registration ID:</strong>
-      ${registration.regNumber}
-    </p>
-
-    <p>
-      <strong>👤 Registered Name:</strong>
-      ${registration.name}
-    </p>
-
-    <p>
-      <strong>📧 Email Address:</strong>
-      ${registration.email}
-    </p>
-
-    <p>
-      <strong>📦 Category:</strong>
-      ${registration.category}
-    </p>
-
-    <hr />
-
-    <h3>Registration Includes:</h3>
-
-    <p>
-      2 Breakfasts, 2 Lunches, 1 Gala Banquet, Gift,
-      Attendance Certificate & Visit to Trade Exhibition,
-      Inclusive of 18% GST.
-    </p>
-
-    <p>
-      If you need any corrections to your name spelling,
-      kindly inform us in advance.
-    </p>
-
-    <p>
-      Please find your official payment receipt attached
-      to this email for your records.
-    </p>
-
-    <hr />
-
-    <h3>📲 WhatsApp Group</h3>
-
-    <p>
-      Join your category WhatsApp group:
-    </p>
-
-    <p>
-      <a
-        href="${whatsappLink}"
-        style="
-          background:#25D366;
-          color:white;
-          padding:10px 18px;
-          text-decoration:none;
-          border-radius:6px;
-          font-weight:bold;
-        "
-      >
-        Join WhatsApp Group
-      </a>
-    </p>
-
-    <hr />
-
-    <h3>📞 Contact Information</h3>
-
-    <p><strong>For Registration Queries:</strong></p>
-    <p>
-      Dr. B Badari Ramakrishna -
-      +91 9885426232
-    </p>
-
-    <p>
-      Dr. V Rahul Marshal -
-      +91 9848720046
-    </p>
-
-    <p><strong>For Scientific Queries:</strong></p>
-    <p>
-      Dr. N. Rajesh -
-      +91 9885067499
-    </p>
-
-    <p><strong>For Hospitality and Accommodation:</strong></p>
-
-    <p>
-      Dr. K.V. Lokesh -
-      +91 9885164196
-      (Preferably WhatsApp)
-    </p>
-
-    <p>
-      📧 24thiaomrpgconvention2026@gmail.com
-    </p>
-
-    <p>
-      🌐 www.iaomrpgconvene2026.com
-    </p>
-
-    <br />
-
-    <p>
-      We look forward to welcoming you to the
-      IAOMR 24th National PG Convention, 2026.
-    </p>
-
-    <br />
-
-    <p>
-      Warm regards,<br />
-      <strong>Organizing Committee</strong><br />
-      24th National IAOMR PG Convention, 2026
-    </p>
-
+    <h3>WhatsApp Group</h3>
+    <a href="${whatsappLink}">Join Group</a>
   </div>
   `;
 
   const info = await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: registration.email,
-    subject:
-      "Registration Confirmed – Your ID & Payment Receipt—IAOMR 24th National PG Convention 2026",
+    subject: "Registration Confirmed - IAOMR 2026",
     html,
     attachments: [
       {
@@ -511,7 +152,103 @@ async function sendEmail(registration, pdfBuffer) {
     ],
   });
 
-  console.log("MAIL RESPONSE:", info);
+  console.log("MAIL RESPONSE:", info.messageId);
 }
+
+/* =========================
+   VERIFY PAYMENT ROUTE (FIXED)
+========================= */
+router.post(
+  "/verify-payment",
+  upload.single("photo"),
+  async (req, res) => {
+    try {
+      console.log("VERIFY HIT");
+
+      const {
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+        amount,
+      } = req.body;
+
+      if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+        return res.status(400).json({ message: "Missing Razorpay fields" });
+      }
+
+      if (!req.body.form) {
+        return res.status(400).json({ message: "Form missing" });
+      }
+
+      const form = JSON.parse(req.body.form);
+
+      // VERIFY SIGNATURE
+      const body = razorpay_order_id + "|" + razorpay_payment_id;
+
+      const expectedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(body)
+        .digest("hex");
+
+      if (expectedSignature !== razorpay_signature) {
+        return res.status(400).json({ message: "Invalid signature" });
+      }
+
+      // REG NUMBER
+      const regNumber = await generateRegNumber(form.category);
+
+      // QR
+      const qrCode = await QRCode.toDataURL(
+        JSON.stringify({
+          regNumber,
+          name: form.name,
+          paymentId: razorpay_payment_id,
+        })
+      );
+
+      // SAVE DB
+      const registration = new Registration({
+        ...form,
+        amount,
+        paymentId: razorpay_payment_id,
+        orderId: razorpay_order_id,
+        regNumber,
+        qrCode,
+        status: "PAID",
+        photo: req.file
+          ? {
+              data: req.file.buffer,
+              contentType: req.file.mimetype,
+            }
+          : undefined,
+      });
+
+      await registration.save();
+
+      console.log("SAVED:", regNumber);
+
+      // 🔥 SEND RESPONSE FIRST (IMPORTANT FIX)
+      res.json({
+        success: true,
+        regNumber,
+      });
+
+      // 🔥 EMAIL IN BACKGROUND (NO TIMEOUT)
+      (async () => {
+        try {
+          const pdfBuffer = await generatePDF(registration);
+          await sendEmail(registration, pdfBuffer);
+          console.log("EMAIL SENT SUCCESS");
+        } catch (err) {
+          console.error("EMAIL ERROR:", err);
+        }
+      })();
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
 
 module.exports = router;
