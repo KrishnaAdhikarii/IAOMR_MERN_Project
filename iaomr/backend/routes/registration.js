@@ -81,8 +81,15 @@ router.post("/create-order", async (req, res) => {
 // hh
 router.get("/test-email", async (req, res) => {
   try {
-    await sendEmail("krishnaadhikari0213@gmail.com", Buffer.from("Test"));
-    res.send("Email sent");
+    await sendEmail(
+      {
+        name: "Test User",
+        email: "krishnaadhikari0213@gmail.com",
+        regNumber: "TEST001",
+        category: "Post Graduate",
+      },
+      Buffer.from("Test PDF")
+    ); res.send("Email sent");
   } catch (err) {
     console.error(err);
     res.status(500).send(err.message);
@@ -206,12 +213,12 @@ router.post("/verify-payment", (req, res, next) => {
       );
 
       // SEND EMAIL
-      sendEmail(registration, pdfBuffer).then(() =>
-        console.log("✅ Email sent")
-      )
-        .catch((err) =>
-          console.error("❌ Email failed:", err)
-        );
+      try {
+        await sendEmail(registration, pdfBuffer);
+        console.log("✅ Email sent successfully");
+      } catch (err) {
+        console.error("❌ EMAIL ERROR FULL:", err);
+      }
 
       // SEND RESPONSE
       res.json({
@@ -301,9 +308,6 @@ function generatePDF(data) {
 /* =========================
    EMAIL
 ========================= */
-/* =========================
-   EMAIL
-========================= */
 async function sendEmail(registration, pdfBuffer) {
   console.log("Mail Sent");
   // CATEGORY-BASED WHATSAPP LINKS
@@ -331,6 +335,14 @@ async function sendEmail(registration, pdfBuffer) {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+  });
+
+  transporter.verify((error, success) => {
+    if (error) {
+      console.log("❌ Transport Error:", error);
+    } else {
+      console.log("✅ Server ready to send emails");
+    }
   });
 
   const html = `
@@ -485,15 +497,12 @@ async function sendEmail(registration, pdfBuffer) {
   </div>
   `;
 
-  await transporter.sendMail({
+  const info = await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: registration.email,
-
     subject:
       "Registration Confirmed – Your ID & Payment Receipt—IAOMR 24th National PG Convention 2026",
-
     html,
-
     attachments: [
       {
         filename: "receipt.pdf",
@@ -501,6 +510,8 @@ async function sendEmail(registration, pdfBuffer) {
       },
     ],
   });
+
+  console.log("MAIL RESPONSE:", info);
 }
 
 module.exports = router;
