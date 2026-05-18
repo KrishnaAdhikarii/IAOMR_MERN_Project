@@ -305,7 +305,7 @@ function generatePDF(data) {
    EMAIL
 ========================= */
 async function sendEmail(registration, pdfBuffer) {
-
+  console.log("Mail Sent");
   // CATEGORY-BASED WHATSAPP LINKS
   const whatsappLinks = {
     "Post Graduate":
