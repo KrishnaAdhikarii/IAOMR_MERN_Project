@@ -15,10 +15,42 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-function generateRegNumber() {
+async function generateRegNumber(category) {
   const year = new Date().getFullYear();
-  const random = Math.floor(100000 + Math.random() * 900000);
-  return `IAOMR-${year}-${random}`;
+
+  // CATEGORY PREFIX
+  const categoryMap = {
+    "Post Graduate": "PG",
+    Faculty: "FAC",
+    Practitioner: "PRA",
+    "Foreign Delegate": "FOR",
+  };
+
+  const prefix = categoryMap[category] || "GEN";
+
+  // FIND LAST REGISTRATION
+  const lastRegistration = await Registration.findOne({
+    regNumber: new RegExp(`^IAOMR-${year}-${prefix}`),
+  })
+    .sort({ createdAt: -1 });
+
+  let nextNumber = 1;
+
+  if (lastRegistration) {
+    const lastRegNo = lastRegistration.regNumber;
+
+    // EXTRACT NUMBER
+    const match = lastRegNo.match(/(\d+)$/);
+
+    if (match) {
+      nextNumber = parseInt(match[1]) + 1;
+    }
+  }
+
+  // PAD WITH ZEROS
+  const paddedNumber = String(nextNumber).padStart(2, "0");
+
+  return `IAOMR-${year}-${prefix}${paddedNumber}`;
 }
 
 /* =========================
@@ -62,12 +94,10 @@ router.get("/test-email", async (req, res) => {
 ========================= */
 const mongoose = require("mongoose");
 
-router.post(
-  "/verify-payment",
-  (req, res, next) => {
-    console.log("🔥 HIT VERIFY ROUTE");
-    next();
-  },
+router.post("/verify-payment", (req, res, next) => {
+  console.log("🔥 HIT VERIFY ROUTE");
+  next();
+},
   upload.single("photo"),
   async (req, res) => {
     try {
@@ -128,18 +158,9 @@ router.post(
       }
 
       // GENERATE UNIQUE REG NUMBER
-      let regNumber;
-      let exists = true;
-
-      while (exists) {
-        regNumber = generateRegNumber();
-
-        const check = await Registration.findOne({
-          regNumber,
-        });
-
-        if (!check) exists = false;
-      }
+      const regNumber = await generateRegNumber(
+        form.category
+      );
 
       // GENERATE QR
       const qrData = JSON.stringify({
