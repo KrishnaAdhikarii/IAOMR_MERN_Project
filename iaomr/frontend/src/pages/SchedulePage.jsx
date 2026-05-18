@@ -275,7 +275,7 @@ export function Office_bearers() {
 import rahul from "../images/rahul.png"
 import rajesh from "../images/rajesh.png"
 import lokesh from "../images/lokesh.png"
-import upendra from "../images/upendra.png"
+import upendra from "../images/upendra2.png"
 import badari from "../images/hod.png"
 import princi from "../images/princi.png"
 
@@ -311,7 +311,7 @@ export function CommitteePage() {
     {
       name: "Dr. K. V. Lokesh",
       role: "Treasurer",
-      img: "/assets/team/lokesh.png",
+      img: "/assets/team/lokesh2.png",
       img: lokesh
 
     },
@@ -524,7 +524,17 @@ export function VenuePage() {
               ></iframe>
               <div className='venue-name' style={{ textShadow: '0px 1px 02px #000' }}>
                 {/* <i className="fa-solid fa-location-arrow"></i>                Anil Neerukonda Institute of Dental Sciences, <br />Visakhapatnam <br /> */}
-                <button className="maps-button">Get Directions  ➜</button></div>
+                <button
+                  className="maps-button"
+                  onClick={() =>
+                    window.open(
+                      "https://www.google.com/maps/dir/?api=1&destination=Anil+Neerukonda+Institute+of+Dental+Sciences+Visakhapatnam",
+                      "_blank"
+                    )
+                  }
+                >
+                  Get Directions ➜
+                </button>                </div>
             </div>
 
           </div>

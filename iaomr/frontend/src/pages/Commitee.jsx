@@ -6,7 +6,7 @@ import badari from "../images/hod.png";
 import rahul from "../images/rahul.png";
 import rajesh from "../images/rajesh.png";
 import lokesh from "../images/lokesh.png";
-import upendra from "../images/upendra.png";
+import upendra from "../images/upendra2.png";
 
 const styles = {
   page: {

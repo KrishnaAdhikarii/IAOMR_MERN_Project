@@ -213,6 +213,7 @@ export default function HomePage() {
               <div className="hero_button">
                 <button
                   className={`hero-button ${hover ? "hover" : ""} ${active ? "active" : ""}`}
+                  onClick={() => (window.location.href = "/register-delegate")}
                   onMouseEnter={() => setHover(true)}
                   onMouseLeave={() => {
                     setHover(false);

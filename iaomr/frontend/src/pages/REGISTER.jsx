@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import api from '../utils/api';
 
 
-import placeholder from "../images/img.jpg";
+import placeholder from "../images/Banner.png";
 
 
 const PRICING = {

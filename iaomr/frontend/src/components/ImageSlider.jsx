@@ -3,6 +3,7 @@ import img1 from "../images/slider1.jpg";
 import img2 from "../images/slider2.jpeg";
 import img3 from "../images/slider3.jpg";
 
+
 import v7 from "../images/vizag/v7.jpg"
 import v8 from "../images/vizag/v8.jpg"
 import v9 from "../images/vizag/v9.jpg"
