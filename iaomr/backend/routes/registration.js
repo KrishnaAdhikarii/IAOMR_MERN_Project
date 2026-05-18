@@ -44,7 +44,9 @@ async function generateRegNumber(category) {
     if (match) nextNumber = parseInt(match[1]) + 1;
   }
 
-  return `IAOMR-${year}-${prefix}${String(nextNumber).padStart(2, "0")}`;
+  const paddedNumber = String(nextNumber).padStart(2, "0");
+
+  return `IAOMR-${year}-${prefix}${paddedNumber}`;
 }
 
 /* =========================
@@ -61,9 +63,33 @@ router.post("/create-order", async (req, res) => {
     });
 
     res.json(order);
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Order creation failed" });
+  }
+});
+
+/* =========================
+   TEST EMAIL
+========================= */
+router.get("/test-email", async (req, res) => {
+  try {
+    await sendEmail(
+      {
+        name: "Test User",
+        email: "krishnaadhikari0213@gmail.com",
+        regNumber: "TEST001",
+        category: "Post Graduate",
+      },
+      Buffer.from("Test PDF")
+    );
+
+    res.send("Email sent");
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
   }
 });
 
@@ -92,27 +118,16 @@ function generatePDF(data) {
 }
 
 /* =========================
-   TRANSPORTER (GLOBAL - FIXED)
-========================= */
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // MUST BE APP PASSWORD
-  },
-});
-
-/* =========================
-   EMAIL FUNCTION
+   EMAIL
 ========================= */
 async function sendEmail(registration, pdfBuffer) {
+
+  console.log("MAIL FUNCTION CALLED");
 
   const whatsappLinks = {
     "Post Graduate": "https://chat.whatsapp.com/PG-LINK",
     Faculty: "https://chat.whatsapp.com/FACULTY-LINK",
-    Practitioner: "https://chat.whatsapp.com/PRA-LINK",
+    Practitioner: "https://chat.whatsapp.com/PRACTITIONER-LINK",
     "Foreign Delegate": "https://chat.whatsapp.com/FOREIGN-LINK",
   };
 
@@ -120,22 +135,35 @@ async function sendEmail(registration, pdfBuffer) {
     whatsappLinks[registration.category] ||
     "https://chat.whatsapp.com/GENERAL-LINK";
 
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  transporter.verify((error) => {
+    if (error) {
+      console.log("❌ SMTP ERROR:", error);
+    } else {
+      console.log("✅ SMTP READY");
+    }
+  });
+
   const html = `
-  <div style="font-family:Arial; line-height:1.6;">
+  <div style="font-family:Arial;">
     <h2>Registration Confirmed</h2>
 
-    <p>Dear Dr. <b>${registration.name}</b>,</p>
+    <p>Dear Dr. <b>${registration.name}</b></p>
 
-    <p>Your registration is confirmed for IAOMR 2026.</p>
-
-    <h3>Details:</h3>
     <p><b>ID:</b> ${registration.regNumber}</p>
-    <p><b>Name:</b> ${registration.name}</p>
     <p><b>Email:</b> ${registration.email}</p>
     <p><b>Category:</b> ${registration.category}</p>
 
-    <h3>WhatsApp Group</h3>
-    <a href="${whatsappLink}">Join Group</a>
+    <a href="${whatsappLink}">Join WhatsApp Group</a>
   </div>
   `;
 
@@ -152,17 +180,18 @@ async function sendEmail(registration, pdfBuffer) {
     ],
   });
 
-  console.log("MAIL RESPONSE:", info.messageId);
+  console.log("MAIL SENT:", info.messageId);
 }
 
 /* =========================
-   VERIFY PAYMENT ROUTE (FIXED)
+   VERIFY PAYMENT
 ========================= */
 router.post(
   "/verify-payment",
   upload.single("photo"),
   async (req, res) => {
     try {
+
       console.log("VERIFY HIT");
 
       const {
@@ -182,7 +211,6 @@ router.post(
 
       const form = JSON.parse(req.body.form);
 
-      // VERIFY SIGNATURE
       const body = razorpay_order_id + "|" + razorpay_payment_id;
 
       const expectedSignature = crypto
@@ -194,10 +222,8 @@ router.post(
         return res.status(400).json({ message: "Invalid signature" });
       }
 
-      // REG NUMBER
       const regNumber = await generateRegNumber(form.category);
 
-      // QR
       const qrCode = await QRCode.toDataURL(
         JSON.stringify({
           regNumber,
@@ -206,7 +232,6 @@ router.post(
         })
       );
 
-      // SAVE DB
       const registration = new Registration({
         ...form,
         amount,
@@ -227,18 +252,18 @@ router.post(
 
       console.log("SAVED:", regNumber);
 
-      // 🔥 SEND RESPONSE FIRST (IMPORTANT FIX)
+      // RESPONSE FIRST (FIX FOR TIMEOUT)
       res.json({
         success: true,
         regNumber,
       });
 
-      // 🔥 EMAIL IN BACKGROUND (NO TIMEOUT)
+      // BACKGROUND EMAIL
       (async () => {
         try {
           const pdfBuffer = await generatePDF(registration);
           await sendEmail(registration, pdfBuffer);
-          console.log("EMAIL SENT SUCCESS");
+          console.log("EMAIL DONE");
         } catch (err) {
           console.error("EMAIL ERROR:", err);
         }
@@ -250,5 +275,46 @@ router.post(
     }
   }
 );
+
+/* =========================
+   PHOTO ROUTE
+========================= */
+router.get("/photo/:id", async (req, res) => {
+  try {
+    const registration = await Registration.findById(req.params.id);
+
+    if (!registration || !registration.photo) {
+      return res.status(404).send("No photo");
+    }
+
+    res.set("Content-Type", registration.photo.contentType);
+    res.send(registration.photo.data);
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+/* =========================
+   GET BY REG NUMBER (FIXED 404 SAFETY)
+========================= */
+router.get("/:regNumber", async (req, res) => {
+  try {
+    const data = await Registration.findOne({
+      regNumber: req.params.regNumber,
+    }).select("-photo");
+
+    if (!data) {
+      return res.status(404).json({
+        message: "Registration not found",
+      });
+    }
+
+    res.json(data);
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;
