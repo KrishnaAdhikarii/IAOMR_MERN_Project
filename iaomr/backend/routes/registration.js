@@ -206,10 +206,9 @@ router.post("/verify-payment", (req, res, next) => {
       );
 
       // SEND EMAIL
-      sendEmail(registration.email, pdfBuffer)
-        .then(() =>
-          console.log("✅ Email sent")
-        )
+      sendEmail(registration, pdfBuffer).then(() =>
+        console.log("✅ Email sent")
+      )
         .catch((err) =>
           console.error("❌ Email failed:", err)
         );
