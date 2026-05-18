@@ -91,21 +91,47 @@ async function sendEmail(registration, pdfBuffer) {
     "https://chat.whatsapp.com/GENERAL-LINK";
 
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: Number(process.env.SMTP_PORT) === 465,
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // IMPORTANT (must be false for 587)
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
 
+  router.get("/smtp-test", async (req, res) => {
+  const nodemailer = require("nodemailer");
+
   try {
-    await transporter.verify();
-    console.log("SMTP VERIFIED SUCCESSFULLY");
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: "SMTP TEST",
+      text: "If you got this email, SMTP works",
+    });
+
+    res.json(info);
   } catch (err) {
-    console.error("SMTP VERIFY FAILED:", err);
+    console.error(err);
+    res.status(500).send(err.message);
   }
+});
+  
+  console.log("Skipping SMTP verify (cloud-safe mode)");
 
   const html = `
     <div style="font-family:Arial;">
@@ -246,9 +272,9 @@ router.post(
         status: "PAID",
         photo: req.file
           ? {
-              data: req.file.buffer,
-              contentType: req.file.mimetype,
-            }
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+          }
           : undefined,
       });
 
