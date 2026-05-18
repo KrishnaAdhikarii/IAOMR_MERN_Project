@@ -83,14 +83,15 @@ router.get("/test-email", async (req, res) => {
         category: "Post Graduate",
       },
       Buffer.from("Test PDF")
+      console.log("INSIDE EMAIL FUNCTION");
     );
 
-    res.send("Email sent");
+res.send("Email sent");
 
   } catch (err) {
-    console.error(err);
-    res.status(500).send(err.message);
-  }
+  console.error(err);
+  res.status(500).send(err.message);
+}
 });
 
 /* =========================
@@ -122,7 +123,7 @@ function generatePDF(data) {
 ========================= */
 async function sendEmail(registration, pdfBuffer) {
   console.log("MAIL FUNCTION CALLED");
-
+  console.log("INSIDE EMAIL FUNCTION");
   const whatsappLinks = {
     "Post Graduate": "https://chat.whatsapp.com/PG-LINK",
     Faculty: "https://chat.whatsapp.com/FACULTY-LINK",
@@ -135,17 +136,18 @@ async function sendEmail(registration, pdfBuffer) {
     "https://chat.whatsapp.com/GENERAL-LINK";
 
   const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: Number(process.env.SMTP_PORT) === 465, // IMPORTANT FIX
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
   try {
     await transporter.verify();
+    console.log("SMTP VERIFIED SUCCESSFULLY");
     console.log("✅ SMTP VERIFIED");
   } catch (err) {
     console.error("❌ SMTP VERIFY FAILED:", err);
@@ -182,7 +184,8 @@ async function sendEmail(registration, pdfBuffer) {
     console.log("MAIL SENT:", info.messageId);
 
   } catch (err) {
-    console.error("SEND MAIL ERROR:", err);
+    console.error("❌ EMAIL FAILED FULL ERROR:");
+    console.error(err);
   }
 }
 
@@ -245,9 +248,9 @@ router.post(
         status: "PAID",
         photo: req.file
           ? {
-              data: req.file.buffer,
-              contentType: req.file.mimetype,
-            }
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+          }
           : undefined,
       });
 
@@ -262,63 +265,59 @@ router.post(
       });
 
       // BACKGROUND EMAIL (Render-safe)
-      setImmediate(async () => {
+      setImmediate(() => {
+        (async () => {
+          try {
+            const pdfBuffer = await generatePDF(registration);
+            console.log("📧 EMAIL STARTED");
+            console.log("CALLING EMAIL FUNCTION");
+            await sendEmail(registration, pdfBuffer);
+            console.log("EMAIL DONE");
+          } catch (err) {
+            console.error("EMAIL ERROR:", err);
+          }
+        })();
+      });
+
+      /* =========================
+         PHOTO ROUTE
+      ========================= */
+      router.get("/photo/:id", async (req, res) => {
         try {
-          const pdfBuffer = await generatePDF(registration);
-          console.log("📧 EMAIL STARTED");
-          await sendEmail(registration, pdfBuffer);
-          console.log("EMAIL DONE");
+          const registration = await Registration.findById(req.params.id);
+
+          if (!registration || !registration.photo) {
+            return res.status(404).send("No photo");
+          }
+
+          res.set("Content-Type", registration.photo.contentType);
+          res.send(registration.photo.data);
+
         } catch (err) {
-          console.error("EMAIL ERROR:", err);
+          res.status(500).send(err.message);
         }
       });
 
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
-    }
-  }
-);
+      /* =========================
+         GET BY REG NUMBER
+      ========================= */
+      router.get("/:regNumber", async (req, res) => {
+        try {
+          const data = await Registration.findOne({
+            regNumber: req.params.regNumber,
+          }).select("-photo");
 
-/* =========================
-   PHOTO ROUTE
-========================= */
-router.get("/photo/:id", async (req, res) => {
-  try {
-    const registration = await Registration.findById(req.params.id);
+          if (!data) {
+            return res.status(404).json({
+              message: "Registration not found",
+            });
+          }
 
-    if (!registration || !registration.photo) {
-      return res.status(404).send("No photo");
-    }
+          res.json(data);
 
-    res.set("Content-Type", registration.photo.contentType);
-    res.send(registration.photo.data);
-
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
-/* =========================
-   GET BY REG NUMBER
-========================= */
-router.get("/:regNumber", async (req, res) => {
-  try {
-    const data = await Registration.findOne({
-      regNumber: req.params.regNumber,
-    }).select("-photo");
-
-    if (!data) {
-      return res.status(404).json({
-        message: "Registration not found",
+        } catch (err) {
+          res.status(500).json({ message: err.message });
+        }
       });
-    }
 
-    res.json(data);
-
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-module.exports = router;
+      module.exports = router;
