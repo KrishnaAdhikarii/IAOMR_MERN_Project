@@ -302,7 +302,30 @@ function generatePDF(data) {
 /* =========================
    EMAIL
 ========================= */
-async function sendEmail(to, pdfBuffer) {
+/* =========================
+   EMAIL
+========================= */
+async function sendEmail(registration, pdfBuffer) {
+
+  // CATEGORY-BASED WHATSAPP LINKS
+  const whatsappLinks = {
+    "Post Graduate":
+      "https://chat.whatsapp.com/PG-LINK",
+
+    Faculty:
+      "https://chat.whatsapp.com/FACULTY-LINK",
+
+    Practitioner:
+      "https://chat.whatsapp.com/PRACTITIONER-LINK",
+
+    "Foreign Delegate":
+      "https://chat.whatsapp.com/FOREIGN-LINK",
+  };
+
+  const whatsappLink =
+    whatsappLinks[registration.category] ||
+    "https://chat.whatsapp.com/GENERAL-LINK";
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -311,11 +334,167 @@ async function sendEmail(to, pdfBuffer) {
     },
   });
 
+  const html = `
+  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    
+    <h2 style="color:#0b5394;">
+      Registration Confirmed – Your ID & Payment Receipt
+    </h2>
+
+    <p>
+      Dear Dr. <strong>${registration.name}</strong>,
+    </p>
+
+    <p>
+      Thank you for registering for the
+      <strong>24th NATIONAL IAOMR PG CONVENTION 2026</strong>,
+      scheduled to be held from
+      <strong>6th to 8th August 2026</strong>
+      at
+      <strong>
+        Anil Neerukonda Institute Of Dental Sciences,
+        Visakhapatnam, Andhra Pradesh
+      </strong>.
+    </p>
+
+    <p>
+      We are pleased to confirm that your registration
+      has been successfully completed and your payment
+      has been received.
+    </p>
+
+    <hr />
+
+    <h3>📋 REGISTRATION DETAILS</h3>
+
+    <p>
+      <strong>🪪 Registration ID:</strong>
+      ${registration.regNumber}
+    </p>
+
+    <p>
+      <strong>👤 Registered Name:</strong>
+      ${registration.name}
+    </p>
+
+    <p>
+      <strong>📧 Email Address:</strong>
+      ${registration.email}
+    </p>
+
+    <p>
+      <strong>📦 Category:</strong>
+      ${registration.category}
+    </p>
+
+    <hr />
+
+    <h3>Registration Includes:</h3>
+
+    <p>
+      2 Breakfasts, 2 Lunches, 1 Gala Banquet, Gift,
+      Attendance Certificate & Visit to Trade Exhibition,
+      Inclusive of 18% GST.
+    </p>
+
+    <p>
+      If you need any corrections to your name spelling,
+      kindly inform us in advance.
+    </p>
+
+    <p>
+      Please find your official payment receipt attached
+      to this email for your records.
+    </p>
+
+    <hr />
+
+    <h3>📲 WhatsApp Group</h3>
+
+    <p>
+      Join your category WhatsApp group:
+    </p>
+
+    <p>
+      <a
+        href="${whatsappLink}"
+        style="
+          background:#25D366;
+          color:white;
+          padding:10px 18px;
+          text-decoration:none;
+          border-radius:6px;
+          font-weight:bold;
+        "
+      >
+        Join WhatsApp Group
+      </a>
+    </p>
+
+    <hr />
+
+    <h3>📞 Contact Information</h3>
+
+    <p><strong>For Registration Queries:</strong></p>
+    <p>
+      Dr. B Badari Ramakrishna -
+      +91 9885426232
+    </p>
+
+    <p>
+      Dr. V Rahul Marshal -
+      +91 9848720046
+    </p>
+
+    <p><strong>For Scientific Queries:</strong></p>
+    <p>
+      Dr. N. Rajesh -
+      +91 9885067499
+    </p>
+
+    <p><strong>For Hospitality and Accommodation:</strong></p>
+
+    <p>
+      Dr. K.V. Lokesh -
+      +91 9885164196
+      (Preferably WhatsApp)
+    </p>
+
+    <p>
+      📧 24thiaomrpgconvention2026@gmail.com
+    </p>
+
+    <p>
+      🌐 www.iaomrpgconvene2026.com
+    </p>
+
+    <br />
+
+    <p>
+      We look forward to welcoming you to the
+      IAOMR 24th National PG Convention, 2026.
+    </p>
+
+    <br />
+
+    <p>
+      Warm regards,<br />
+      <strong>Organizing Committee</strong><br />
+      24th National IAOMR PG Convention, 2026
+    </p>
+
+  </div>
+  `;
+
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
-    to,
-    subject: "Registration Successful",
-    text: "Your registration is confirmed. Receipt attached.",
+    to: registration.email,
+
+    subject:
+      "Registration Confirmed – Your ID & Payment Receipt—IAOMR 24th National PG Convention 2026",
+
+    html,
+
     attachments: [
       {
         filename: "receipt.pdf",
