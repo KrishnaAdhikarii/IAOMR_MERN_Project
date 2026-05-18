@@ -14,9 +14,9 @@ const PRICING = {
 
 const getType = () => {
   const now = new Date();
-  if (now <= new Date("2026-03-15")) return "early";
-  if (now <= new Date("2026-04-30")) return "regular";
-  if (now <= new Date("2026-07-10")) return "late";
+  if (now <= new Date("2026-03-15T23:59:59")) return "early";
+  if (now <= new Date("2026-04-30T23:59:59")) return "regular";
+  if (now <= new Date("2026-07-10T23:59:59")) return "late";
   return "spot";
 };
 
@@ -39,7 +39,8 @@ export default function RegistrationForm() {
     address: "",
     foodPreference: "",
     accompanying: false,
-    accompanyingName: "",
+    accompanyingCount: 1,
+    accompanyingNames: [""],
   });
 
   const pricingType = getType();
@@ -57,7 +58,7 @@ export default function RegistrationForm() {
       "Post Graduate": "student",
       "Foreign Delegate": "foreign",
     };
-    const USD_TO_INR = 83; // you can later replace with live API
+    const USD_TO_INR = 93; // you can later replace with live API
     let pricingKey = categoryMap[form.category];
 
     if (!pricingKey) return { amount: 0, currency: "INR" };
@@ -65,7 +66,9 @@ export default function RegistrationForm() {
     let amount = PRICING[pricingKey][pricingType];
 
     if (form.accompanying) {
-      amount += PRICING.accompanying[pricingType];
+      amount +=
+        PRICING.accompanying[pricingType] *
+        Number(form.accompanyingCount || 1);
     }
 
     return {
@@ -100,6 +103,18 @@ export default function RegistrationForm() {
     }));
   };
 
+  const handleAccompanyingNameChange = (index, value) => {
+    setForm((prev) => {
+      const updatedNames = [...prev.accompanyingNames];
+      updatedNames[index] = value;
+
+      return {
+        ...prev,
+        accompanyingNames: updatedNames,
+      };
+    });
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,14 +128,15 @@ export default function RegistrationForm() {
     try {
       const { data: order } = await api.post("/registration/create-order", {
         amount: totalAmount,
+        currency,
         form,
       });
 
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
         amount: order.amount,
-        currency: "INR",
-        name: "Conference Registration",
+        currency: currency,
+         name: "Conference Registration",
         description: "Delegate Fee",
         order_id: order.id,
 
@@ -280,11 +296,6 @@ export default function RegistrationForm() {
 
                 </select>
               </div>
-
-              <div className="registration-form-group">
-                <label className="registration-form-label">IAOMR Number (LM/ALM)</label>
-                <input className="registration-form-input" name="iaomrNumber" onChange={handleChange} />
-              </div>
             </>
           )}
 
@@ -304,6 +315,12 @@ export default function RegistrationForm() {
           <div className="registration-form-group">
             <label className="registration-form-label">DCI REGISTRATION NUMBER</label>
             <input className="registration-form-input" name="dciNumber" onChange={handleChange} />
+          </div>
+
+
+          <div className="registration-form-group">
+            <label className="registration-form-label">IAOMR Number (LM/ALM)</label>
+            <input className="registration-form-input" name="iaomrNumber" onChange={handleChange} />
           </div>
 
           {/* Location */}
@@ -373,15 +390,61 @@ export default function RegistrationForm() {
           </div>
 
           {form.accompanying && (
-            <div className="registration-form-group">
-              <label className="registration-form-label">ACCOMPANYING NAME</label>
-              <input className="registration-form-input" name="accompanyingName" onChange={handleChange} />
-            </div>
+            <>
+              <div className="registration-form-group">
+                <label className="registration-form-label">
+                  Number of Accompanying Persons
+                </label>
+
+                <input
+                  className="registration-form-input"
+                  name="accompanyingCount"
+                  type="number"
+                  min="1"
+                  value={form.accompanyingCount}
+                  onChange={(e) => {
+                    const count = Number(e.target.value);
+
+                    setForm((prev) => ({
+                      ...prev,
+                      accompanyingCount: count,
+                      accompanyingNames: Array(count).fill("").map(
+                        (_, i) => prev.accompanyingNames[i] || ""
+                      ),
+                    }));
+                  }}
+                />
+              </div>
+
+              {Array.from({
+                length: Number(form.accompanyingCount || 0),
+              }).map((_, index) => (
+                <div
+                  className="registration-form-group"
+                  key={index}
+                >
+                  <label className="registration-form-label">
+                    ACCOMPANYING PERSON {index + 1} NAME
+                  </label>
+
+                  <input
+                    className="registration-form-input"
+                    value={form.accompanyingNames[index] || ""}
+                    onChange={(e) =>
+                      handleAccompanyingNameChange(
+                        index,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+              ))}
+            </>
           )}
 
           {/* Pricing */}
           <div className="registration-form-pricing">
-            <div className="registration-form-tier">{pricingType.toUpperCase()} FEE</div>
+            <div className="registration-form-tier">REGISTRATION FEE</div>
             <div className="registration-form-amount">  {displayAmount}</div>
           </div>
 

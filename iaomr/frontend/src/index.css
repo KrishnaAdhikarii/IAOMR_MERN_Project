@@ -3309,7 +3309,7 @@ html:hover {
 .office-grid,
 .committee-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); */
   gap: 3.5rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -3453,6 +3453,10 @@ html:hover {
   width: 100%;
   margin: 0;
   /* remove auto centering */
+}
+.committee-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
 }
 
 

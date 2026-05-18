@@ -29,16 +29,23 @@ router.post("/create-order", async (req, res) => {
     const { amount } = req.body;
 
     const order = await razorpay.orders.create({
-      amount: amount * 100,
+      amount: Number(amount) * 100,
       currency: "INR",
       payment_capture: 1,
     });
 
     res.json(order);
+
   } catch (err) {
-    res.status(500).json({ message: "Order creation failed" });
+    console.error(err);
+
+    res.status(500).json({
+      message: "Order creation failed",
+    });
   }
 });
+
+
 // hh
 router.get("/test-email", async (req, res) => {
   try {
@@ -53,142 +60,153 @@ router.get("/test-email", async (req, res) => {
    VERIFY PAYMENT + SAVE + EMAIL
 
 ========================= */
-router.post("/verify-payment", (req, res, next) => {
-  console.log("🔥 HIT VERIFY ROUTE");
-  next();
-}, upload.single("photo"), async (req, res) => {
-  try {
+const mongoose = require("mongoose");
 
-    console.log("BODY:", req.body);
-    console.log("FILE:", req.file);
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      amount,
-    } = req.body;
+router.post(
+  "/verify-payment",
+  (req, res, next) => {
+    console.log("🔥 HIT VERIFY ROUTE");
+    next();
+  },
+  upload.single("photo"),
+  async (req, res) => {
+    try {
+      console.log("BODY:", req.body);
+      console.log("FILE:", req.file);
 
-    if (
-      !razorpay_order_id ||
-      !razorpay_payment_id ||
-      !razorpay_signature
-    ) {
-      return res.status(400).json({
-        message: "Missing Razorpay fields",
-        body: req.body,
-      });
-    }
+      const {
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+        amount,
+      } = req.body;
 
-    // multipart/form-data sends form as string
-    if (!req.body.form) {
-      return res.status(400).json({ message: "Form data missing" });
-    }
+      if (
+        !razorpay_order_id ||
+        !razorpay_payment_id ||
+        !razorpay_signature
+      ) {
+        return res.status(400).json({
+          message: "Missing Razorpay fields",
+        });
+      }
 
-    const form = JSON.parse(req.body.form);
+      if (!req.body.form) {
+        return res
+          .status(400)
+          .json({ message: "Form data missing" });
+      }
 
-    const body =
-      razorpay_order_id + "|" + razorpay_payment_id;
+      let form;
 
-    const expectedSignature = crypto
-      .createHmac(
-        "sha256",
-        process.env.RAZORPAY_KEY_SECRET
-      )
-      .update(body.toString())
-      .digest("hex");
+      try {
+        form = JSON.parse(req.body.form);
+      } catch (err) {
+        return res.status(400).json({
+          message: "Invalid form JSON",
+        });
+      }
 
-    if (expectedSignature !== razorpay_signature) {
-      return res
-        .status(400)
-        .json({ message: "Invalid signature" });
-    }
+      // VERIFY SIGNATURE
+      const body =
+        razorpay_order_id +
+        "|" +
+        razorpay_payment_id;
 
-    // ✅ Generate Reg No
-    let regNumber;
-    let exists = true;
+      const expectedSignature = crypto
+        .createHmac(
+          "sha256",
+          process.env.RAZORPAY_KEY_SECRET
+        )
+        .update(body.toString())
+        .digest("hex");
 
-    while (exists) {
-      regNumber = generateRegNumber();
+      if (expectedSignature !== razorpay_signature) {
+        return res
+          .status(400)
+          .json({ message: "Invalid signature" });
+      }
 
-      const check = await Registration.findOne({
+      // GENERATE UNIQUE REG NUMBER
+      let regNumber;
+      let exists = true;
+
+      while (exists) {
+        regNumber = generateRegNumber();
+
+        const check = await Registration.findOne({
+          regNumber,
+        });
+
+        if (!check) exists = false;
+      }
+
+      // GENERATE QR
+      const qrData = JSON.stringify({
         regNumber,
+        name: form.name,
+        paymentId: razorpay_payment_id,
       });
 
-      if (!check) exists = false;
-    }
+      const qrCode = await QRCode.toDataURL(qrData);
 
-    // ✅ Generate QR
-    const qrData = JSON.stringify({
-      regNumber,
-      name: form.name,
-      paymentId: razorpay_payment_id,
-    });
+      // CREATE REGISTRATION OBJECT
+      const registration = new Registration({
+        ...form,
 
-    const qrCode = await QRCode.toDataURL(qrData);
+        amount,
 
-    // ✅ Save
-    const registration = await Registration.create({
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      gender: form.gender,
-      category: form.category,
-      designation: form.designation,
-      iaomrNumber: form.iaomrNumber,
-      pgYear: form.pgYear,
-      dciNumber: form.dciNumber,
-      country: form.country,
-      state: form.state,
-      city: form.city,
-      institution: form.institution,
-      address: form.address,
-      accompanying: form.accompanying,
-      accompanyingName: form.accompanyingName,
-      foodPreference: form.foodPreference,
-      photo: req.file
-        ? {
-          data: req.file.buffer,
-          contentType: req.file.mimetype,
-        }
-        : undefined,
+        paymentId: razorpay_payment_id,
 
-      amount,
-      paymentId: razorpay_payment_id,
-      orderId: razorpay_order_id,
-      status: "PAID",
-      regNumber,
-      qrCode,
-    });
+        orderId: razorpay_order_id,
 
-    res.json({
-      success: true,
-      regNumber,
-      qrCode,
-      amount,
-      name: registration.name,
-    });
+        regNumber,
 
-    console.log("VERIFY HIT");
-    console.log("Generated Reg:", regNumber);
+        qrCode,
 
-    const pdfBuffer = await generatePDF(
-      registration
-    );
+        status: "PAID",
 
-    sendEmail(registration.email, pdfBuffer)
-      .then(() => console.log("Email sent"))
-      .catch((err) =>
-        console.error("Email failed:", err)
+        photo: req.file
+          ? {
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+          }
+          : undefined,
+      });
+
+      // SAVE TO DB
+      await registration.save();
+
+      console.log("✅ SAVED:", registration.regNumber);
+
+      // GENERATE PDF
+      const pdfBuffer = await generatePDF(
+        registration
       );
 
-  } catch (err) {
-    console.error(err);
+      // SEND EMAIL
+      sendEmail(registration.email, pdfBuffer)
+        .then(() =>
+          console.log("✅ Email sent")
+        )
+        .catch((err) =>
+          console.error("❌ Email failed:", err)
+        );
 
-    res.status(500).json({
-      message: err.message,
-    });
+      // SEND RESPONSE
+      res.json({
+        success: true,
+        regNumber: registration.regNumber,
+      });
+
+    } catch (err) {
+      console.error(err);
+
+      res.status(500).json({
+        message: err.message,
+      });
+    }
   }
-}
 );
 router.get("/photo/:id", async (req, res) => {
   try {

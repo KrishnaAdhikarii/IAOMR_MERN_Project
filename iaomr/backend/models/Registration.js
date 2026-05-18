@@ -1,40 +1,159 @@
 const mongoose = require("mongoose");
-// hj
+
 const registrationSchema = new mongoose.Schema(
   {
-    name: String,
-email: String,
-    phone: String,
-    gender: String,
+    name: {
+      type: String,
+      required: true,
+      uppercase: true,
+      trim: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    gender: {
+      type: String,
+      enum: ["Male", "Female"],
+    },
+
     photo: {
       data: Buffer,
       contentType: String,
     },
-    category: String,
-    designation: String,
-    iaomrNumber: String,
-    pgYear: String,
-    dciNumber: String,
-    country: String,
-    state: String,
-    city: String,
-    institution: String,
-    address: String,
-    accompanying: Boolean,
-    accompanyingName: String,
-    foodPreference: String,
-    amount: Number,
-    paymentId: String,
-    regNumber: { type: String, unique: true },
-    qrCode: String,
-    orderId: String,
-    status: { type: String, default: "PENDING" },
+
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "Faculty",
+        "Practitioner",
+        "Post Graduate",
+        "Foreign Delegate",
+      ],
+    },
+
+    designation: {
+      type: String,
+      default: "",
+    },
+
+    iaomrNumber: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    pgYear: {
+      type: String,
+      default: "",
+    },
+
+    dciNumber: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    country: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    state: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    city: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    institution: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    address: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    accompanying: {
+      type: Boolean,
+      default: false,
+    },
+
+    accompanyingCount: {
+      type: Number,
+      default: 0,
+    },
+
+    accompanyingNames: {
+      type: [String],
+      default: [],
+    },
+
+    foodPreference: {
+      type: String,
+      enum: ["VEG", "NON-VEG"],
+    },
+
+    amount: {
+      type: Number,
+      required: true,
+    },
+
+    paymentId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    orderId: {
+      type: String,
+      required: true,
+    },
+
+    regNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    qrCode: {
+      type: String,
+      default: "",
+    },
+
+    status: {
+      type: String,
+      enum: ["PENDING", "PAID", "FAILED"],
+      default: "PENDING",
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-// registrationSchema.index({ regNumber: 1 });
-// registrationSchema.index({ paymentId: 1 });
-// registrationSchema.index({ email: 1 });
-
-module.exports = mongoose.model("Registration", registrationSchema);
+module.exports = mongoose.model(
+  "Registration",
+  registrationSchema
+);
