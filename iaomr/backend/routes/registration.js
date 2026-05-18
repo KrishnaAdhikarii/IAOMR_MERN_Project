@@ -50,11 +50,106 @@ async function generateRegNumber(category) {
 }
 
 /* =========================
+   PDF GENERATOR
+========================= */
+function generatePDF(data) {
+  return new Promise((resolve) => {
+    const doc = new PDFDocument();
+    const buffers = [];
+
+    doc.on("data", buffers.push.bind(buffers));
+    doc.on("end", () => resolve(Buffer.concat(buffers)));
+
+    doc.fontSize(18).text("Registration Receipt", { align: "center" });
+    doc.moveDown();
+
+    doc.text(`Name: ${data.name}`);
+    doc.text(`Email: ${data.email}`);
+    doc.text(`Phone: ${data.phone || "N/A"}`);
+    doc.text(`Reg No: ${data.regNumber}`);
+    doc.text(`Amount: ₹${data.amount}`);
+
+    doc.end();
+  });
+}
+
+/* =========================
+   EMAIL FUNCTION
+========================= */
+async function sendEmail(registration, pdfBuffer) {
+  console.log("MAIL FUNCTION CALLED");
+
+  const whatsappLinks = {
+    "Post Graduate": "https://chat.whatsapp.com/PG-LINK",
+    Faculty: "https://chat.whatsapp.com/FACULTY-LINK",
+    Practitioner: "https://chat.whatsapp.com/PRACTITIONER-LINK",
+    "Foreign Delegate": "https://chat.whatsapp.com/FOREIGN-LINK",
+  };
+
+  const whatsappLink =
+    whatsappLinks[registration.category] ||
+    "https://chat.whatsapp.com/GENERAL-LINK";
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: Number(process.env.SMTP_PORT) === 465,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  try {
+    await transporter.verify();
+    console.log("SMTP VERIFIED SUCCESSFULLY");
+  } catch (err) {
+    console.error("SMTP VERIFY FAILED:", err);
+  }
+
+  const html = `
+    <div style="font-family:Arial;">
+      <h2>Registration Confirmed</h2>
+      <p>Dear Dr. <b>${registration.name}</b></p>
+
+      <p><b>ID:</b> ${registration.regNumber}</p>
+      <p><b>Email:</b> ${registration.email}</p>
+      <p><b>Category:</b> ${registration.category}</p>
+
+      <a href="${whatsappLink}">Join WhatsApp Group</a>
+    </div>
+  `;
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"IAOMR Registration" <${process.env.EMAIL_USER}>`,
+      to: registration.email,
+      subject: "Registration Confirmed - IAOMR 2026",
+      html,
+      attachments: [
+        {
+          filename: "receipt.pdf",
+          content: pdfBuffer,
+        },
+      ],
+    });
+
+    console.log("MAIL SENT:", info.messageId);
+  } catch (err) {
+    console.error("EMAIL FAILED:", err);
+  }
+}
+
+/* =========================
    CREATE ORDER
 ========================= */
 router.post("/create-order", async (req, res) => {
   try {
     const { amount } = req.body;
+
+    if (!amount || isNaN(amount)) {
+      return res.status(400).json({ message: "Invalid amount" });
+    }
 
     const order = await razorpay.orders.create({
       amount: Number(amount) * 100,
@@ -63,7 +158,6 @@ router.post("/create-order", async (req, res) => {
     });
 
     res.json(order);
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Order creation failed" });
@@ -83,111 +177,16 @@ router.get("/test-email", async (req, res) => {
         category: "Post Graduate",
       },
       Buffer.from("Test PDF")
-      console.log("INSIDE EMAIL FUNCTION");
     );
 
-res.send("Email sent");
+    console.log("INSIDE EMAIL FUNCTION");
 
+    res.send("Email sent");
   } catch (err) {
-  console.error(err);
-  res.status(500).send(err.message);
-}
-});
-
-/* =========================
-   PDF GENERATOR
-========================= */
-function generatePDF(data) {
-  return new Promise((resolve) => {
-    const doc = new PDFDocument();
-    const buffers = [];
-
-    doc.on("data", buffers.push.bind(buffers));
-    doc.on("end", () => resolve(Buffer.concat(buffers)));
-
-    doc.fontSize(18).text("Registration Receipt", { align: "center" });
-    doc.moveDown();
-
-    doc.text(`Name: ${data.name}`);
-    doc.text(`Email: ${data.email}`);
-    doc.text(`Phone: ${data.phone}`);
-    doc.text(`Reg No: ${data.regNumber}`);
-    doc.text(`Amount: ₹${data.amount}`);
-
-    doc.end();
-  });
-}
-
-/* =========================
-   EMAIL FUNCTION (FIXED)
-========================= */
-async function sendEmail(registration, pdfBuffer) {
-  console.log("MAIL FUNCTION CALLED");
-  console.log("INSIDE EMAIL FUNCTION");
-  const whatsappLinks = {
-    "Post Graduate": "https://chat.whatsapp.com/PG-LINK",
-    Faculty: "https://chat.whatsapp.com/FACULTY-LINK",
-    Practitioner: "https://chat.whatsapp.com/PRACTITIONER-LINK",
-    "Foreign Delegate": "https://chat.whatsapp.com/FOREIGN-LINK",
-  };
-
-  const whatsappLink =
-    whatsappLinks[registration.category] ||
-    "https://chat.whatsapp.com/GENERAL-LINK";
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: Number(process.env.SMTP_PORT) === 465, // IMPORTANT FIX
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  try {
-    await transporter.verify();
-    console.log("SMTP VERIFIED SUCCESSFULLY");
-    console.log("✅ SMTP VERIFIED");
-  } catch (err) {
-    console.error("❌ SMTP VERIFY FAILED:", err);
-  }
-
-  const html = `
-  <div style="font-family:Arial;">
-    <h2>Registration Confirmed</h2>
-
-    <p>Dear Dr. <b>${registration.name}</b></p>
-
-    <p><b>ID:</b> ${registration.regNumber}</p>
-    <p><b>Email:</b> ${registration.email}</p>
-    <p><b>Category:</b> ${registration.category}</p>
-
-    <a href="${whatsappLink}">Join WhatsApp Group</a>
-  </div>
-  `;
-
-  try {
-    const info = await transporter.sendMail({
-      from: `"IAOMR Registration" <${process.env.EMAIL_USER}>`,
-      to: registration.email,
-      subject: "Registration Confirmed - IAOMR 2026",
-      html,
-      attachments: [
-        {
-          filename: "receipt.pdf",
-          content: pdfBuffer,
-        },
-      ],
-    });
-
-    console.log("MAIL SENT:", info.messageId);
-
-  } catch (err) {
-    console.error("❌ EMAIL FAILED FULL ERROR:");
     console.error(err);
+    res.status(500).send(err.message);
   }
-}
+});
 
 /* =========================
    VERIFY PAYMENT
@@ -197,7 +196,6 @@ router.post(
   upload.single("photo"),
   async (req, res) => {
     try {
-
       console.log("VERIFY HIT");
 
       const {
@@ -248,9 +246,9 @@ router.post(
         status: "PAID",
         photo: req.file
           ? {
-            data: req.file.buffer,
-            contentType: req.file.mimetype,
-          }
+              data: req.file.buffer,
+              contentType: req.file.mimetype,
+            }
           : undefined,
       });
 
@@ -258,66 +256,68 @@ router.post(
 
       console.log("SAVED:", regNumber);
 
-      // RESPONSE FIRST (important for Render timeout safety)
       res.json({
         success: true,
         regNumber,
       });
 
-      // BACKGROUND EMAIL (Render-safe)
+      /* =========================
+         BACKGROUND EMAIL
+      ========================= */
       setImmediate(() => {
         (async () => {
           try {
             const pdfBuffer = await generatePDF(registration);
-            console.log("📧 EMAIL STARTED");
-            console.log("CALLING EMAIL FUNCTION");
             await sendEmail(registration, pdfBuffer);
-            console.log("EMAIL DONE");
           } catch (err) {
             console.error("EMAIL ERROR:", err);
           }
         })();
       });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Payment verification failed" });
+    }
+  }
+);
 
-      /* =========================
-         PHOTO ROUTE
-      ========================= */
-      router.get("/photo/:id", async (req, res) => {
-        try {
-          const registration = await Registration.findById(req.params.id);
+/* =========================
+   PHOTO ROUTE
+========================= */
+router.get("/photo/:id", async (req, res) => {
+  try {
+    const registration = await Registration.findById(req.params.id);
 
-          if (!registration || !registration.photo) {
-            return res.status(404).send("No photo");
-          }
+    if (!registration || !registration.photo) {
+      return res.status(404).send("No photo");
+    }
 
-          res.set("Content-Type", registration.photo.contentType);
-          res.send(registration.photo.data);
+    res.set("Content-Type", registration.photo.contentType);
+    res.send(registration.photo.data);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
-        } catch (err) {
-          res.status(500).send(err.message);
-        }
+/* =========================
+   GET BY REG NUMBER (MUST BE LAST)
+========================= */
+router.get("/:regNumber", async (req, res) => {
+  try {
+    const data = await Registration.findOne({
+      regNumber: req.params.regNumber,
+    }).select("-photo");
+
+    if (!data) {
+      return res.status(404).json({
+        message: "Registration not found",
       });
+    }
 
-      /* =========================
-         GET BY REG NUMBER
-      ========================= */
-      router.get("/:regNumber", async (req, res) => {
-        try {
-          const data = await Registration.findOne({
-            regNumber: req.params.regNumber,
-          }).select("-photo");
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-          if (!data) {
-            return res.status(404).json({
-              message: "Registration not found",
-            });
-          }
-
-          res.json(data);
-
-        } catch (err) {
-          res.status(500).json({ message: err.message });
-        }
-      });
-
-      module.exports = router;
+module.exports = router;
