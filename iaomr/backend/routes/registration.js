@@ -76,8 +76,12 @@ function generatePDF(data) {
 /* =========================
    EMAIL FUNCTION
 ========================= */
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 async function sendEmail(registration, pdfBuffer) {
-  console.log("MAIL FUNCTION CALLED");
+  console.log("📧 RESEND EMAIL FUNCTION CALLED");
 
   const whatsappLinks = {
     "Post Graduate": "https://chat.whatsapp.com/PG-LINK",
@@ -90,52 +94,10 @@ async function sendEmail(registration, pdfBuffer) {
     whatsappLinks[registration.category] ||
     "https://chat.whatsapp.com/GENERAL-LINK";
 
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // IMPORTANT (must be false for 587)
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
-
-  router.get("/smtp-test", async (req, res) => {
-  const nodemailer = require("nodemailer");
-
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: "SMTP TEST",
-      text: "If you got this email, SMTP works",
-    });
-
-    res.json(info);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err.message);
-  }
-});
-  
-  console.log("Skipping SMTP verify (cloud-safe mode)");
-
   const html = `
     <div style="font-family:Arial;">
       <h2>Registration Confirmed</h2>
+
       <p>Dear Dr. <b>${registration.name}</b></p>
 
       <p><b>ID:</b> ${registration.regNumber}</p>
@@ -147,24 +109,25 @@ async function sendEmail(registration, pdfBuffer) {
   `;
 
   try {
-    const info = await transporter.sendMail({
-      from: `"IAOMR Registration" <${process.env.EMAIL_USER}>`,
+    const result = await resend.emails.send({
+      from: "IAOMR Registration <24thiaomrpgconvention2026@gmail.com>",
       to: registration.email,
       subject: "Registration Confirmed - IAOMR 2026",
       html,
       attachments: [
         {
           filename: "receipt.pdf",
-          content: pdfBuffer,
+          content: pdfBuffer.toString("base64"),
         },
       ],
     });
 
-    console.log("MAIL SENT:", info.messageId);
+    console.log("✅ EMAIL SENT:", result);
   } catch (err) {
-    console.error("EMAIL FAILED:", err);
+    console.error("❌ RESEND EMAIL ERROR:", err);
   }
 }
+
 
 /* =========================
    CREATE ORDER
