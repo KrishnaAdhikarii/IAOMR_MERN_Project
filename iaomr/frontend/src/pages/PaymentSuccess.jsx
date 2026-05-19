@@ -17,6 +17,7 @@ export default function PaymentSuccess() {
   return (
     <div style={{ textAlign: "center", padding: "40px" }}>
       <h1>✅ Payment Successful</h1>
+      
       <h2>Thank you for registering!</h2>
 
       <p><b>Name:</b> {data.name}</p>
@@ -25,7 +26,7 @@ export default function PaymentSuccess() {
 
       <img src={data.qrCode} alt="QR Code" style={{ width: 200 }} />
 
-      <p>📩 Receipt sent to your email</p>
+      <p>📩 Join The  Whatsapp Group using the link sent to your email</p>
     </div>
   );
 }

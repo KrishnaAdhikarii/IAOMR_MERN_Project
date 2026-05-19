@@ -206,7 +206,6 @@ async function sendEmail(registration, pdfBuffer) {
           padding:10px 18px;
           background:#F472B6;
           color:black;
-          margin-left:50px;
           text-decoration:none;
           border-radius:6px;
           font-weight:bold;
