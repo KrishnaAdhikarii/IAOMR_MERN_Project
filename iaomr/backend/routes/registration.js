@@ -95,17 +95,43 @@ async function sendEmail(registration, pdfBuffer) {
     "https://chat.whatsapp.com/GENERAL-LINK";
 
   const html = `
-    <div style="font-family:Arial;">
-      <h2>Registration Confirmed</h2>
+    <div style="font-family:Arial; line-height:1.5;">
+    <h2>Registration Confirmed – Your ID & Payment Receipt</h2>
+    <p>Dear Dr. <b>${registration.name}</b>,</p>
+    <p>Thank you for registering for the 24th NATIONAL IAOMR PG CONVENTION 2026, scheduled to be held from 6th to 8th August,2026 at Anil Neerukonda Institute Of Dental Sciences, Visakhapatnam, Andhra Pradesh.</p>
+    <p>We are pleased to confirm that your registration has been successfully completed and your payment has been received.</p>
 
-      <p>Dear Dr. <b>${registration.name}</b></p>
+    <hr />
+    <h3>📋 REGISTRATION DETAILS</h3>
+    <p>🪪 <b>Registration ID:</b> ${registration.regNumber}</p>
+    <p>👤 <b>Registered Name:</b> ${registration.name}</p>
+    <p>📧 <b>Email Address:</b> ${registration.email}</p>
+    <p>📦 <b>Category:</b> ${registration.category}</p>
+    <hr />
 
-      <p><b>ID:</b> ${registration.regNumber}</p>
-      <p><b>Email:</b> ${registration.email}</p>
-      <p><b>Category:</b> ${registration.category}</p>
+    <p>Registration Includes: 2 Breakfasts, 2 Lunches, 1 Gala Banquet, Gift, Attendance Certificate & Visit to Trade Exhibition, Inclusive of 18% GST</p>
+    <p>If you need any corrections to your name spelling, kindly inform us in advance.</p>
+    <p>Please find your official payment receipt attached to this email for your records.</p>
 
-      <a href="${whatsappLink}">Join WhatsApp Group</a>
-    </div>
+    <h3>Contact Details:</h3>
+    <p>For Registration Queries:<br/>
+    📞 Dr. B Badari Ramakrishna- +91 9885426232<br/>
+    📞 Dr. V Rahul Marshal- +91 9848720046</p>
+
+    <p>For Scientific Queries:<br/>
+    📞 Dr. N. Rajesh- +91 98850 67499</p>
+
+    <p>For Hospitality and Accommodation:<br/>
+    🗨️ Dr. K.V.Lokesh- +91 9885164196 (Preferably WhatsApp)<br/>
+    E-Mail ID: 24thiaomrpgconvention2026@gmail.com</p>
+
+    <p>Website: <a href="http://www.iaomrpgconvene2026.com">www.iaomrpgconvene2026.com</a></p>
+    <p>We look forward to welcoming you to the IAOMR 24th National PG Convention, 2026.</p>
+
+    <p>Warm regards,<br/>Organizing Committee<br/>24th National IAOMR PG Convention,2026</p>
+
+    <p><a href="${whatsappLink}">Join WhatsApp Group</a></p>
+  </div>
   `;
 
   try {
