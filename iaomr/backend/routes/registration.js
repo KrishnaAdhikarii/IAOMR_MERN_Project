@@ -84,75 +84,175 @@ async function sendEmail(registration, pdfBuffer) {
   console.log("📧 RESEND EMAIL FUNCTION CALLED");
 
   const whatsappLinks = {
-    "Post Graduate": "https://chat.whatsapp.com/PG-LINK",
+    "Post Graduate":
+      "https://chat.whatsapp.com/ECIKNDPyLPPLcjDrwPl8yG?mode=gi_t",
     Faculty: "https://chat.whatsapp.com/FACULTY-LINK",
     Practitioner: "https://chat.whatsapp.com/PRACTITIONER-LINK",
     "Foreign Delegate": "https://chat.whatsapp.com/FOREIGN-LINK",
   };
 
+  // fallback link if category not found
   const whatsappLink =
     whatsappLinks[registration.category] ||
-    "https://chat.whatsapp.com/GENERAL-LINK";
+    "https://chat.whatsapp.com/default-link";
 
   const html = `
-    <div style="font-family:Arial; line-height:1.5;">
-    <h2>Registration Confirmed – Your ID & Payment Receipt</h2>
+  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    
+    <h2 style="color:#0b5394;">
+      Registration Confirmed – Your ID & Payment Receipt
+    </h2>
+
     <p>Dear Dr. <b>${registration.name}</b>,</p>
-    <p>Thank you for registering for the 24th NATIONAL IAOMR PG CONVENTION 2026, scheduled to be held from 6th to 8th August,2026 at Anil Neerukonda Institute Of Dental Sciences, Visakhapatnam, Andhra Pradesh.</p>
-    <p>We are pleased to confirm that your registration has been successfully completed and your payment has been received.</p>
+
+    <p>
+      Thank you for registering for the 
+      <b>24th NATIONAL IAOMR PG CONVENTION 2026</b>, 
+      scheduled from <b>6th to 8th August 2026</b> at 
+      <b>Anil Neerukonda Institute of Dental Sciences (ANIDS)</b>,
+      Visakhapatnam, Andhra Pradesh.
+    </p>
+
+    <p>
+      We are pleased to confirm that your registration has been
+      successfully completed and your payment has been received.
+    </p>
 
     <hr />
-    <h3>📋 REGISTRATION DETAILS</h3>
+
+    <h3>📋 Registration Details</h3>
+
     <p>🪪 <b>Registration ID:</b> ${registration.regNumber}</p>
     <p>👤 <b>Registered Name:</b> ${registration.name}</p>
     <p>📧 <b>Email Address:</b> ${registration.email}</p>
     <p>📦 <b>Category:</b> ${registration.category}</p>
+
     <hr />
 
-    <p>Registration Includes: 2 Breakfasts, 2 Lunches, 1 Gala Banquet, Gift, Attendance Certificate & Visit to Trade Exhibition, Inclusive of 18% GST</p>
-    <p>If you need any corrections to your name spelling, kindly inform us in advance.</p>
-    <p>Please find your official payment receipt attached to this email for your records.</p>
+    <p>
+      <b>Registration Includes:</b><br/>
+      • 2 Breakfasts<br/>
+      • 2 Lunches<br/>
+      • 1 Gala Banquet<br/>
+      • Delegate Gift<br/>
+      • Attendance Certificate<br/>
+      • Access to Trade Exhibition<br/>
+      • Inclusive of 18% GST
+    </p>
 
-    <h3>Contact Details:</h3>
-    <p>For Registration Queries:<br/>
-    📞 Dr. B Badari Ramakrishna- +91 9885426232<br/>
-    📞 Dr. V Rahul Marshal- +91 9848720046</p>
+    <p>
+      If you require any corrections to your registered details,
+      kindly inform us in advance.
+    </p>
 
-    <p>For Scientific Queries:<br/>
-    📞 Dr. N. Rajesh- +91 98850 67499</p>
+    <h3>📞 Contact Details</h3>
 
-    <p>For Hospitality and Accommodation:<br/>
-    🗨️ Dr. K.V.Lokesh- +91 9885164196 (Preferably WhatsApp)<br/>
-    E-Mail ID: 24thiaomrpgconvention2026@gmail.com</p>
+    <p>
+      <b>For Registration Queries:</b><br/>
+      Dr. B Badari Ramakrishna – +91 9885426232<br/>
+      Dr. V Rahul Marshal – +91 9848720046
+    </p>
 
-    <p>Website: <a href="http://www.iaomrpgconvene2026.com">www.iaomrpgconvene2026.com</a></p>
-    <p>We look forward to welcoming you to the IAOMR 24th National PG Convention, 2026.</p>
+    <p>
+      <b>For Scientific Queries:</b><br/>
+      Dr. N. Rajesh – +91 9885067499
+    </p>
 
-    <p>Warm regards,<br/>Organizing Committee<br/>24th National IAOMR PG Convention,2026</p>
+    <p>
+      <b>For Hospitality & Accommodation:</b><br/>
+      Dr. K.V. Lokesh – +91 9885164196 (Preferably WhatsApp)<br/>
+      Email: 24thiaomrpgconvention2026@gmail.com
+    </p>
 
-    <p><a href="${whatsappLink}">Join WhatsApp Group</a></p>
+    <p>
+      Website:
+      <a href="https://iaomrpgconvene2026.com">
+        www.iaomrpgconvene2026.com
+      </a>
+    </p>
+
+    <p>
+      Please join the WhatsApp group for 
+      <b>${registration.category}</b> delegates
+      for important updates and communication.
+    </p>
+
+    <p>
+      <a
+        href="${whatsappLink}"
+        style="
+          display:inline-block;
+          padding:10px 18px;
+          background:#25D366;
+          color:white;
+          text-decoration:none;
+          border-radius:6px;
+          font-weight:bold;
+        "
+      >
+        Join WhatsApp Group
+      </a>
+    </p>
+
+    <br/>
+
+    <img
+      src="https://iaomrpgconvene2026.com/assets/logo.png"
+      alt="IAOMR Logo"
+      style="width:150px;"
+    />
+
+    <p style="margin-top:20px;">
+      <b>Venue:</b><br/>
+      Anil Neerukonda Institute of Dental Sciences (ANIDS)<br/>
+      Sangivalasa, Bheemunipatnam Mandal,<br/>
+      Visakhapatnam District, Andhra Pradesh
+    </p>
+
+    <p>
+      We look forward to welcoming you to the
+      <b>IAOMR 24th National PG Convention 2026</b>.
+    </p>
+
+    <p>
+      Warm regards,<br/>
+      <b>Organizing Committee</b><br/>
+      24th National IAOMR PG Convention 2026
+    </p>
+
   </div>
   `;
 
   try {
     const result = await resend.emails.send({
-      from: "IAOMR Registration <anidsomrvizag@iaomrpgconvene2026.com>",
+      from:
+        "IAOMR Registration <anidsomrvizag@iaomrpgconvene2026.com>",
+
       to: registration.email,
-      subject: "Registration Confirmed - IAOMR 2026",
+
+      subject:
+        "Registration Confirmed - IAOMR PG CONVENTION 2026",
+
       html,
-      attachments: [
-        {
-          filename: "receipt.pdf",
-          content: pdfBuffer.toString("base64"),
-        },
-      ],
+
+      // attachments: [
+      //   {
+      //     filename: "receipt.pdf",
+      //     content: pdfBuffer.toString("base64"),
+      //   },
+      // ],
     });
 
     console.log("✅ EMAIL SENT:", result);
+
+    return result;
   } catch (err) {
     console.error("❌ RESEND EMAIL ERROR:", err);
+    throw err;
   }
 }
+
+
 
 
 /* =========================

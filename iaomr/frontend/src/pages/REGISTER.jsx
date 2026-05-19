@@ -81,7 +81,7 @@ export default function RegistrationForm() {
 
   })();
 
-  const totalAmount = totalData.amount;
+  var totalAmount = totalData.amount;
   const currency = totalData.currency;
   const USD_TO_INR = 90; // you can later replace with live API
 
@@ -89,6 +89,11 @@ export default function RegistrationForm() {
     currency === "USD"
       ? `₹${totalAmount * USD_TO_INR} ($${totalAmount})`
       : `₹${totalAmount}`;
+  
+  if (currency === "USD") {
+    totalAmount = totalAmount * USD_TO_INR;
+  }
+
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
@@ -123,7 +128,7 @@ export default function RegistrationForm() {
     // console.log("RAZORPAY KEY:", '8', import.meta.env.VITE_RAZORPAY_KEY);
     // console.log("KEY SECRET:", import.meta.env.VITE_RAZORPAY_SECRET);
 
-    console.log("PHOTO FILE:", form.photo);
+    // console.log("PHOTO FILE:", form.photo);
 
     try {
       const { data: order } = await api.post("/registration/create-order", {
