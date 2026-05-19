@@ -21,6 +21,8 @@ const razorpay = new Razorpay({
 /* =========================
    REG NUMBER GENERATOR
 ========================= */
+const Counter = require("../models/Counter");
+
 async function generateRegNumber(category) {
   const year = new Date().getFullYear();
 
@@ -33,20 +35,22 @@ async function generateRegNumber(category) {
 
   const prefix = categoryMap[category] || "GEN";
 
-  const lastRegistration = await Registration.findOne({
-    regNumber: new RegExp(`^IAOMR-${year}-${prefix}`),
-  }).sort({ createdAt: -1 });
+  // unique counter key
+  const counterKey = `IAOMR-${year}-${prefix}`;
 
-  let nextNumber = 1;
+  // atomic increment
+  const counter = await Counter.findOneAndUpdate(
+    { key: counterKey },
+    { $inc: { seq: 1 } },
+    {
+      new: true,
+      upsert: true,
+    }
+  );
 
-  if (lastRegistration) {
-    const match = lastRegistration.regNumber.match(/(\d+)$/);
-    if (match) nextNumber = parseInt(match[1]) + 1;
-  }
+  const paddedNumber = String(counter.seq).padStart(2, "0");
 
-  const paddedNumber = String(nextNumber).padStart(2, "0");
-
-  return `IAOMR-${year}-${prefix}${paddedNumber}`;
+  return `${counterKey}${paddedNumber}`;
 }
 
 /* =========================
