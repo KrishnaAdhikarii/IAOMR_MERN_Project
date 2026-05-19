@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../utils/api";
 import SchedulePage, { RegisterationInfo, Office_bearers, AboutPage, VenuePage, AbstractInfo, ContactPage } from "./SchedulePage";
 import CommitteePage from "./CommitteePage";
+import HotelsTable from "./Accomadations";
 // import Office_bearers from "./SchedulePage";
 import ImageSlider from "../components/ImageSlider";
 import { useIsVisible } from "../components/isVisible";
@@ -385,6 +386,9 @@ export default function HomePage() {
       <section id="hotels" className="hotels">
         <h2 className="hotel_heading">Recommended Hotels in Visakhapatnam</h2>
 
+        <HotelsTable />
+        {/*         
+
         <div className="hotel_container">
           <div className="hotel_card">
             <img className="hotel_img" src={placeholder} alt="Hotel The Park" />
@@ -405,7 +409,7 @@ export default function HomePage() {
             <img className="hotel_img" src={placeholder} alt="Radisson Blu" />
             <div className="hotel_description">Radisson Blu</div>
           </div>
-        </div>
+        </div> */}
       </section>
 
       <section>

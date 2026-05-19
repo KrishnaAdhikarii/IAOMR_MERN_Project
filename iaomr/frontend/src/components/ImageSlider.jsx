@@ -3,6 +3,16 @@ import img1 from "../images/slider1.jpg";
 import img2 from "../images/slider2.jpeg";
 import img3 from "../images/slider3.jpg";
 
+import s1 from "../images/slider/s1.jpg"
+import s2 from "../images/slider/s2.jpg"
+import s3 from "../images/slider/s3.jpg"
+import s4 from "../images/slider/s4.jpg"
+import s5 from "../images/slider/s5.jpg"
+import s6 from "../images/slider/s6.jpeg"
+import s7 from "../images/slider/s7.jpeg"
+import s8 from "../images/slider/s8.jpeg"
+import s9 from "../images/slider/s9.jpeg"
+import s10 from "../images/slider/s10.jpeg" 
 
 import v7 from "../images/vizag/v7.jpg"
 import v8 from "../images/vizag/v8.jpg"
@@ -19,8 +29,9 @@ import v19 from "../images/vizag/v19.jpg"
 
 const images = [
   img1,
-  img2,
-  img3,
+  // img2,
+  // img3,
+  s6,s7,s8,s9,s10,
   // v7,v8,v9,v10,v12,v13,v15,v16,v17,v18,v19
 ];
 

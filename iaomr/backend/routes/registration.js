@@ -136,7 +136,7 @@ async function sendEmail(registration, pdfBuffer) {
 
   try {
     const result = await resend.emails.send({
-      from: "IAOMR Registration <onboarding@resend.dev>",
+      from: "IAOMR Registration <anidsomrvizag@iaomrpgconvene2026.com>",
       to: registration.email,
       subject: "Registration Confirmed - IAOMR 2026",
       html,

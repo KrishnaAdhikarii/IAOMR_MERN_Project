@@ -92,7 +92,7 @@ const styles = {
 
   avatar: {
     width: "110px",
-    height: "110px",
+    height: "150px",
     borderRadius: "18px",
     objectFit: "cover",
     boxShadow: "0 6px 16px rgba(0,0,0,0.15)",
@@ -256,7 +256,7 @@ export default function FullCommitteePage() {
         ]} />
         <Card title="E Souvenir Committee" members={[
           "Dr. Ch. Lalitha", "Dr. Faizal", "Dr. Seema Ashwin Bhogte",
-          "Dr. Shefali Waghray", "Dr. Praveen", "Dr. Yehoshuva Reddy", "Dr. Ch V Raman"
+          "Dr. Shefali Waghray", "Dr. Praveen", "Dr. Yehoshuva Reddy", "Dr. Ch V Ramani"
         ]} />
       </div>
 
