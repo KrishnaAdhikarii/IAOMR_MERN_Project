@@ -22,22 +22,23 @@ const MapIcon = () => (
 );
 
 const hotels = [
-  { id: 1,  name: 'Novotel Bheemili Resort',   type: '5star',   label: '★★★★★ 5 Star',  distance: '5.1 KM',  location: 'Bheemili',       phone: '+91 7779971602', website: 'https://all.accor.com/hotel/A121/index.en.shtml', mapUrl: 'https://maps.app.goo.gl/rbNDDaV5gjxF8RKH7' },
-  { id: 2,  name: 'Sai Priya Beach Resorts',    type: '4star',   label: '★★★★ 4 Star',   distance: '22 KM',   location: 'Rushikonda',     phone: '+91 9951933444', website: 'http://www.saipriyabeachresorts.com/',             mapUrl: 'https://maps.app.goo.gl/eqGSxS7SZ3zKR3Cs8' },
-  { id: 3,  name: 'Casa Beach Front',           type: '3star',   label: '★★★ 3 Star',   distance: '6.5 KM',  location: 'Bheemili',       phone: '+91 8977034487', website: 'https://www.casahotels.in/',                      mapUrl: 'https://maps.app.goo.gl/EmWkaVUUtipH9TzF9' },
-  { id: 4,  name: 'Hotel Chandana',             type: '3star',   label: '★★★ 3 Star',   distance: '11 KM',   location: 'Gambhiram',      phone: '+91 9393426666', website: 'http://www.hotelchandanasquare.com/',              mapUrl: 'https://maps.app.goo.gl/5P8M1hQ8Yw7v3aVx9' },
-  { id: 5,  name: 'Coral Beach Stays',          type: '3star',   label: '★★★ 3 Star',   distance: '3.6 KM',  location: 'Bheemili',       phone: '+91 9848939325', website: 'https://www.coralbeachstay.com/',                 mapUrl: 'https://maps.app.goo.gl/RGLFEhGHLHGa3N4Y7' },
-  { id: 6,  name: 'The Bheemili House',         type: '4star',   label: '★★★★ 4 Star',  distance: '3.5 KM',  location: 'Bheemili',       phone: '+91 7569393019', website: 'https://bluejayresortbheemili.com/',              mapUrl: 'https://maps.app.goo.gl/5Kxn2YVAfRwyyiAR7' },
+  { id: 1,  name: 'Novotel Bheemili Resort',   type: '5star',   label: ' 5 Star',  distance: '5.1 KM',  location: 'Bheemili',       phone: '+91 7779971602', website: 'https://all.accor.com/hotel/A121/index.en.shtml', mapUrl: 'https://maps.app.goo.gl/rbNDDaV5gjxF8RKH7' },
+  { id: 2,  name: 'Sai Priya Beach Resorts',    type: '3star',   label: ' 3 Star',   distance: '22 KM',   location: 'Rushikonda',     phone: '+91 9951933444', website: 'http://www.saipriyabeachresorts.com/',             mapUrl: 'https://maps.app.goo.gl/eqGSxS7SZ3zKR3Cs8' },
+  { id: 3,  name: '*Casa Beach Front',           type: '3star',   label: ' 3 Star',   distance: '6.5 KM',  location: 'Bheemili',       phone: '+91 8977034487', website: 'https://www.casahotels.in/',                      mapUrl: 'https://maps.app.goo.gl/EmWkaVUUtipH9TzF9' },
+  { id: 4,  name: '*Hotel Chandana',             type: '3star',   label: ' 3 Star',   distance: '11 KM',   location: 'Gambhiram',      phone: '+91 9393426666', website: 'http://www.hotelchandanasquare.com/',              mapUrl: 'https://maps.app.goo.gl/5P8M1hQ8Yw7v3aVx9' },
+  { id: 5,  name: '*Coral Beach Stays',          type: 'service',   label: ' HOTEL',   distance: '3.6 KM',  location: 'Bheemili',       phone: '+91 9848939325', website: 'https://www.coralbeachstay.com/',                 mapUrl: 'https://maps.app.goo.gl/RGLFEhGHLHGa3N4Y7' },
+  { id: 6,  name: 'The Bheemili House',         type: 'service',   label: ' RESORT HOTEL',  distance: '3.5 KM',  location: 'Bheemili',       phone: '+91 7569393019', website: 'https://bluejayresortbheemili.com/',              mapUrl: 'https://maps.app.goo.gl/5Kxn2YVAfRwyyiAR7' },
   { id: 7,  name: 'C. Pixels',                 type: 'service', label: 'Service Apt.',  distance: '3.6 KM',  location: 'Bheemili',       phone: '+91 6305065876', website: 'https://vishwamhotelsandresorts.com/',            mapUrl: 'https://maps.app.goo.gl/FQ4ZHfgCDDhsZcMb9' },
-  { id: 8,  name: 'Vishwam Hotels & Resorts',   type: '3star',   label: '★★★ 3 Star',   distance: '1.7 KM',  location: 'Tagarapuvalasa', phone: '+91 9666544440', website: 'https://vishwamhotelsandresorts.com/',            mapUrl: 'https://maps.app.goo.gl/rGhx1ej2WfuHUHbq5' },
-  { id: 9,  name: 'Sea Waves Holiday Homes',    type: 'service', label: 'Service Apt.',  distance: '5.4 KM',  location: 'Bheemili',       phone: '+91 7093905814', website: 'https://www.seabreeze.co.in/',                    mapUrl: 'https://maps.app.goo.gl/ZDztvdygUSgcgWmq7' },
-  { id: 10, name: 'Sea Breeze Resorts',         type: 'service', label: 'Service Apt.',  distance: '5.4 KM',  location: 'Bheemili',       phone: '+91 9704408180', website: 'https://www.seabreeze.co.in/',                    mapUrl: 'https://maps.app.goo.gl/uRA6F4d2UbM55XPy8' },
+  { id: 8,  name: '*Sea Waves Holiday Homes',    type: 'service', label: 'Service Apt.',  distance: '5.4 KM',  location: 'Bheemili',       phone: '+91 7093905814', website: 'https://www.seabreeze.co.in/',                    mapUrl: 'https://maps.app.goo.gl/ZDztvdygUSgcgWmq7' },
+  { id: 9, name: '*Sea Breeze Resorts',         type: 'service', label: 'Service Apt.',  distance: '5.4 KM',  location: 'Bheemili',       phone: '+91 9704408180', website: 'https://www.seabreeze.co.in/',                    mapUrl: 'https://maps.app.goo.gl/uRA6F4d2UbM55XPy8' },
 ];
 
 const badgeClass = {
-  '4star':   'ht-badge ht-badge--4star',
-  '3star':   'ht-badge ht-badge--3star',
+      '5star':   'ht-badge ht-badge--3star',
+  '4star':   'ht-badge ht-badge--3star ',
+  '3star':   'ht-badge ht-badge--4star',
   'service': 'ht-badge ht-badge--service',
+  'hotel': 'ht-badge ht-badge--hotel'
 };
 
 export default function HotelsTable() {
@@ -147,6 +148,9 @@ export default function HotelsTable() {
 
 
         <p className="ht-disclaimer">* Hotel tariffs may vary and are subject to applicable daily pricing policies.</p>
+        <p className="ht-disclaimer2">* SPECIAL DISCOUNTED TARIFF FOR CONVENTION DELEGATES.</p>
+        <p style={{fontFamily:'Kumbh Sans,sans-serriff'}}> For further Details:<br/>
+        Coordinator: DR Y. Madhusudhana Rao - +91 9160743909</p>
       </div>
     </section>
   );

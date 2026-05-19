@@ -4626,7 +4626,11 @@ svg { display: inline-block; vertical-align: middle; }
   margin-top: 10px; font-family: 'Kumbh Sans', sans-serif;
   font-size: 11px; color: #94A3B8; text-align: center; line-height: 1.6;
 }
-
+.ht-disclaimer2 {
+  margin-top: 10px; font-family: 'Kumbh Sans', sans-serif;
+  font-weight: 700;
+  font-size: 11px; color: #000000; text-align: center; line-height: 1.6;
+}
 /* ── Responsive ── */
 @media (max-width: 960px) {
   .ht-table-wrapper { display: none; }

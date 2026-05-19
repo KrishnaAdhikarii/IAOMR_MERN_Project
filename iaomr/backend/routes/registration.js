@@ -98,7 +98,7 @@ async function sendEmail(registration, pdfBuffer) {
   // fallback link if category not found
   const whatsappLink =
     whatsappLinks[registration.category] ||
-      "https://chat.whatsapp.com/ECIKNDPyLPPLcjDrwPl8yG?mode=gi_t";
+    "https://chat.whatsapp.com/ECIKNDPyLPPLcjDrwPl8yG?mode=gi_t";
 
   const html = `
   <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -195,6 +195,24 @@ async function sendEmail(registration, pdfBuffer) {
         "
       >
         Join WhatsApp Group
+      </a>
+    </p>
+
+    <p>
+      <a
+        href="https://www.instagram.com/24thiaomr_nationalpgconvention?igsh=MW1ldGNlY3V4b3Rmeg%3D%3D&utm_source=qr"
+        style="
+          display:inline-block;
+          padding:10px 18px;
+          background:#F472B6;
+          color:black;
+          margin-left:50px;
+          text-decoration:none;
+          border-radius:6px;
+          font-weight:bold;
+        "
+      >
+        Follow US on Instagram
       </a>
     </p>
 
@@ -371,8 +389,17 @@ router.post(
           : undefined,
       });
 
-      await registration.save();
+      try {
+        await registration.save();
+      } catch (err) {
+        if (err.code === 11000) {
+          return res.status(409).json({
+            message: "Duplicate registration detected",
+          });
+        }
 
+        throw err;
+      }
       console.log("SAVED:", regNumber);
 
       res.json({

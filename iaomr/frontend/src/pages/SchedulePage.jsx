@@ -523,7 +523,7 @@ export function VenuePage() {
                 allowFullScreen
               ></iframe>
               <div className='venue-name' style={{ textShadow: '0px 1px 02px #000' }}>
-                {/* <i className="fa-solid fa-location-arrow"></i>                Anil Neerukonda Institute of Dental Sciences, <br />Visakhapatnam <br /> */}
+                {/* <i className="fa-solid  fa-location-arrow"></i>                Anil Neerukonda Institute of Dental Sciences, <br />Visakhapatnam <br /> */}
                 <button
                   className="maps-button"
                   onClick={() =>
