@@ -86,15 +86,15 @@ async function sendEmail(registration, pdfBuffer) {
   const whatsappLinks = {
     "Post Graduate":
       "https://chat.whatsapp.com/ECIKNDPyLPPLcjDrwPl8yG?mode=gi_t",
-    Faculty: "https://chat.whatsapp.com/FACULTY-LINK",
-    Practitioner: "https://chat.whatsapp.com/PRACTITIONER-LINK",
-    "Foreign Delegate": "https://chat.whatsapp.com/FOREIGN-LINK",
+    Faculty: "https://chat.whatsapp.com/LeN7dANe12nJBtbkmdt8K3",
+    Practitioner: "https://chat.whatsapp.com/LeN7dANe12nJBtbkmdt8K3",
+    "Foreign Delegate": "https://chat.whatsapp.com/LeN7dANe12nJBtbkmdt8K3",
   };
 
   // fallback link if category not found
   const whatsappLink =
     whatsappLinks[registration.category] ||
-    "https://chat.whatsapp.com/default-link";
+      "https://chat.whatsapp.com/ECIKNDPyLPPLcjDrwPl8yG?mode=gi_t";
 
   const html = `
   <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -197,16 +197,16 @@ async function sendEmail(registration, pdfBuffer) {
     <br/>
 
     <img
-      src="https://iaomrpgconvene2026.com/assets/logo.png"
-      alt="IAOMR Logo"
+      src="https://iaomrpgconvene2026.com/assets/AnidsLogo-CEqdCiRq.jpeg"
+      alt=" Logo"
       style="width:150px;"
     />
 
     <p style="margin-top:20px;">
-      <b>Venue:</b><br/>
       Anil Neerukonda Institute of Dental Sciences (ANIDS)<br/>
       Sangivalasa, Bheemunipatnam Mandal,<br/>
-      Visakhapatnam District, Andhra Pradesh
+      Visakhapatnam District, Andhra Pradesh<br/>
+      Phone: +91 8008901278; <a href="https://www.anids.edu.in" target="_blank">www.anids.edu.in</a>
     </p>
 
     <p>
