@@ -12,7 +12,6 @@ export default function AbstractSubmission() {
         registrationId: "",
         title: "",
         presentationType: "",
-        abstractFormat: "",
         category: "",
         reviewCategory: "",
         introduction: "",
@@ -33,17 +32,20 @@ export default function AbstractSubmission() {
     };
 
     // TOTAL WORD COUNT
+    const isStructured =
+        formData.category === "Original Research";
 
     const totalWords =
-        formData.abstractFormat === "Structured"
+        isStructured
             ? countWords(`
-                ${formData.introduction}
-                ${formData.aimsObjectives}
-                ${formData.materialsMethods}
-                ${formData.results}
-                ${formData.conclusion}
-            `)
+            ${formData.introduction}
+            ${formData.aimsObjectives}
+            ${formData.materialsMethods}
+            ${formData.results}
+            ${formData.conclusion}
+        `)
             : countWords(formData.unstructuredAbstract);
+
 
     // HANDLE CHANGE
 
@@ -88,9 +90,15 @@ export default function AbstractSubmission() {
         try {
             setLoading(true);
 
+            const payload = {
+                ...formData,
+                abstractFormat: isStructured
+                    ? "Structured"
+                    : "Unstructured",
+            };
             const res = await api.post(
                 "/abstracts/submit",
-                formData
+                payload
             );
 
             alert(
@@ -126,20 +134,182 @@ export default function AbstractSubmission() {
 
                 {/* GUIDELINES */}
 
-                <div className="bg-blue-50 border border-blue-200 p-4 sm:p-5 rounded-2xl mb-8 sm:mb-10">
-                    <h2 className="text-lg sm:text-xl font-bold mb-3">
-                        Guidelines
+                {/* GUIDELINES */}
+
+                <div className="bg-blue-50 border border-blue-200 p-4 sm:p-6 rounded-2xl mb-8 sm:mb-10">
+
+                    <h2 className="text-xl sm:text-2xl font-bold text-blue-900 mb-5">
+                        24th IAOMR NATIONAL PG CONVENTION – VISAKHAPATNAM
                     </h2>
 
-                    <ul className="space-y-2 text-sm sm:text-base text-gray-700">
-                        <li>• Word Limit: 250</li>
-                        <li>• Format: MS Word</li>
-                        <li>• Font: Times New Roman</li>
-                        <li>• Font Size: 12</li>
-                        <li>
-                            • Heading: 14, Bold, Underline, CAPITAL
-                        </li>
-                    </ul>
+                    {/* GENERAL INSTRUCTIONS */}
+
+                    <div className="mb-6">
+
+                        <h3 className="text-lg font-bold text-gray-800 mb-3">
+                            General Instructions
+                        </h3>
+
+                        <ul className="space-y-2 text-sm sm:text-base text-gray-700 leading-relaxed">
+
+                            <li>
+                                1. Abstract must be original and unpublished work.
+                            </li>
+
+                            <li>
+                                2. Abstract should be written in English language only.
+                            </li>
+
+                            <li>
+                                3. Maximum word limit: 250–300 words.
+                            </li>
+
+                            <li>
+                                4. Submit the abstract in MS Word format (.doc/.docx).
+                            </li>
+
+                            <li>
+                                5. Include author name(s) and institutional affiliation.
+                            </li>
+
+                            <li>
+                                6. Should be approved & signed by Head of the Department / Guide.
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    {/* TYPES OF ABSTRACTS */}
+
+                    <div className="mb-6">
+
+                        <h3 className="text-lg font-bold text-gray-800 mb-3">
+                            Type of Abstracts
+                        </h3>
+
+                        {/* STRUCTURED */}
+
+                        <div className="bg-white rounded-xl p-4 border border-gray-200 mb-4">
+
+                            <h4 className="font-bold text-base sm:text-lg text-black mb-2">
+                                1. Structured Abstracts
+                            </h4>
+
+                            <p className="text-sm sm:text-base text-gray-700 mb-3">
+                                (For Original Research)
+                            </p>
+
+                            <p className="text-sm sm:text-base font-medium mb-2">
+                                The abstract should include:
+                            </p>
+
+                            <ul className="space-y-1 text-sm sm:text-base text-gray-700 ml-2">
+
+                                <li>• Introduction / Background</li>
+
+                                <li>• Aims & Objectives</li>
+
+                                <li>• Materials and Methods</li>
+
+                                <li>• Results</li>
+
+                                <li>• Conclusion</li>
+
+                            </ul>
+
+                        </div>
+
+                        {/* UNSTRUCTURED */}
+
+                        <div className="bg-white rounded-xl p-4 border border-gray-200">
+
+                            <h4 className="font-bold text-base sm:text-lg text-black mb-2">
+                                2. Unstructured Abstracts
+                            </h4>
+
+                            <p className="text-sm sm:text-base text-gray-700 mb-3">
+                                (For Case Reports, Innovative / AI Ideas, Review Articles)
+                            </p>
+
+                            <ul className="space-y-1 text-sm sm:text-base text-gray-700 ml-2">
+
+                                <li>
+                                    • Should be written in a single coherent paragraph.
+                                </li>
+
+                                <li>
+                                    • Must provide a clear narration of the case/review content.
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                    {/* FORMATTING GUIDELINES */}
+
+                    <div>
+
+                        <h3 className="text-lg font-bold text-gray-800 mb-3">
+                            Formatting Guidelines
+                        </h3>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                <p className="font-semibold text-gray-800">
+                                    Font
+                                </p>
+
+                                <p className="text-gray-700">
+                                    Times New Roman
+                                </p>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                <p className="font-semibold text-gray-800">
+                                    Font Size
+                                </p>
+
+                                <p className="text-gray-700">
+                                    12
+                                </p>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                <p className="font-semibold text-gray-800">
+                                    Heading Size
+                                </p>
+
+                                <p className="text-gray-700">
+                                    14
+                                </p>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 rounded-xl p-4">
+                                <p className="font-semibold text-gray-800">
+                                    Heading Format
+                                </p>
+
+                                <p className="text-gray-700">
+                                    Bold, CAPITAL, Underlined
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mt-4">
+
+                            <p className="text-sm sm:text-base text-gray-800 font-medium">
+                                Maintain proper spacing and alignment throughout the document.
+                            </p>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
                 {/* REGISTRATION VERIFY */}
@@ -286,47 +456,7 @@ export default function AbstractSubmission() {
 
                         </div>
 
-                        {/* FORMAT */}
 
-                        {formData.presentationType === "Paper" && (
-                            <div className="mb-5 sm:mb-6">
-
-                                <label className="block font-semibold mb-3">
-                                    Abstract Format
-                                </label>
-
-                                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-
-                                    <label className="flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="abstractFormat"
-                                            value="Structured"
-                                            onChange={handleChange}
-                                        />
-
-                                        <span className="ml-2">
-                                            Structured
-                                        </span>
-                                    </label>
-
-                                    <label className="flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="abstractFormat"
-                                            value="Unstructured"
-                                            onChange={handleChange}
-                                        />
-
-                                        <span className="ml-2">
-                                            Unstructured
-                                        </span>
-                                    </label>
-
-                                </div>
-
-                            </div>
-                        )}
 
                         {/* CATEGORY */}
 
@@ -402,7 +532,8 @@ export default function AbstractSubmission() {
 
                         {/* STRUCTURED */}
 
-                        {formData.abstractFormat === "Structured" && (
+                        {isStructured && (
+
                             <div className="space-y-5 sm:space-y-6">
 
                                 {[
@@ -453,7 +584,7 @@ export default function AbstractSubmission() {
 
                         {/* UNSTRUCTURED */}
 
-                        {formData.abstractFormat === "Unstructured" && (
+                        {!isStructured && formData.category && (
                             <div className="mb-5 sm:mb-6">
 
                                 <label className="block font-semibold mb-2">
@@ -476,11 +607,10 @@ export default function AbstractSubmission() {
                         <div className="mt-8 mb-6">
 
                             <div
-                                className={`text-base sm:text-lg font-bold ${
-                                    totalWords > 250
-                                        ? "text-red-500"
-                                        : "text-green-600"
-                                }`}
+                                className={`text-base sm:text-lg font-bold ${totalWords > 250
+                                    ? "text-red-500"
+                                    : "text-green-600"
+                                    }`}
                             >
                                 Word Count: {totalWords}/250
                             </div>
@@ -492,11 +622,10 @@ export default function AbstractSubmission() {
                         <button
                             type="submit"
                             disabled={loading || totalWords > 250}
-                            className={`w-full py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition duration-300 ${
-                                loading || totalWords > 250
-                                    ? "bg-gray-400 cursor-not-allowed text-white"
-                                    : "bg-black hover:bg-gray-800 text-white"
-                            }`}
+                            className={`w-full py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition duration-300 ${loading || totalWords > 250
+                                ? "bg-gray-400 cursor-not-allowed text-white"
+                                : "bg-black hover:bg-gray-800 text-white"
+                                }`}
                         >
                             {loading
                                 ? "Submitting..."

@@ -81,6 +81,7 @@ export default function RegistrationForm() {
 
   })();
 
+  // Base amount from category pricing
   let baseAmount = totalData.amount;
   const currency = totalData.currency;
 
@@ -91,23 +92,18 @@ export default function RegistrationForm() {
     baseAmount = baseAmount * USD_TO_INR;
   }
 
-  // Razorpay fee (2%)
+  // Convenience fee added silently in backend/payment
   const razorpayFee = Math.ceil(baseAmount * 0.0236);
-  // Final payable amount
+
+  // Final amount sent to Razorpay
   const totalAmount = baseAmount + razorpayFee;
 
-  // Display formatting
-  const displayBase =
+  // What user sees
+  const displayAmount =
     currency === "USD"
       ? `₹${baseAmount} ($${totalData.amount})`
       : `₹${baseAmount}`;
 
-  const displayFee = `₹${razorpayFee}`;
-
-  const displayTotal =
-    currency === "USD"
-      ? `₹${totalAmount} ($${totalData.amount})`
-      : `₹${totalAmount}`;
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -465,24 +461,6 @@ export default function RegistrationForm() {
           {/* Pricing */}
           <div className="registration-form-pricing">
 
-            <div className="registration-form-tier">
-              REGISTRATION FEE
-            </div>
-
-            <div className="registration-form-amount">
-              {displayBase}
-            </div>
-
-            <div className="registration-form-tier">
-              PAYMENT PROCESSING FEE (2%)            
-              </div>
-
-            <div className="registration-form-amount">
-              {displayFee}
-            </div>
-
-            <hr style={{ margin: "10px 0" }} />
-
             <div
               className="registration-form-tier"
               style={{ fontWeight: "bold" }}
@@ -498,8 +476,18 @@ export default function RegistrationForm() {
                 fontSize: "24px",
               }}
             >
-              {displayTotal}
+              {displayAmount}
             </div>
+
+            <p
+              style={{
+                fontSize: "12px",
+                color: "#666",
+                marginTop: "8px",
+              }}
+            >
+              * Convenience charges may apply during payment.
+            </p>
           </div>
 
           <button className="registration-form-submit" type="submit">

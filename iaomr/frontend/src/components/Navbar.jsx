@@ -55,7 +55,7 @@ export default function Navbar() {
       label: 'Scientific',
       dropdown: [
         { to: '/schedule', label: 'Schedule' },
-        { to: '/submit-abstract', label: 'Submit Abstract' },
+        { to: '/abstract', label: 'Submit Abstract' },
         { to: '/submit-poster', label: 'Submit Poster' },
         { to: '/submit-ppt', label: 'Submit Presentation' },
         { to: '/scientific', label: 'Scientific Program' },
