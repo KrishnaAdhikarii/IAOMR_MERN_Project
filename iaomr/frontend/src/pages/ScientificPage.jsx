@@ -17,9 +17,8 @@ const ScientificPage = () => {
             <br />
             <h2 style={{ fontFamily: 'Kumbh Sans, sans serrif' }}>Content Will Be Updated Soon
             </h2>
-            <p style={{fontFamily:'Kumbh Sans, sans serrif'}}>We are working on this page and will update the content shortly. Thank you for your patience.</p>
+            {/* <p style={{fontFamily:'Kumbh Sans, sans serrif'}}>We are ;;;;;;;;;''''4..''.working on this page and will update the content shortly. Thank you for your patience.</p> */}
         </div >
-
         </>
     );
 };

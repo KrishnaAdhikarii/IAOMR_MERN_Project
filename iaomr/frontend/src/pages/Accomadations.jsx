@@ -147,7 +147,7 @@ export default function HotelsTable() {
         </div>
 
 
-        <p className="ht-disclaimer">* Hotel tariffs may vary and are subject to applicable daily pricing policies.</p>
+        <p className="ht-disclaimer"> Hotel tariffs may vary and are subject to applicable daily pricing policies.</p>
         <p className="ht-disclaimer2">* SPECIAL DISCOUNTED TARIFF FOR CONVENTION DELEGATES.</p>
         <p style={{fontFamily:'Kumbh Sans,sans-serriff'}}> For further Details:<br/>
         Coordinator: DR Y. Madhusudhana Rao - +91 9160743909</p>

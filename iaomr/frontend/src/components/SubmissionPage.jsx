@@ -259,13 +259,13 @@ export function SubmitAbstractPage() {
 export function SubmitPosterPage() {
   return (
     <SubmissionLayout
-      title="Poster Submission Guidelines"
+      title="Poster Submission will be Opening Soon "
       guidelines={[
-        "Must present original research or case study.",
-        "Recommended size: A0 portrait format.",
-        "Text should be minimal with clear visuals.",
-        "Include title, authors, and affiliations.",
-        "Submission deadline will be announced soon."
+        // "Must present original research or case study.",
+        // "Recommended size: A0 portrait format.",
+        // "Text should be minimal with clear visuals.",
+        // "Include title, authors, and affiliations.",
+        // "Submission deadline will be announced soon."
       ]}
     />
   )
@@ -275,13 +275,13 @@ export function SubmitPosterPage() {
 export function SubmitPPTPage() {
   return (
     <SubmissionLayout
-      title="Presentation Submission Guidelines"
+      title="Presentation Submission will be Opening Soon"
       guidelines={[
-        "Submit in PPT or PDF format.",
-        "Recommended 10–12 slides only.",
-        "Keep content concise and readable.",
-        "Use graphs and visuals where possible.",
-        "Presentation time limit will be shared later."
+        // "Submit in PPT or PDF format.",
+        // "Recommended 10–12 slides only.",
+        // "Keep content concise and readable.",
+        // "Use graphs and visuals where possible.",
+        // "Presentation time limit will be shared later."
       ]}
     />
   )
