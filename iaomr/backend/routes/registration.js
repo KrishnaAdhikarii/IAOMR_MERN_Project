@@ -445,6 +445,59 @@ router.get("/photo/:id", async (req, res) => {
 });
 
 /* =========================
+   CHECK REGISTRATION
+========================= */
+
+router.get(
+  "/check/:id",
+  async (req, res) => {
+    try {
+
+      const registration =
+        await Registration.findOne({
+          regNumber: req.params.id,
+        });
+
+      if (!registration) {
+        return res.status(404).json({
+          success: false,
+          message:
+            "Registration not found",
+        });
+      }
+
+      res.json({
+        success: true,
+
+        registration: {
+          fullName:
+            registration.name,
+
+          email:
+            registration.email,
+
+          phone:
+            registration.phone,
+
+          institution:
+            registration.institution,
+        },
+      });
+
+    } catch (err) {
+
+      console.error(err);
+
+      res.status(500).json({
+        success: false,
+        message:
+          "Server Error",
+      });
+    }
+  }
+);
+
+/* =========================
    GET BY REG NUMBER (MUST BE LAST)
 ========================= */
 router.get("/:regNumber", async (req, res) => {
