@@ -8,7 +8,16 @@ import wave
   padding: 0;
   box-sizing: border-box;
 }
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Kumbh Sans', sans-serif;
+  background-color: #f3f4f6;
+}
 :root {
   /* Brochure Page 1 – Deep Space */
   --hero-bg: #07111f;

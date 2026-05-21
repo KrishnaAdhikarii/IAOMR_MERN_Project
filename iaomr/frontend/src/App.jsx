@@ -28,6 +28,10 @@ import OrganizingCommittee from './pages/Commitee'
 import OfficeCommittee from './pages/IAOMROfficeBearers';
 import ScientificPage from './pages/ScientificPage'
 
+
+import AbstractPage from './pages/AbstractPage'
+
+
 // Auth pages
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -39,7 +43,6 @@ import DashboardPage from './pages/DashboardPage'
 import RegistrationIdStatus from "./pages/RegistrationIdStatus";
 
 // import RegistrationPage from './pages/RegistrationPage'
-import AbstractPage from './pages/AbstractPage'
 import MyRegistrationsPage from './pages/MyRegistrationsPage'
 import ProfilePage from './pages/ProfilePage'
 
@@ -50,6 +53,7 @@ import AdminAbstracts from './pages/admin/AdminAbstracts'
 import AdminSchedule from './pages/admin/AdminSchedule'
 import AdminAnnouncements from './pages/admin/AdminAnnouncements'
 import AdminMessages from './pages/admin/AdminMessages'
+import AdminLogin from './pages/admin/AdminLogin'
 import AdminUsers from './pages/admin/AdminUsers'
 
 // Guards
@@ -58,16 +62,28 @@ const PrivateRoute = ({ children }) => {
   if (loading) return <div className="page-loader"><div className="spinner" /></div>
   return user ? children : <Navigate to="/login" replace />
 }
-const AdminRoute = ({ children }) => {
-  const { user, loading } = useAuth()
-  if (loading) return <div className="page-loader"><div className="spinner" /></div>
-  return user?.role === 'admin' ? children : <Navigate to="/" replace />
-}
+// const AdminRoute = ({ children }) => {
+//   const { user, loading } = useAuth()
+//   console.log(user);
+//   if (loading) return <div className="page-loader"><div className="spinner" /></div>
+//   return user?.role === 'admin' ? children : <Navigate to="/" replace />
+// }
 const GuestRoute = ({ children }) => {
   const { user, loading } = useAuth()
   if (loading) return <div className="page-loader"><div className="spinner" /></div>
   return !user ? children : <Navigate to="/dashboard" replace />
 }
+const AdminRoute = ({ children }) => {
+
+  const isAdmin =
+    localStorage.getItem(
+      "iaomr_admin"
+    );
+
+  return isAdmin === "true"
+    ? children
+    : <Navigate to="/admin-login" replace />;
+};
 
 function AppRoutes() {
   return (
@@ -80,7 +96,7 @@ function AppRoutes() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/schedule" element={<SchedulePage />} />
-          <Route path="/submit-abstract" element={<SubmitAbstractPage />} />
+          <Route path="/abstract" element={<SubmitAbstractPage />} />
           <Route path="/submit-poster" element={<SubmitPosterPage />} />
           <Route path="/submit-ppt" element={<SubmitPPTPage />} />
           <Route path="/scientific" element={<ScientificPage />} />
@@ -89,6 +105,8 @@ function AppRoutes() {
           <Route path="/office-committee" element={<OfficeCommittee />} />
           <Route path="/venue" element={<VenuePage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/submit-abstract" element={<AbstractPage />} />
+
 
           {/* Auth */}
           <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
@@ -109,11 +127,18 @@ function AppRoutes() {
           {/* Admin */}
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           <Route path="/admin/registrations" element={<AdminRoute><AdminRegistrations /></AdminRoute>} />
-          <Route path="/admin/abstracts" element={<AdminRoute><AdminAbstracts /></AdminRoute>} />
-          <Route path="/admin/schedule" element={<AdminRoute><AdminSchedule /></AdminRoute>} />
+          <Route
+            path="/admin/abstracts"
+            element={
+              <AdminRoute>
+                <AdminAbstracts />
+              </AdminRoute>
+            }/>   
+            <Route path="/admin/schedule" element={<AdminRoute><AdminSchedule /></AdminRoute>} />
           {/* <Route path="/admin/announcements" element={<AdminRoute><AdminAnnouncements /></AdminRoute>} /> */}
           <Route path="/admin/messages" element={<AdminRoute><AdminMessages /></AdminRoute>} />
           <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+          <Route path="/admin-login" element={<AdminLogin />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

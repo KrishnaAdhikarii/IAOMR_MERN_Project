@@ -1,9 +1,12 @@
 const Abstract = require("../models/Abstract");
+
 const Registration = require(
   "../models/Registration"
 );
 
-
+// ==============================
+// GENERATE ABSTRACT ID
+// ==============================
 
 const generateAbstractId = (
   presentationType,
@@ -19,13 +22,22 @@ const generateAbstractId = (
   ).padStart(4, "0")}`;
 };
 
+// ==============================
+// WORD COUNT
+// ==============================
 
 const countWords = (text) => {
-  return text
-    ?.trim()
-    ?.split(/\s+/)
-    ?.filter(Boolean).length || 0;
+  return (
+    text
+      ?.trim()
+      ?.split(/\s+/)
+      ?.filter(Boolean).length || 0
+  );
 };
+
+// ==============================
+// SUBMIT ABSTRACT
+// ==============================
 
 exports.submitAbstract = async (
   req,
@@ -34,12 +46,45 @@ exports.submitAbstract = async (
 ) => {
   try {
 
-    // CHECK REGISTRATION ID
+    const {
+      registrationId,
+      title,
+      presentationType,
+      abstractFormat,
+      category,
+      reviewCategory,
+      introduction,
+      aimsObjectives,
+      materialsMethods,
+      results,
+      conclusion,
+      unstructuredAbstract,
+    } = req.body;
+
+    // ==========================
+    // VALIDATION
+    // ==========================
+
+    if (
+      !registrationId ||
+      !title ||
+      !presentationType ||
+      !category
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Please fill all required fields",
+      });
+    }
+
+    // ==========================
+    // VERIFY REGISTRATION
+    // ==========================
 
     const registration =
       await Registration.findOne({
-        registrationId:
-          req.body.registrationId,
+        registrationId,
       });
 
     if (!registration) {
@@ -50,46 +95,68 @@ exports.submitAbstract = async (
       });
     }
 
-    // ABSTRACT COUNT
+    // ==========================
+    // PREVENT DUPLICATE ABSTRACTS
+    // ==========================
+
+    const existingAbstract =
+      await Abstract.findOne({
+        registrationId,
+        title,
+      });
+
+    if (existingAbstract) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Abstract already submitted",
+      });
+    }
+
+    // ==========================
+    // ABSTRACT ID
+    // ==========================
 
     const total =
       await Abstract.countDocuments();
 
     const abstractId = generateAbstractId(
-      req.body.presentationType,
+      presentationType,
       total + 1
     );
 
+    // ==========================
+    // WORD COUNT
+    // ==========================
+
     let wordCount = 0;
 
-    // STRUCTURED
-
     if (
-      req.body.abstractFormat ===
-      "Structured"
+      abstractFormat === "Structured"
     ) {
+
       const fields = [
-        req.body.introduction,
-        req.body.aimsObjectives,
-        req.body.materialsMethods,
-        req.body.results,
-        req.body.conclusion,
+        introduction,
+        aimsObjectives,
+        materialsMethods,
+        results,
+        conclusion,
       ];
 
       wordCount = countWords(
         fields.join(" ")
       );
-    }
 
-    // UNSTRUCTURED
+    } else {
 
-    else {
       wordCount = countWords(
-        req.body.unstructuredAbstract
+        unstructuredAbstract
       );
     }
 
+    // ==========================
     // WORD LIMIT
+    // ==========================
 
     if (wordCount > 250) {
       return res.status(400).json({
@@ -99,13 +166,26 @@ exports.submitAbstract = async (
       });
     }
 
+    // ==========================
     // CREATE ABSTRACT
+    // ==========================
 
     const abstract =
       await Abstract.create({
-        ...req.body,
+
+        registrationId,
 
         abstractId,
+
+        title,
+
+        presentationType,
+
+        abstractFormat,
+
+        category,
+
+        reviewCategory,
 
         wordCount,
 
@@ -122,25 +202,19 @@ exports.submitAbstract = async (
           registration.institution,
 
         structuredAbstract: {
-          introduction:
-            req.body.introduction,
-
-          aimsObjectives:
-            req.body.aimsObjectives,
-
-          materialsMethods:
-            req.body.materialsMethods,
-
-          results:
-            req.body.results,
-
-          conclusion:
-            req.body.conclusion,
+          introduction,
+          aimsObjectives,
+          materialsMethods,
+          results,
+          conclusion,
         },
+
+        unstructuredAbstract,
       });
 
     res.status(201).json({
       success: true,
+
       message:
         "Abstract submitted successfully",
 
@@ -152,6 +226,9 @@ exports.submitAbstract = async (
   }
 };
 
+// ==============================
+// GET ALL ABSTRACTS
+// ==============================
 
 exports.getAllAbstracts = async (
   req,
@@ -159,42 +236,205 @@ exports.getAllAbstracts = async (
   next
 ) => {
   try {
+
+    const {
+      status,
+      presentationType,
+      category,
+      search,
+    } = req.query;
+
+    const query = {};
+
+    // FILTERS
+
+    if (status) {
+      query.status = status;
+    }
+
+    if (presentationType) {
+      query.presentationType =
+        presentationType;
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    // SEARCH
+
+    if (search) {
+      query.$or = [
+        {
+          abstractId: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          title: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          author: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          registrationId: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
     const abstracts =
-      await Abstract.find().sort({
+      await Abstract.find(query).sort({
         createdAt: -1,
       });
 
     res.json({
       success: true,
+      count: abstracts.length,
       abstracts,
     });
+
   } catch (error) {
     next(error);
   }
 };
 
+// ==============================
+// GET SINGLE ABSTRACT
+// ==============================
 
-exports.updateAbstractStatus =
+exports.getSingleAbstract =
   async (req, res, next) => {
     try {
-      const abstract =
-        await Abstract.findByIdAndUpdate(
-          req.params.id,
-          {
-            status: req.body.status,
 
-            reviewerRemarks:
-              req.body.reviewerRemarks,
-          },
-          { new: true }
+      const abstract =
+        await Abstract.findById(
+          req.params.id
         );
+
+      if (!abstract) {
+        return res.status(404).json({
+          success: false,
+          message:
+            "Abstract not found",
+        });
+      }
 
       res.json({
         success: true,
         abstract,
       });
+
     } catch (error) {
       next(error);
     }
   };
 
+// ==============================
+// UPDATE STATUS
+// ==============================
+
+exports.updateAbstractStatus =
+  async (req, res, next) => {
+    try {
+
+      const {
+        status,
+        reviewerRemarks,
+      } = req.body;
+
+      const allowedStatuses = [
+        "Under Review",
+        "Accepted",
+        "Rejected",
+        "Corrections Required",
+      ];
+
+      if (
+        !allowedStatuses.includes(status)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid status",
+        });
+      }
+
+      const abstract =
+        await Abstract.findByIdAndUpdate(
+          req.params.id,
+          {
+            status,
+            reviewerRemarks,
+          },
+          {
+            new: true,
+          }
+        );
+
+      if (!abstract) {
+        return res.status(404).json({
+          success: false,
+          message:
+            "Abstract not found",
+        });
+      }
+
+      res.json({
+        success: true,
+        message:
+          "Status updated successfully",
+        abstract,
+      });
+
+    } catch (error) {
+      next(error);
+    }
+  };
+
+// ==============================
+// DELETE ABSTRACT
+// ==============================
+
+exports.deleteAbstract = async (
+  req,
+  res,
+  next
+) => {
+  try {
+
+    const abstract =
+      await Abstract.findByIdAndDelete(
+        req.params.id
+      );
+
+    if (!abstract) {
+      return res.status(404).json({
+        success: false,
+        message:
+          "Abstract not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message:
+        "Abstract deleted successfully",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};

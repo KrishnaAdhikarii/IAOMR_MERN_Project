@@ -5,27 +5,49 @@ const router = express.Router();
 const {
   submitAbstract,
   getAllAbstracts,
+  getSingleAbstract,
   updateAbstractStatus,
+  deleteAbstract,
 } = require(
   "../controllers/abstractController"
 );
 
-// Submit
+// =============================
+// PUBLIC ROUTES
+// =============================
+
+// Submit Abstract
 router.post(
   "/submit",
   submitAbstract
 );
 
-// Admin
+// =============================
+// ADMIN / REVIEWER ROUTES
+// =============================
+
+// Get All Abstracts
 router.get(
   "/all",
   getAllAbstracts
 );
 
-// Review
+// Get Single Abstract
+router.get(
+  "/:id",
+  getSingleAbstract
+);
+
+// Update Review Status
 router.put(
   "/review/:id",
   updateAbstractStatus
+);
+
+// Delete Abstract (optional)
+router.delete(
+  "/:id",
+  deleteAbstract
 );
 
 module.exports = router;

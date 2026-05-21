@@ -335,4 +335,18 @@ export function ProfilePage() {
   )
 }
 
+<button
+  onClick={() => {
+
+    localStorage.removeItem(
+      "iaomr_admin"
+    );
+
+    window.location.href =
+      "/admin-login";
+  }}
+>
+  Logout
+</button>
+
 export default DashboardPage
