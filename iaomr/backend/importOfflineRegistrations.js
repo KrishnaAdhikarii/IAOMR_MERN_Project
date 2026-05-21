@@ -70,4 +70,4 @@ async function importExcel(filePath) {
 }
 
 // Run the import
-importExcel("./offlineRegistrations.xlsx"); // Path to your Excel
+importExcel("./test.xlsx"); // Path to your Excel

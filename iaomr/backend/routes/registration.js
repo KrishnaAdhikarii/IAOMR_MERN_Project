@@ -104,7 +104,7 @@ async function sendEmail(registration, pdfBuffer) {
   <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
     
     <h2 style="color:#0b5394;">
-      Registration Confirmed – Your ID & Payment Receipt
+      Registration Confirmed 
     </h2>
 
     <p>Dear Dr. <b>${registration.name}</b>,</p>

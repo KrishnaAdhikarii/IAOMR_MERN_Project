@@ -64,11 +64,11 @@ mongoose.connect(process.env.MONGO_URI)
 // ─── Routes ───
 app.use('/api/registration', require('./routes/registration'));
 app.use('/api/status', require('./routes/status'));
+app.use('/api/abstracts', require('./routes/abstracts'));
 
 
 // app.use('/api/auth', authLimiter, require('./routes/auth'));
 // app.use('/api/registrations', require('./routes/registrations'));
-// app.use('/api/abstracts', require('./routes/abstracts'));
 // app.use('/api/schedule', require('./routes/schedule'));
 // app.use('/api/announcements', require('./routes/announcements'));
 // app.use('/api/contact', require('./routes/contact'));

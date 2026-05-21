@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const AbstractSchema = new mongoose.Schema({
+const AbstractSchema = new mongoose.Schema({ 
   user:           { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   registration:   { type: mongoose.Schema.Types.ObjectId, ref: 'Registration' },
   // Author Info

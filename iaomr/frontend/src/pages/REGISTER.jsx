@@ -81,18 +81,33 @@ export default function RegistrationForm() {
 
   })();
 
-  var totalAmount = totalData.amount;
+  let baseAmount = totalData.amount;
   const currency = totalData.currency;
-  const USD_TO_INR = 90; // you can later replace with live API
 
-  const displayAmount =
-    currency === "USD"
-      ? `₹${totalAmount * USD_TO_INR} ($${totalAmount})`
-      : `₹${totalAmount}`;
-  
+  const USD_TO_INR = 90;
+
+  // Convert USD to INR for payment gateway
   if (currency === "USD") {
-    totalAmount = totalAmount * USD_TO_INR;
+    baseAmount = baseAmount * USD_TO_INR;
   }
+
+  // Razorpay fee (2%)
+  const razorpayFee = Math.ceil(baseAmount * 0.0236);
+  // Final payable amount
+  const totalAmount = baseAmount + razorpayFee;
+
+  // Display formatting
+  const displayBase =
+    currency === "USD"
+      ? `₹${baseAmount} ($${totalData.amount})`
+      : `₹${baseAmount}`;
+
+  const displayFee = `₹${razorpayFee}`;
+
+  const displayTotal =
+    currency === "USD"
+      ? `₹${totalAmount} ($${totalData.amount})`
+      : `₹${totalAmount}`;
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -141,7 +156,7 @@ export default function RegistrationForm() {
         key: import.meta.env.VITE_RAZORPAY_KEY,
         amount: order.amount,
         currency: currency,
-         name: "Conference Registration",
+        name: "Conference Registration",
         description: "Delegate Fee",
         order_id: order.id,
 
@@ -449,8 +464,42 @@ export default function RegistrationForm() {
 
           {/* Pricing */}
           <div className="registration-form-pricing">
-            <div className="registration-form-tier">REGISTRATION FEE</div>
-            <div className="registration-form-amount">  {displayAmount}</div>
+
+            <div className="registration-form-tier">
+              REGISTRATION FEE
+            </div>
+
+            <div className="registration-form-amount">
+              {displayBase}
+            </div>
+
+            <div className="registration-form-tier">
+              PAYMENT PROCESSING FEE (2%)            
+              </div>
+
+            <div className="registration-form-amount">
+              {displayFee}
+            </div>
+
+            <hr style={{ margin: "10px 0" }} />
+
+            <div
+              className="registration-form-tier"
+              style={{ fontWeight: "bold" }}
+            >
+              TOTAL PAYABLE
+            </div>
+
+            <div
+              className="registration-form-amount"
+              style={{
+                fontWeight: "bold",
+                color: "#1976d2",
+                fontSize: "24px",
+              }}
+            >
+              {displayTotal}
+            </div>
           </div>
 
           <button className="registration-form-submit" type="submit">
