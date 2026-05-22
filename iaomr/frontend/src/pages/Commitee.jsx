@@ -4,6 +4,7 @@ import React from "react";
 import princi from "../images/princi.png";
 import badari from "../images/hod.png";
 import rahul from "../images/rahul.png";
+import avinash from "../images/dr-Avinash.png";
 import rajesh from "../images/rajesh.png";
 import lokesh from "../images/lokesh.png";
 import upendra from "../images/upendra2.png";
@@ -169,6 +170,7 @@ export default function FullCommitteePage() {
         {[
           { name: "Dr. B. Badari Ramakrishna", role: "Organizing Chairman", img: badari },
           { name: "Dr. V. Rahul Marshal", role: "Organizing Secretary", img: rahul },
+          { name: "Dr. Avinash Tejasvi M L", role: "Convention Secretary (HGS, IAOMR)", img: avinash },
           { name: "Dr. N. Rajesh", role: "Scientific Chairman", img: rajesh },
           { name: "Dr. K. V. Lokesh", role: "Treasurer", img: lokesh },
           { name: "Dr. G. Upendra", role: "Joint Secretary", img: upendra },
