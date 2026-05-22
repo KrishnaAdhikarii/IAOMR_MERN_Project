@@ -440,8 +440,8 @@ export default function HomePage() {
             </div>
 
             <div className="pin_card tall">
-              <img src={rushikonda} alt="Rishikonda Beach" />
-              <span>Rishikonda Beach</span>
+              <img src={rushikonda} alt="Rushikonda Beach" />
+              <span>Rushikonda Beach</span>
             </div>
             <div className="pin_card tall">
               <img src={v2} alt="Beach Road" />

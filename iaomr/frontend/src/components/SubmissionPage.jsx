@@ -48,7 +48,7 @@ export function SubmitAbstractPage() {
 
             <p className="mt-5 text-lg text-blue-100 leading-relaxed">
               Please read all the instructions carefully before
-              submitting your abstract for the conference at
+              submitting your abstract for the convention at
               Visakhapatnam.
             </p>
           </div>
@@ -146,7 +146,7 @@ export function SubmitAbstractPage() {
                   {[
                     "Introduction / Background",
                     "Aims & Objectives",
-                    "Materials and Methods / Methods",
+                    "Materials and Methods ",
                     "Results",
                     "Conclusion"
                   ].map((item, index) => (
@@ -214,7 +214,7 @@ export function SubmitAbstractPage() {
               </div>
 
               <h2 className="text-2xl font-bold uppercase text-slate-800">
-                Formatting
+                Formatting Guidelines   
               </h2>
             </div>
 

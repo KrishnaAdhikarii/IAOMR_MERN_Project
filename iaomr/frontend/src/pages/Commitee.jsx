@@ -74,7 +74,7 @@ const styles = {
     height: "140px",
     objectFit: "cover",
     borderRadius: "50%",
-    backgroundColor:'beige',
+    backgroundColor: 'beige',
     border: "3px solid #fff",
   },
 
@@ -88,6 +88,9 @@ const styles = {
 
   member: {
     textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",   // ✅ centers image + text
   },
 
   avatar: {
@@ -164,8 +167,8 @@ export default function FullCommitteePage() {
 
       <div style={styles.teamRow}>
         {[
-          { name: "Dr. B. Badari Ramakrishna", role: "Chairman", img: badari },
-          { name: "Dr. V. Rahul Marshal", role: "Secretary", img: rahul },
+          { name: "Dr. B. Badari Ramakrishna", role: "Organizing Chairman", img: badari },
+          { name: "Dr. V. Rahul Marshal", role: "Organizing Secretary", img: rahul },
           { name: "Dr. N. Rajesh", role: "Scientific Chairman", img: rajesh },
           { name: "Dr. K. V. Lokesh", role: "Treasurer", img: lokesh },
           { name: "Dr. G. Upendra", role: "Joint Secretary", img: upendra },

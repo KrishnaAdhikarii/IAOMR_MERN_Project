@@ -274,6 +274,7 @@ export function Office_bearers() {
 
 import rahul from "../images/rahul.png"
 import rajesh from "../images/rajesh.png"
+// import avinash from "../images/avinash.png"
 import lokesh from "../images/lokesh.png"
 import upendra from "../images/upendra2.png"
 import badari from "../images/hod.png"
@@ -299,6 +300,13 @@ export function CommitteePage() {
       role: "Organizing Secretary",
       img: "/assets/team/rahul.png",
       img: rahul
+
+    },
+    {
+      name: "Dr. Avinash Tejasvi M L",
+      role: "Convention Secretary (HGS, IAOMR)",
+      img: "/assets/team/avinash.png",
+      img: avinash
 
     },
     {
@@ -458,10 +466,10 @@ export function RegisterationInfo() {
           </span>
 
           <em style={{ textTransform: 'capitalize' }}>2 breakfasts, 2 lunches, 1 Gala banquet, registration kit,<br />
-            gift and attendance certificate</em>
+            gift and attendance certificate</em> <br />
+            Accompanying persons  inclusions: 2 Breakfasts, 2 Lunches and 1 Gala Banquet
         </p>
-
-      </div>
+        </div>
 
     </div>
 
