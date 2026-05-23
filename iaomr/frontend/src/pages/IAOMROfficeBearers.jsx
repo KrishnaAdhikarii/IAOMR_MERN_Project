@@ -6,7 +6,7 @@ import { OfficeCard } from '../components/OfficeCard.jsx';
 import photo from "../images/OIP.jpeg"
 
 import prasanth from "../images/Dr-Prasanth-Shenoy.png"
-import avinash from "../images/dr-Avinash.png"
+import avinash from "../images/avinash.png"
 import ajay from "../images/Dr-Ajay-Parihar.png"
 import shiva from "../images/Dr-Shiva-Prasad.png"
 import sreenivas from "../images/Dr-Sreenivasan.png"

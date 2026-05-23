@@ -4,7 +4,7 @@ import React from "react";
 import princi from "../images/princi.png";
 import badari from "../images/hod.png";
 import rahul from "../images/rahul.png";
-import avinash from "../images/dr-Avinash.png";
+import avinash from "../images/avinash.png";
 import rajesh from "../images/rajesh.png";
 import lokesh from "../images/lokesh.png";
 import upendra from "../images/upendra2.png";
