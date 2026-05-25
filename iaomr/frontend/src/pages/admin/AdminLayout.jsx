@@ -188,22 +188,22 @@ export function AdminLayout({ children, title }) {
         {/* Main Content */}
         <main className="flex-1 lg:ml-[260px] p-4 md:p-6 lg:p-10">
           {/* Desktop Header */}
-          {title && (
-            <div className="hidden lg:block bg-[rgb(27,46,87)] text-white rounded-3xl p-8 shadow-lg mb-8">
-              <p className="uppercase tracking-[0.2em] text-blue-100 text-sm font-semibold">
-                Admin Dashboard
-              </p>
+          {/* {title && (
+            // <div className="hidden lg:block bg-[rgb(27,46,87)] text-white rounded-3xl p-8 shadow-lg mb-8">
+            //   <p className="uppercase tracking-[0.2em] text-blue-100 text-sm font-semibold">
+            //     Admin Dashboard
+            //   </p>
 
-              <h1 className="text-4xl font-bold mt-3">
-                {title}
-              </h1>
+            //   <h1 className="text-4xl font-bold mt-3">
+            //     {title}
+            //   </h1>
 
-              <p className="mt-4 text-blue-100 max-w-2xl">
-                Manage registrations, abstracts, schedules,
-                users, and convention activities.
-              </p>
-            </div>
-          )}
+            //   <p className="mt-4 text-blue-100 max-w-2xl">
+            //     Manage registrations, abstracts, schedules,
+            //     users, and convention activities.
+            //   </p>
+            // </div>
+          )} */}
 
           {/* Content */}
           <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 md:p-6 lg:p-8 overflow-hidden">
