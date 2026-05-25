@@ -144,7 +144,10 @@ exports.submitAbstract = async (
 
         const registration =
             await Registration.findOne({
-                registrationId,
+                regNumber: {
+                    $regex: `^${registrationId.trim()}$`,
+                    $options: "i",
+                },
             });
 
         if (!registration) {
@@ -294,8 +297,7 @@ exports.submitAbstract = async (
 
                 wordCount,
 
-                author:
-                    registration.fullName,
+                author: registration.name,
 
                 email:
                     registration.email,
