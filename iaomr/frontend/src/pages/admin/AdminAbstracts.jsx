@@ -529,7 +529,7 @@ export default function AdminAbstracts() {
 
               {/* STRUCTURED */}
               {selectedAbstract.abstractFormat ===
-              'Structured' ? (
+                'Structured' ? (
                 <div className="space-y-5">
                   {Object.entries(
                     selectedAbstract.structuredAbstract
@@ -563,7 +563,46 @@ export default function AdminAbstracts() {
                   </p>
                 </div>
               )}
+              {/* ABSTRACT FILE */}
+              {selectedAbstract.abstractFile && (
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <h3 className="font-bold text-slate-800 text-lg">
+                        Uploaded Abstract File
+                      </h3>
 
+                      <p className="text-slate-500 mt-1 text-sm">
+                        View or download the submitted abstract document.
+                      </p>
+                    </div>
+
+                    <a
+                      href={`${import.meta.env.VITE_API_URL}/${selectedAbstract.abstractFile}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="h-12 px-5 rounded-2xl bg-[rgb(27,46,87)] text-white font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition"
+                    >
+                      <FiFileText />
+
+                      View File
+                    </a>
+                  </div>
+
+                  {/* PDF PREVIEW */}
+                  {selectedAbstract.abstractFile
+                    ?.toLowerCase()
+                    .endsWith('.pdf') && (
+                      <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200">
+                        <iframe
+                          src={`${import.meta.env.VITE_API_URL}/${selectedAbstract.abstractFile}`}
+                          title="Abstract PDF"
+                          className="w-full h-[700px] bg-white"
+                        />
+                      </div>
+                    )}
+                </div>
+              )}
               {/* REMARKS */}
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-3">

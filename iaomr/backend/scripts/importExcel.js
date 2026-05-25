@@ -29,9 +29,7 @@ async function importExcel(filePath) {
     console.log("📄 Rows Found:", data.length);
 
     // Skip header row if needed
-    const rowsToProcess = [0, 90, 91];
-
-    for (const i of rowsToProcess) {
+    for (let i = 1; i < data.length; i++) {
       const row = data[i];
 
       try {
@@ -161,4 +159,4 @@ async function importExcel(filePath) {
   }
 }
 
-importExcel("./REGISTRATIONS LOG.xlsx");
+importExcel("./Unsent-mails.xlsx");
