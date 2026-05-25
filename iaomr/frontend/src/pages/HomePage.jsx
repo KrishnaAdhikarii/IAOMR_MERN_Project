@@ -236,9 +236,9 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-            <p className="hero-wave-text">
+            {/* <p className="hero-wave-text">
               Join us for a memorable 2026 convention!
-            </p>
+            </p> */}
             <svg class="hero-wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
               <path fill="rgba(56, 191, 248, 0.35)"
                 d="M0,160 C240,240 480,80 720,160 C960,240 1200,80 1440,160 L1440,320 L0,320 Z">

@@ -1293,6 +1293,55 @@ html:hover {
     right: 2px;
   }
 }
+/* prevent waves overlapping content in mobile */
+@media (max-width: 900px) {
+
+  .hero-left {
+    padding-bottom: 140px;
+  }
+
+  .hero-wave {
+    height: 120px;
+    width: 160%;
+    bottom: -20px;
+  }
+
+  .hero-wave-2 {
+    height: 120px;
+    width: 160%;
+    bottom: -35px;
+  }
+
+  .hero-wave-text {
+    bottom: 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .hero-left {
+    padding-bottom: 110px;
+  }
+
+  .hero-wave {
+    height: 90px;
+    width: 170%;
+    bottom: -15px;
+  }
+
+  .hero-wave-2 {
+    height: 90px;
+    width: 170%;
+    bottom: -28px;
+  }
+
+  .hero-wave-text {
+    bottom: 14px;
+    font-size: 12px;
+  }
+}
+
 
 /*About Section*/
 /* Light Section */
@@ -3706,7 +3755,7 @@ html:hover {
 
 .chief_photo img {
   width: 350px;
-  /* max-width: 100%; */
+  max-width: 150%;
   height: auto;
   border-radius: 16px;
 
