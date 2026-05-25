@@ -52,7 +52,7 @@ router.get(
 
       try {
         totalUsers =
-          await User.countDocuments()
+          await Registration.countDocuments()
       } catch {
         totalUsers = 0
       }

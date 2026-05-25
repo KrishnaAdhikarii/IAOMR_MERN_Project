@@ -50,11 +50,12 @@ import ProfilePage from './pages/ProfilePage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminRegistrations from './pages/admin/AdminRegistrations'
 import AdminAbstracts from './pages/admin/AdminAbstracts'
-import AdminSchedule from './pages/admin/AdminSchedule'
-import AdminAnnouncements from './pages/admin/AdminAnnouncements'
-import AdminMessages from './pages/admin/AdminMessages'
+// import AdminSchedule from './pages/admin/AdminSchedule'
+import AdminTopicGroups from './pages/admin/AdminTopicGroups';
+// import AdminAnnouncements from './pages/admin/AdminAnnouncements'
+// import AdminMessages from './pages/admin/AdminMessages'
 import AdminLogin from './pages/admin/AdminLogin'
-import AdminUsers from './pages/admin/AdminUsers'
+// import AdminUsers from './pages/admin/AdminUsers'
 
 // Guards
 const PrivateRoute = ({ children }) => {
@@ -134,10 +135,11 @@ function AppRoutes() {
                 <AdminAbstracts />
               </AdminRoute>
             }/>   
-            <Route path="/admin/schedule" element={<AdminRoute><AdminSchedule /></AdminRoute>} />
+            {/* <Route path="/admin/schedule" element={<AdminRoute><AdminSchedule /></AdminRoute>} /> */}
+            <Route path="/admin/topic-groups" element={<AdminRoute><AdminTopicGroups /></AdminRoute>} />
           {/* <Route path="/admin/announcements" element={<AdminRoute><AdminAnnouncements /></AdminRoute>} /> */}
-          <Route path="/admin/messages" element={<AdminRoute><AdminMessages /></AdminRoute>} />
-          <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+          {/* <Route path="/admin/messages" element={<AdminRoute><AdminMessages /></AdminRoute>} /> */}
+          {/* <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} /> */}
           <Route path="/admin-login" element={<AdminLogin />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -182,7 +182,7 @@ export default function AbstractSubmission() {
                             </li>
 
                             <li>
-                                3. Maximum word limit: 250–300 words.
+                                3. Maximum word limit: 250 words.
                             </li>
 
                             <li>
@@ -667,7 +667,7 @@ export default function AbstractSubmission() {
 
                                     <p className="mt-3 text-sm text-slate-500 leading-relaxed">
                                         Accepted formats: PDF, DOC, DOCX <br />
-                                        Maximum file size: 15 MB
+                                        Maximum file size: 10 MB
                                     </p>
                                 </div>
 
@@ -679,10 +679,10 @@ export default function AbstractSubmission() {
 
                                     <ul className="space-y-2 text-slate-600 text-sm leading-relaxed list-disc pl-5">
                                         <li>Only PDF or MS Word documents are allowed.</li>
-                                        <li>File size must not exceed 15 MB.</li>
-                                        <li>Filename should contain presenter/student name.</li>
+                                        <li>File size must not exceed 10 MB.</li>
+                                        <li>Filename should be "NAME_Reg.ID".</li>
                                         <li>Ensure the uploaded file is final and properly formatted.</li>
-                                        <li>Scanned approval/signature pages can be included in the same PDF.</li>
+                                        <li>Scanned approval/signature pages Should be included in the same PDF.</li>
                                     </ul>
                                 </div>
                             </div>
