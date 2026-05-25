@@ -4,6 +4,9 @@ import api from "../utils/api";
 export default function AbstractSubmission() {
     const [loading, setLoading] = useState(false);
 
+    const [abstractFile, setAbstractFile] =
+        useState(null);
+
     const [verified, setVerified] = useState(false);
 
     const [registrationData, setRegistrationData] = useState({});
@@ -90,15 +93,33 @@ export default function AbstractSubmission() {
         try {
             setLoading(true);
 
-            const payload = {
-                ...formData,
-                abstractFormat: isStructured
+            const payload = new FormData();
+
+            Object.keys(formData).forEach((key) => {
+                payload.append(key, formData[key]);
+            });
+
+            payload.append(
+                "abstractFormat",
+                isStructured
                     ? "Structured"
-                    : "Unstructured",
-            };
+                    : "Unstructured"
+            );
+
+            payload.append(
+                "abstractFile",
+                abstractFile
+            );
+
             const res = await api.post(
                 "/abstracts/submit",
-                payload
+                payload,
+                {
+                    headers: {
+                        "Content-Type":
+                            "multipart/form-data",
+                    },
+                }
             );
 
             alert(
@@ -616,6 +637,56 @@ export default function AbstractSubmission() {
                             </div>
 
                         </div>
+                        {/* Upload Abstract File */}
+                        <section className="bg-white border border-slate-200 rounded-3xl shadow-sm p-8 mt-8">
+                            <div className="flex items-center gap-4 mb-6">
+
+
+                                <h2 className="text-2xl font-bold uppercase text-slate-800">
+                                    Upload Abstract
+                                </h2>
+                            </div>
+
+                            <div className="space-y-6">
+                                {/* File Upload */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                        Upload Word / PDF File
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        accept=".pdf,.doc,.docx"
+                                        onChange={(e) =>
+                                            setAbstractFile(e.target.files[0])
+                                        }
+                                        className="w-full border border-slate-300 rounded-2xl px-4 py-3 file:mr-4 file:py-2 file:px-4
+        file:rounded-xl file:border-0 file:bg-[rgb(27,46,87)] file:text-white
+        file:font-medium hover:file:opacity-90 cursor-pointer"
+                                    />
+
+                                    <p className="mt-3 text-sm text-slate-500 leading-relaxed">
+                                        Accepted formats: PDF, DOC, DOCX <br />
+                                        Maximum file size: 15 MB
+                                    </p>
+                                </div>
+
+                                {/* Guidelines Box */}
+                                <div className="rounded-2xl bg-slate-50 border border-slate-200 p-5">
+                                    <h3 className="font-semibold text-slate-800 mb-3">
+                                        Upload Guidelines
+                                    </h3>
+
+                                    <ul className="space-y-2 text-slate-600 text-sm leading-relaxed list-disc pl-5">
+                                        <li>Only PDF or MS Word documents are allowed.</li>
+                                        <li>File size must not exceed 15 MB.</li>
+                                        <li>Filename should contain presenter/student name.</li>
+                                        <li>Ensure the uploaded file is final and properly formatted.</li>
+                                        <li>Scanned approval/signature pages can be included in the same PDF.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
 
                         {/* SUBMIT */}
 

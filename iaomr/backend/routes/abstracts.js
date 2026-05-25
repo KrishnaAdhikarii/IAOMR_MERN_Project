@@ -2,52 +2,38 @@ const express = require("express");
 
 const router = express.Router();
 
+const upload = require("../middlewares/uploadAbstract");
+
 const {
   submitAbstract,
   getAllAbstracts,
   getSingleAbstract,
   updateAbstractStatus,
   deleteAbstract,
-} = require(
-  "../controllers/abstractController"
-);
+} = require("../controllers/abstractController");
 
-// =============================
-// PUBLIC ROUTES
-// =============================
+// SUBMIT ABSTRACT
 
-// Submit Abstract
 router.post(
   "/submit",
+  upload.single("abstractFile"),
   submitAbstract
 );
 
-// =============================
-// ADMIN / REVIEWER ROUTES
-// =============================
+// GET ALL
 
-// Get All Abstracts
-router.get(
-  "/all",
-  getAllAbstracts
-);
+router.get("/all", getAllAbstracts);
 
-// Get Single Abstract
-router.get(
-  "/:id",
-  getSingleAbstract
-);
+// GET SINGLE
 
-// Update Review Status
-router.put(
-  "/review/:id",
-  updateAbstractStatus
-);
+router.get("/:id", getSingleAbstract);
 
-// Delete Abstract (optional)
-router.delete(
-  "/:id",
-  deleteAbstract
-);
+// REVIEW
+
+router.put("/review/:id", updateAbstractStatus);
+
+// DELETE
+
+router.delete("/:id", deleteAbstract);
 
 module.exports = router;

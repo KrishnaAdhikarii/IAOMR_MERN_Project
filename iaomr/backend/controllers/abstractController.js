@@ -40,6 +40,13 @@ exports.submitAbstract = async (
     next
 ) => {
     try {
+        const uploadedFile = req.file;
+        if (!uploadedFile) {
+            return res.status(400).json({
+                success: false,
+                message: "Abstract file is required",
+            });
+        }
 
         let {
             registrationId,
@@ -308,6 +315,7 @@ exports.submitAbstract = async (
                 },
 
                 unstructuredAbstract,
+                uploadedFile: uploadedFile.path,
             });
 
         // =====================================

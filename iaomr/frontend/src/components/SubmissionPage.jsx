@@ -203,7 +203,9 @@ export function SubmitAbstractPage() {
               </div>
             </div>
           </section>
+          
         </div>
+        
 
         {/* Right Sidebar */}
         <div>

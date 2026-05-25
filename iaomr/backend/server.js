@@ -66,7 +66,10 @@ app.use('/api/registration', require('./routes/registration'));
 app.use('/api/status', require('./routes/status'));
 app.use('/api/abstracts', require('./routes/abstracts'));
 
-
+app.use(
+  "/uploads",
+  express.static("uploads")
+);
 // app.use('/api/auth', authLimiter, require('./routes/auth'));
 // app.use('/api/registrations', require('./routes/registrations'));
 // app.use('/api/schedule', require('./routes/schedule'));

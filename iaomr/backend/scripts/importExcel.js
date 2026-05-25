@@ -29,7 +29,9 @@ async function importExcel(filePath) {
     console.log("📄 Rows Found:", data.length);
 
     // Skip header row if needed
-    for (let i = 92; i < data.length; i++) {
+    const rowsToProcess = [0, 90, 91];
+
+    for (const i of rowsToProcess) {
       const row = data[i];
 
       try {
