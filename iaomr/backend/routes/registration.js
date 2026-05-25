@@ -11,12 +11,6 @@ const upload = require("../middleware/upload")
 const Registration = require("../models/Registration")
 const Counter = require("../models/Counter")
 
-const authMiddleware =
-  require("../middleware/authMiddleware")
-
-const adminAuth =
-  require("../middleware/adminAuth")
-
 /* =========================
    RAZORPAY INIT
 ========================= */
@@ -99,6 +93,7 @@ function generatePDF(data) {
     doc.text(`Name: ${data.name}`)
     doc.text(`Email: ${data.email}`)
     doc.text(`Phone: ${data.phone}`)
+
     doc.text(
       `Reg No: ${data.regNumber}`
     )
@@ -269,13 +264,10 @@ router.post(
 
 /* =========================
    GET ALL REGISTRATIONS
-   ADMIN ONLY
 ========================= */
 
 router.get(
   "/",
-  authMiddleware,
-  adminAuth,
   async (req, res) => {
     try {
       const page =
@@ -324,12 +316,12 @@ router.get(
         ]
       }
 
-      /* STATUS FILTER */
+      /* STATUS */
       if (status) {
         query.status = status
       }
 
-      /* CATEGORY FILTER */
+      /* CATEGORY */
       if (category) {
         query.category = category
       }
@@ -352,7 +344,6 @@ router.get(
         data,
         total,
         page,
-
         totalPages:
           Math.ceil(total / limit),
       })
@@ -369,13 +360,10 @@ router.get(
 
 /* =========================
    UPDATE STATUS
-   ADMIN ONLY
 ========================= */
 
 router.put(
   "/:id/verify",
-  authMiddleware,
-  adminAuth,
   async (req, res) => {
     try {
       const { status } = req.body

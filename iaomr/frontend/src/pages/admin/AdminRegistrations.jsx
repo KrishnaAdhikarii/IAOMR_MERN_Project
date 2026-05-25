@@ -47,7 +47,7 @@ export default function AdminRegistrations() {
         params.set('category', catFilter)
 
       const res = await api.get(
-        `/registrations?${params}`
+        `/registration?${params}`
       )
 
       setData(res.data.data || [])
@@ -69,7 +69,7 @@ export default function AdminRegistrations() {
   const handleVerify = async (id) => {
     try {
       await api.put(
-        `/registrations/${id}/verify`,
+        `/registration/${id}/verify`,
         {
           status: verifyStatus,
         }
