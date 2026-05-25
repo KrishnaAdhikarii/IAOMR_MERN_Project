@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const upload = require("../middlewares/uploadAbstract");
+const upload = require("../middleware/uploadAbstract");
 
 const {
   submitAbstract,
