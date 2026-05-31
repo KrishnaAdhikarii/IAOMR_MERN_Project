@@ -564,7 +564,7 @@ export default function AdminAbstracts() {
                 </div>
               )}
               {/* ABSTRACT FILE */}
-              {selectedAbstract.abstractFile && (
+              {selectedAbstract.uploadedFile && (
                 <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
@@ -573,29 +573,31 @@ export default function AdminAbstracts() {
                       </h3>
 
                       <p className="text-slate-500 mt-1 text-sm">
-                        View or download the submitted abstract document.
+                        View submitted abstract document
                       </p>
                     </div>
 
                     <a
-                      href={`${import.meta.env.VITE_API_URL}/${selectedAbstract.abstractFile}`}
+                      href={`${import.meta.env.VITE_API_URL
+                        }/${selectedAbstract.uploadedFile}`}
                       target="_blank"
                       rel="noreferrer"
                       className="h-12 px-5 rounded-2xl bg-[rgb(27,46,87)] text-white font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition"
                     >
                       <FiFileText />
 
-                      View File
+                      Open File
                     </a>
                   </div>
 
                   {/* PDF PREVIEW */}
-                  {selectedAbstract.abstractFile
+                  {selectedAbstract.uploadedFile
                     ?.toLowerCase()
                     .endsWith('.pdf') && (
                       <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200">
                         <iframe
-                          src={`${import.meta.env.VITE_API_URL}/${selectedAbstract.abstractFile}`}
+                          src={`${import.meta.env.VITE_API_URL
+                            }/${selectedAbstract.uploadedFile}`}
                           title="Abstract PDF"
                           className="w-full h-[700px] bg-white"
                         />

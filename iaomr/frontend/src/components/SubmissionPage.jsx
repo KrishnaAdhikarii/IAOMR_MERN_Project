@@ -1,5 +1,5 @@
 import React from 'react'
-// import './SubmissionPages.css'
+import { useNavigate } from "react-router-dom";
 
 /* ---------------- SHARED LAYOUT ---------------- */
 function SubmissionLayout({ title, guidelines }) {
@@ -31,6 +31,8 @@ function SubmissionLayout({ title, guidelines }) {
 
 /* ---------------- PAGE 1: ABSTRACT ---------------- */
 export function SubmitAbstractPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
       {/* Header */}
@@ -56,10 +58,10 @@ export function SubmitAbstractPage() {
           {/* Right Button */}
           <div className="flex lg:justify-end">
             <button
-              disabled
-              className="bg-white text-blue-700 px-7 py-4 rounded-2xl font-semibold text-lg shadow-md cursor-not-allowed"
+              onClick={() => navigate("/submit-abstract")}
+              className="bg-white text-blue-700 px-7 py-4 rounded-2xl font-semibold text-lg shadow-md hover:bg-blue-50 transition"
             >
-              Submissions Opening Soon
+              Submit Abstract
             </button>
           </div>
         </div>
@@ -203,9 +205,9 @@ export function SubmitAbstractPage() {
               </div>
             </div>
           </section>
-          
+
         </div>
-        
+
 
         {/* Right Sidebar */}
         <div>
@@ -216,7 +218,7 @@ export function SubmitAbstractPage() {
               </div>
 
               <h2 className="text-2xl font-bold uppercase text-slate-800">
-                Formatting Guidelines   
+                Formatting Guidelines
               </h2>
             </div>
 
@@ -254,7 +256,7 @@ export function SubmitAbstractPage() {
           </section>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 /* ---------------- PAGE 2: POSTER ---------------- */

@@ -317,7 +317,8 @@ exports.submitAbstract = async (
                 },
 
                 unstructuredAbstract,
-                uploadedFile: uploadedFile.path,
+                uploadedFile:
+                    uploadedFile.filename
             });
 
         // =====================================
