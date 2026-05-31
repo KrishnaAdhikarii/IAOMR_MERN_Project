@@ -166,11 +166,20 @@ export default function Navbar() {
 
           {/* MOBILE BUTTON */}
           <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="mobile-menu-btn"
-          >
-            {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
-          </button>
+  onClick={() => setMenuOpen(true)}
+  className="
+    md:hidden
+    h-9 w-9
+    flex items-center justify-center
+    rounded-lg
+    border border-white/30
+    bg-transparent
+    hover:bg-white/10
+    transition-all duration-200
+  "
+>
+  <FiMenu size={18} className="text-white" />
+</button>
         </div>
       </div>
       {/* MOBILE MENU */}
