@@ -21,11 +21,11 @@ const AbstractStatus = () => {
 
         try {
             const response = await axios.post(
-                "/api/status/abstract",
-                {
-                    searchValue: searchValue.trim(),
-                }
-            );
+  `${import.meta.env.VITE_API_URL}/api/status/abstract`,
+  {
+    searchValue: searchValue.trim(),
+  }
+);
 
             setAbstractData(response.data.data);
         } catch (err) {
