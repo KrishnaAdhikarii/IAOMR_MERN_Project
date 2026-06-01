@@ -20,12 +20,9 @@ const AbstractStatus = () => {
         setAbstractData(null);
 
         try {
-            const response = await axios.post(
-  `${import.meta.env.VITE_API_URL}/api/status/abstract`,
-  {
-    searchValue: searchValue.trim(),
-  }
-);
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/status/abstract-status`, {
+                searchValue: searchValue.trim(),
+            });
 
             setAbstractData(response.data.data);
         } catch (err) {

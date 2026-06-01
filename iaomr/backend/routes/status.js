@@ -48,29 +48,29 @@ router.post("/registration-id", async (req, res) => {
 // 📄 Abstract Status
 router.post("/abstract-status", async (req, res) => {
   try {
-    let { email, registrationId } = req.body;
+    let { searchValue } = req.body;
 
-    if (!email || !registrationId) {
+    if (!searchValue) {
       return res.status(400).json({
         success: false,
-        message: "Email and Registration ID are required",
+        message: "Email or Registration ID is required",
       });
     }
 
-    email = email.trim().toLowerCase();
-    registrationId = registrationId.trim();
+    const value = searchValue.trim();
 
-    const abstract = await Abstract.findOne({
-      registrationId,
-      email: { $regex: `^${email}$`, $options: "i" },
-    }).select(
+    const query = value.includes("@")
+      ? { email: { $regex: `^${value}$`, $options: "i" } }
+      : { registrationId: value };
+
+    const abstract = await Abstract.findOne(query).select(
       "abstractId title author category presentationType status reviewerRemarks updatedAt"
     );
 
     if (!abstract) {
       return res.status(404).json({
         success: false,
-        message: "No abstract submission found",
+        message: "No abstract found",
       });
     }
 
@@ -79,8 +79,7 @@ router.post("/abstract-status", async (req, res) => {
       data: abstract,
     });
   } catch (error) {
-    console.error("❌ Abstract Status Error:", error);
-
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: "Server error",
