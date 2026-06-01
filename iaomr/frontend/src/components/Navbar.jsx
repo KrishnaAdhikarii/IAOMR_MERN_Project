@@ -166,8 +166,7 @@ export default function Navbar() {
 
           {/* MOBILE BUTTON */}
           <button
-  onClick={() => setMenuOpen(true)}
-  className="
+            onClick={() => setMenuOpen(prev => !prev)} className="
     md:hidden
     h-9 w-9
     flex items-center justify-center
@@ -177,9 +176,9 @@ export default function Navbar() {
     hover:bg-white/10
     transition-all duration-200
   "
->
-  <FiMenu size={18} className="text-white" />
-</button>
+          >
+            <FiMenu size={18} className="text-white" />
+          </button>
         </div>
       </div>
       {/* MOBILE MENU */}
