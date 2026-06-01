@@ -151,7 +151,7 @@ export default function Navbar() {
                 <Link to="/status/registration-id" className="status-item">
                   Registration ID
                 </Link>
-                <Link to="/status/abstract-submission" className="status-item">
+                <Link to="/status/abstract" className="status-item">
                   Abstract Submission Status
                 </Link>
                 <Link to="/status/abstract-result" className="status-item">

@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { ScrollToTop } from "./components/ScrollToTop";
 
+
 import RegistrationForm from './pages/REGISTER';
 
 
@@ -41,6 +42,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 // User pages
 import DashboardPage from './pages/DashboardPage'
 import RegistrationIdStatus from "./pages/RegistrationIdStatus";
+import AbstractStatus from "./pages/AbstractStatus";
 
 // import RegistrationPage from './pages/RegistrationPage'
 import MyRegistrationsPage from './pages/MyRegistrationsPage'
@@ -119,6 +121,10 @@ function AppRoutes() {
           <Route
             path="/status/registration-id"
             element={<RegistrationIdStatus />}
+          />
+          <Route
+            path="/status/abstract"
+            element={<AbstractStatus />}
           />
 
           <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
