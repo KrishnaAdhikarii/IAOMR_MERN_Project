@@ -56,19 +56,15 @@ router.post("/abstract-status", async (req, res) => {
     if (!searchValue) {
       return res.status(400).json({
         success: false,
-        message: "Email or Registration ID is required",
+        message: "Email or Registration Number is required",
       });
     }
 
     const value = searchValue.trim();
 
     const query = value.includes("@")
-      ? {
-          email: { $regex: `^${value}$`, $options: "i" },
-        }
-      : {
-          registrationId: value,
-        };
+      ? { email: { $regex: `^${value}$`, $options: "i" } }
+      : { registrationId: value };
 
     const abstract = await Abstract.findOne(query).select(
       "abstractId title author category presentationType status reviewerRemarks updatedAt"
@@ -86,8 +82,7 @@ router.post("/abstract-status", async (req, res) => {
       data: abstract,
     });
   } catch (error) {
-    console.error("❌ Abstract Status Error:", error);
-
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: "Server error",
