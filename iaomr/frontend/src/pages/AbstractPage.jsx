@@ -476,7 +476,12 @@ export default function AbstractSubmission() {
                             </div>
 
                         </div>
-
+                        <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-xl">
+                            <p className="text-sm text-gray-700">
+                                <strong>Note:</strong> Paper Presentation is open to both Faculty and Postgraduate delegates.
+                                Poster Presentation is restricted to Postgraduate delegates only.
+                            </p>
+                        </div>
 
 
                         {/* CATEGORY */}
