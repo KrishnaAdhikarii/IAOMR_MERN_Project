@@ -467,9 +467,9 @@ export function RegisterationInfo() {
 
           <em style={{ textTransform: 'capitalize' }}>2 breakfasts, 2 lunches, 1 Gala banquet, registration kit,<br />
             gift and attendance certificate</em> <br />
-            Accompanying persons  inclusions: 2 Breakfasts, 2 Lunches and 1 Gala Banquet
+          Accompanying persons  inclusions: 2 Breakfasts, 2 Lunches and 1 Gala Banquet
         </p>
-        </div>
+      </div>
 
     </div>
 
@@ -630,6 +630,7 @@ export function VenuePage() {
 export function AbstractInfo() {
   const abstractInfoRef = useRef(null);
   const abstractInfoVisible = useIsVisible(abstractInfoRef);
+  const navigate = useNavigate();
 
   return (
     <section className="abstract_info">
@@ -654,8 +655,11 @@ export function AbstractInfo() {
           Join us in making this convention a hub of scientific exchange and professional growth. We look forward to welcoming you to Visakhapatnam in August 2026!
         </p>
 
-        <button className="abstractInfo_button" disabled>
-          Submissions Opening Soon
+        <button
+          className="abstractInfo_button"
+          onClick={() => navigate("/submit-abstract")}
+        >
+          Submissions Open Now
         </button>
       </div>
     </section>
