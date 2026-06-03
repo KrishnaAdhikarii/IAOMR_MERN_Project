@@ -15,6 +15,8 @@ import {
 } from 'react-icons/fi'
 
 export default function AdminAbstracts() {
+
+  
   const [abstracts, setAbstracts] =
     useState([])
 
@@ -578,8 +580,7 @@ export default function AdminAbstracts() {
                     </div>
 
                     <a
-                      href={`${import.meta.env.VITE_API_URL
-                        }/${selectedAbstract.uploadedFile}`}
+                      href={`${import.meta.env.VITE_API_URL}/uploads/abstracts/${selectedAbstract.uploadedFile}`}
                       target="_blank"
                       rel="noreferrer"
                       className="h-12 px-5 rounded-2xl bg-[rgb(27,46,87)] text-white font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition"
@@ -596,8 +597,7 @@ export default function AdminAbstracts() {
                     .endsWith('.pdf') && (
                       <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200">
                         <iframe
-                          src={`${import.meta.env.VITE_API_URL
-                            }/${selectedAbstract.uploadedFile}`}
+                          src={`${import.meta.env.VITE_API_URL}/uploads/abstracts/${selectedAbstract.uploadedFile}`}
                           title="Abstract PDF"
                           className="w-full h-[700px] bg-white"
                         />

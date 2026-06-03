@@ -317,8 +317,7 @@ exports.submitAbstract = async (
                 },
 
                 unstructuredAbstract,
-                uploadedFile:
-                    uploadedFile.filename
+                uploadedFile: req.file.path.replace(/\\/g, "/")
             });
 
         // =====================================
