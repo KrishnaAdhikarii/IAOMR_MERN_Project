@@ -597,10 +597,10 @@ export default function AdminAbstracts() {
                     .endsWith('.pdf') && (
                       <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200">
                         <iframe
-                          src={selectedAbstract.uploadedFile}
-                          title="Abstract PDF"
-                          className="w-full h-[700px] bg-white"
-                        />
+  src={`${selectedAbstract.uploadedFile}#toolbar=0`}
+  className="w-full h-[700px] bg-white"
+  title="PDF Preview"
+/>
 
                       </div>
                     )}

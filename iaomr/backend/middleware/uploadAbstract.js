@@ -9,7 +9,9 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => ({
     folder: "abstracts",
 
-    resource_type: "raw",
+    resource_type: "image", // ✅ FIXED
+
+    format: "pdf", // ✅ IMPORTANT
 
     public_id:
       Date.now() +
@@ -28,22 +30,15 @@ const fileFilter = (req, file, cb) => {
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(
-      new Error(
-        "Only PDF/DOC/DOCX files are allowed"
-      ),
-      false
-    );
+    cb(new Error("Only PDF/DOC/DOCX files are allowed"), false);
   }
 };
 
 const upload = multer({
   storage,
-
   limits: {
     fileSize: 15 * 1024 * 1024,
   },
-
   fileFilter,
 });
 
