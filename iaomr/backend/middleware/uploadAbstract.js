@@ -1,29 +1,27 @@
 const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const path = require("path");
+const cloudinary = require("../config/cloudinary");
 
-// STORAGE
+const storage = new CloudinaryStorage({
+  cloudinary,
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/abstracts");
-  },
+  params: async (req, file) => ({
+    folder: "abstracts",
 
-  filename: function (req, file, cb) {
-    const uniqueName =
-      Date.now() + "-" + file.originalname;
+    resource_type: "raw",
 
-    cb(null, uniqueName);
-  },
+    public_id:
+      Date.now() +
+      "-" +
+      path.parse(file.originalname).name,
+  }),
 });
-
-// FILE FILTER
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [
     "application/pdf",
-
     "application/msword",
-
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ];
 
@@ -39,13 +37,13 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// MULTER CONFIG
-
 const upload = multer({
   storage,
+
   limits: {
-    fileSize: 15 * 1024 * 1024, // 15 MB
+    fileSize: 15 * 1024 * 1024,
   },
+
   fileFilter,
 });
 

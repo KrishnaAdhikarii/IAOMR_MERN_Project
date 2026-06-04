@@ -196,6 +196,12 @@ export default function AbstractSubmission() {
                             <li>
                                 6. Should be approved & signed by Head of the Department / Guide.
                             </li>
+                            <li>7. A Postgraduate delegate may present either a paper or a poster, but not both.
+                            </li>
+
+                            <li>
+                                8. Faculty delegates can only present papers.
+                            </li>
 
                         </ul>
 
