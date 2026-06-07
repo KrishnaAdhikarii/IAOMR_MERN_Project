@@ -32,7 +32,7 @@ const EditAbstract = () => {
         const fetchAbstract = async () => {
             try {
                 const res = await axios.get(
-                    `${import.meta.env.VITE_API_URL}/api/abstract/${id}`
+                    `${import.meta.env.VITE_API_URL}/api/abstracts/${id}`
                 );
 
                 const data = res.data.abstract;
@@ -89,7 +89,7 @@ const EditAbstract = () => {
 
         try {
             await axios.put(
-                `${import.meta.env.VITE_API_URL}/api/abstract/${id}/edit`,
+                `${import.meta.env.VITE_API_URL}/api/abstracts/${id}/edit`,
                 formData
             );
 
