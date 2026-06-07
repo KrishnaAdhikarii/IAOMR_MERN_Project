@@ -198,3 +198,54 @@ async function sendEmail(registration, pdfBuffer) {
 }
 
 module.exports = { generatePDF, sendEmail };
+
+function sendAbstractReviewEmail(abstract, status) {
+    const html = `
+  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    
+    <h2 style="color:#0b5394;">
+      Abstract Review Update
+    </h2>
+
+    <p>Dear <b>${abstract.author}</b>,</p>
+
+    <p>
+      Your abstract submitted for <b>IAOMR PG Convention 2026</b> has been reviewed.
+    </p>
+
+    <hr />
+
+    <p><b>Abstract ID:</b> ${abstract.abstractId}</p>
+    <p><b>Title:</b> ${abstract.title}</p>
+    <p><b>Status:</b> ${status}</p>
+
+    <hr />
+
+    <p><b>Reviewer Remarks:</b><br/>
+      ${abstract.reviewerRemarks || "No remarks provided"}
+    </p>
+
+    <br/>
+
+    <p>
+      For any queries, contact the organizing committee.
+    </p>
+
+    <p style="margin-top:20px;">
+      Warm regards,<br/>
+      <b>Scientific Committee</b><br/>
+      IAOMR PG Convention 2026
+    </p>
+
+  </div>
+  `;
+
+    return resend.emails.send({
+        from: "IAOMR <anidsomrvizag@iaomrpgconvene2026.com>",
+        to: abstract.email,
+        subject: `Abstract ${status} - IAOMR 2026`,
+        html,
+    });
+}
+
+module.exports.sendAbstractReviewEmail = sendAbstractReviewEmail;

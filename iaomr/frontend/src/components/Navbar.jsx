@@ -155,7 +155,7 @@ export default function Navbar() {
                   Abstract Submission Status
                 </Link>
                 <Link to="/status/abstract-result" className="status-item">
-                  Abstract Accepted / Rejected
+                  Poster Submission Status
                 </Link>
                 <Link to="/status/PPT-submission" className="status-item">
                   Presentation Submission Status

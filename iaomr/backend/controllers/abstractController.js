@@ -1,6 +1,10 @@
 const Abstract = require("../models/Abstract");
 const Registration = require("../models/Registration");
 
+const {
+  sendAbstractReviewEmail,
+} = require("../utils/pdfemail");
+
 // =====================================
 // GENERATE ABSTRACT ID
 // =====================================
@@ -480,7 +484,7 @@ exports.getSingleAbstract =
 exports.updateAbstractStatus =
     async (req, res, next) => {
         try {
-
+            console.log("📧 EMAIL TRIGGER HIT");
             const {
                 status,
                 reviewerRemarks,
@@ -493,15 +497,10 @@ exports.updateAbstractStatus =
                 "Corrections Required",
             ];
 
-            if (
-                !allowedStatuses.includes(
-                    status
-                )
-            ) {
+            if (!allowedStatuses.includes(status)) {
                 return res.status(400).json({
                     success: false,
-                    message:
-                        "Invalid status",
+                    message: "Invalid status",
                 });
             }
 
@@ -521,20 +520,34 @@ exports.updateAbstractStatus =
             if (!abstract) {
                 return res.status(404).json({
                     success: false,
-                    message:
-                        "Abstract not found",
+                    message: "Abstract not found",
                 });
+            }
+
+            // ==============================
+            // 🔥 SEND EMAIL AFTER UPDATE
+            // ==============================
+
+            try {
+                await sendAbstractReviewEmail(
+                    abstract,
+                    status
+                );
+                console.log("📧 Abstract email sent");
+            } catch (mailErr) {
+                console.error(
+                    "❌ Email failed:",
+                    mailErr.message
+                );
             }
 
             res.status(200).json({
                 success: true,
-                message:
-                    "Status updated successfully",
+                message: "Status updated successfully",
                 abstract,
             });
 
         } catch (error) {
-
             next(error);
         }
     };
