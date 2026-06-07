@@ -143,6 +143,7 @@ exports.submitAbstract = async (
         // =====================================
 
         const registration =
+        
             await Registration.findOne({
                 regNumber: {
                     $regex: `^${registrationId.trim()}$`,
@@ -157,6 +158,8 @@ exports.submitAbstract = async (
                     "Invalid Registration ID",
             });
         }
+
+        console.log("Registration:", registration);
 
         // =====================================
         // PREVENT DUPLICATE ABSTRACT
@@ -278,47 +281,35 @@ exports.submitAbstract = async (
         // CREATE ABSTRACT
         // =====================================
 
-        const abstract =
-            await Abstract.create({
+        const abstract = await Abstract.create({
+            registrationId,
+            abstractId,
+            title,
+            presentationType,
+            abstractFormat,
+            category,
+            reviewCategory,
+            wordCount,
 
-                registrationId,
+            author: registration.name,
+            email: registration.email,
+            phone: registration.phone,
+            institution: registration.institution,
 
-                abstractId,
+            delegateCategory: registration.category,
 
-                title,
+            structuredAbstract: {
+                introduction,
+                aimsObjectives,
+                materialsMethods,
+                results,
+                conclusion,
+            },
 
-                presentationType,
-
-                abstractFormat,
-
-                category,
-
-                reviewCategory,
-
-                wordCount,
-
-                author: registration.name,
-
-                email:
-                    registration.email,
-
-                phone:
-                    registration.phone,
-
-                institution:
-                    registration.institution,
-
-                structuredAbstract: {
-                    introduction,
-                    aimsObjectives,
-                    materialsMethods,
-                    results,
-                    conclusion,
-                },
-
-                unstructuredAbstract,
-                uploadedFile: req.file.secure_url || req.file.path
-            });
+            unstructuredAbstract,
+            uploadedFile:
+                req.file.secure_url || req.file.path,
+        });
 
         // =====================================
         // RESPONSE
@@ -344,6 +335,8 @@ exports.submitAbstract = async (
 // =====================================
 // GET ALL ABSTRACTS
 // =====================================
+const escapeRegex = (str) =>
+    str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 exports.getAllAbstracts = async (
     req,
@@ -352,10 +345,13 @@ exports.getAllAbstracts = async (
 ) => {
     try {
 
+                console.log("Query Params:", req.query);
+
         const {
             status,
             presentationType,
             category,
+            delegateCategory,
             search,
         } = req.query;
 
@@ -363,6 +359,7 @@ exports.getAllAbstracts = async (
 
         // FILTERS
 
+        
         if (status) {
             query.status = status;
         }
@@ -384,35 +381,43 @@ exports.getAllAbstracts = async (
 
                 {
                     abstractId: {
-                        $regex: search,
+                        $regex: escapeRegex(search),
                         $options: "i",
                     },
                 },
 
                 {
                     title: {
-                        $regex: search,
+                        $regex: escapeRegex(search),
                         $options: "i",
                     },
                 },
 
                 {
                     author: {
-                        $regex: search,
+                        $regex: escapeRegex(search),
                         $options: "i",
                     },
                 },
 
+
                 {
+
                     registrationId: {
-                        $regex: search,
+                        $regex: escapeRegex(search),
                         $options: "i",
                     },
                 },
             ];
         }
+            if (delegateCategory) {
+                query.delegateCategory =
+                    delegateCategory;
+            }
+        
 
         const abstracts =
+        console.log("Mongo Query:", query);
             await Abstract.find(query)
                 .sort({
                     createdAt: -1,

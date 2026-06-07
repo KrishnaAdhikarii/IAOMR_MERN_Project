@@ -90,7 +90,9 @@ export function SubmitAbstractPage() {
                 "Maximum word limit: 250–300 words.",
                 "Submit the abstract in MS Word format (.doc/.docx).",
                 "Include author name(s) and institutional affiliation.",
-                "Should be approved and signed by Head of the Department / Guide."
+                "Should be approved and signed by Head of the Department / Guide.",
+                "A Postgraduate delegate may present either a paper or a poster, but not both.",
+                "Faculty delegates can only present papers."
               ].map((item, index) => (
                 <li
                   key={index}

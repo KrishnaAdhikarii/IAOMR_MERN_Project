@@ -32,6 +32,8 @@ export default function AdminAbstracts() {
       search: '',
       status: '',
       presentationType: '',
+      category: '',
+      delegateCategory: '',
     })
 
   // =========================
@@ -42,10 +44,11 @@ export default function AdminAbstracts() {
     try {
       setLoading(true)
 
-      const query =
-        new URLSearchParams(
-          filters
-        ).toString()
+      const query = new URLSearchParams(
+        Object.fromEntries(
+          Object.entries(filters).filter(([_, v]) => v)
+        )
+      ).toString()
 
       const res = await api.get(
         `/abstracts/all?${query}`
@@ -178,7 +181,7 @@ export default function AdminAbstracts() {
 
       {/* FILTERS */}
       <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4">
           {/* SEARCH */}
           <div className="relative">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -249,6 +252,59 @@ export default function AdminAbstracts() {
             </option>
           </select>
 
+          <select
+            name="delegateCategory"
+            value={filters.delegateCategory}
+            onChange={handleFilterChange}
+            className="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 outline-none"
+          >
+            <option value="">
+              All Delegates
+            </option>
+
+            <option value="Faculty">
+              Faculty
+            </option>
+
+            <option value="Practitioner">
+              Practitioner
+            </option>
+
+            <option value="Post Graduate">
+              Post Graduate
+            </option>
+
+            <option value="Foreign Delegate">
+              Foreign Delegate
+            </option>
+          </select>
+
+          <select
+            name="category"
+            value={filters.category}
+            onChange={handleFilterChange}
+            className="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 outline-none"
+          >
+            <option value="">
+              All Topics
+            </option>
+
+            {[
+              ...new Set(
+                abstracts.map(
+                  (a) => a.category
+                )
+              ),
+            ].map((cat) => (
+              <option
+                key={cat}
+                value={cat}
+              >
+                {cat}
+              </option>
+            ))}
+          </select>
+
           {/* BUTTON */}
           <button
             onClick={applyFilters}
@@ -282,11 +338,13 @@ export default function AdminAbstracts() {
           <>
             {/* DESKTOP */}
             <div className="hidden xl:block overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full table-fixed">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
                     {[
-                      'ID',
+                      'Abstract ID',
+                      'Reg ID',
+                      'Delegate',
                       'Title',
                       'Author',
                       'Type',
@@ -295,7 +353,7 @@ export default function AdminAbstracts() {
                     ].map((head) => (
                       <th
                         key={head}
-                        className="px-6 py-4 text-left text-sm font-semibold text-slate-600 uppercase tracking-wide"
+                        className="px-3 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide"
                       >
                         {head}
                       </th>
@@ -312,10 +370,20 @@ export default function AdminAbstracts() {
                         }
                         className="border-b border-slate-100 hover:bg-slate-50 transition"
                       >
-                        <td className="px-6 py-5 font-bold text-[rgb(27,46,87)] whitespace-nowrap">
+                        <td className="px-4 py-4 text-xs font-bold text-[rgb(27,46,87)] whitespace-nowrap">
                           {
                             abstract.abstractId
                           }
+                        </td>
+                        <td className="px-6 py-5 text-xs whitespace-nowrap">
+                          <span className="font-medium">
+                            {abstract.registrationId}
+                          </span>
+                        </td>
+                        <td className="px-6 py-5">
+                          <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-medium">
+                            {abstract.delegateCategory}
+                          </span>
                         </td>
 
                         <td className="px-6 py-5">
@@ -326,7 +394,7 @@ export default function AdminAbstracts() {
                               }
                             </h3>
 
-                            <p className="text-sm text-slate-500 mt-1">
+                            <p className="text-xs text-slate-500 mt-1">
                               {
                                 abstract.category
                               }
@@ -342,7 +410,7 @@ export default function AdminAbstracts() {
                               }
                             </p>
 
-                            <p className="text-sm text-slate-500 mt-1">
+                            <p className="text-xs text-slate-500 mt-1">
                               {
                                 abstract.institution
                               }
@@ -351,7 +419,7 @@ export default function AdminAbstracts() {
                         </td>
 
                         <td className="px-6 py-5">
-                          <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+                          <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-medium">
                             {
                               abstract.presentationType
                             }
@@ -360,7 +428,7 @@ export default function AdminAbstracts() {
 
                         <td className="px-6 py-5">
                           <span
-                            className={`px-3 py-1 rounded-full text-sm font-medium ${statusBadge(
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${statusBadge(
                               abstract.status
                             )}`}
                           >
@@ -406,7 +474,7 @@ export default function AdminAbstracts() {
                           }
                         </h3>
 
-                        <p className="text-sm text-slate-500 mt-1">
+                        <p className="text-xs text-slate-500 mt-1">
                           {
                             abstract.abstractId
                           }
@@ -474,14 +542,13 @@ export default function AdminAbstracts() {
           onClick={() =>
             setSelectedAbstract(null)
           }
-          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
         >
           <div
             onClick={(e) =>
               e.stopPropagation()
             }
-            className="w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
-          >
+            className="w-full max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"          >
             {/* HEADER */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
               <div>
@@ -489,7 +556,7 @@ export default function AdminAbstracts() {
                   Review Abstract
                 </h2>
 
-                <p className="text-sm text-slate-500 mt-1">
+                <p className="text-xs text-slate-500 mt-1">
                   {
                     selectedAbstract.abstractId
                   }
@@ -539,7 +606,7 @@ export default function AdminAbstracts() {
                     ([key, value]) => (
                       <div
                         key={key}
-                        className="bg-slate-50 rounded-2xl p-5 border border-slate-200"
+                        className="bg-slate-50 rounded-2xl p-5 border border-slate-200 overflow-hidden"
                       >
                         <h3 className="font-bold capitalize text-slate-800 mb-3">
                           {key}
@@ -597,10 +664,10 @@ export default function AdminAbstracts() {
                     .endsWith('.pdf') && (
                       <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200">
                         <iframe
-  src={`${selectedAbstract.uploadedFile}#toolbar=0`}
-  className="w-full h-[700px] bg-white"
-  title="PDF Preview"
-/>
+                          src={`${selectedAbstract.uploadedFile}#toolbar=0`}
+                          className="w-full h-[700px] bg-white"
+                          title="PDF Preview"
+                        />
 
                       </div>
                     )}

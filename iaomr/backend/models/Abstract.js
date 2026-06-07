@@ -66,6 +66,10 @@ const AbstractSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    delegateCategory: {
+      type: String,
+      default: "",
+    },
 
     // FILE
 
