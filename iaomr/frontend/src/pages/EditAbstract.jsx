@@ -10,6 +10,8 @@ const EditAbstract = () => {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
+    const [file, setFile] = useState(null);
+
     const [formData, setFormData] = useState({
         title: "",
         category: "",
@@ -37,7 +39,6 @@ const EditAbstract = () => {
 
                 const data = res.data.abstract;
 
-                // safety check
                 if (data.status !== "Corrections Required") {
                     setError("Editing not allowed at this stage.");
                     return;
@@ -79,35 +80,53 @@ const EditAbstract = () => {
     };
 
     // =========================
+    // HANDLE FILE
+    // =========================
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    // =========================
     // SUBMIT UPDATE
     // =========================
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setSubmitting(true);
         setError("");
 
         try {
+            const data = new FormData();
+
+            // text fields
+            Object.keys(formData).forEach((key) => {
+                data.append(key, formData[key]);
+            });
+
+            // pdf file (optional)
+            if (file) {
+                data.append("abstractFile", file);
+            }
+
             await axios.put(
-                `${import.meta.env.VITE_API_URL}/api/abstracts/${id}/edit`,
-                formData
+                `${import.meta.env.VITE_API_URL}/api/abstracts/edit/${id}`,
+                data,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
 
             alert("Abstract resubmitted successfully");
             navigate("/status");
 
         } catch (err) {
-            setError(
-                err.response?.data?.message || "Update failed"
-            );
+            setError(err.response?.data?.message || "Update failed");
         } finally {
             setSubmitting(false);
         }
     };
 
-    // =========================
-    // LOADING STATE
-    // =========================
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -120,7 +139,7 @@ const EditAbstract = () => {
         <div className="min-h-screen bg-gray-50 flex justify-center px-4 py-10">
             <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6">
 
-                <h1 className="text-2xl font-bold mb-6 text-[#0F2854]">
+                <h1 className="text-2xl font-bold text-[#0F2854] mb-6">
                     Edit Abstract
                 </h1>
 
@@ -130,90 +149,94 @@ const EditAbstract = () => {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
 
-                    {/* TITLE */}
-                    <input
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        placeholder="Title"
-                        className="w-full border p-3 rounded"
-                        required
-                    />
+                    {/* ================= TITLE ================= */}
+                    <div>
+                        <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                            Basic Details
+                        </h2>
 
-                    {/* CATEGORY */}
-                    <input
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                        placeholder="Category"
-                        className="w-full border p-3 rounded"
-                    />
-
-                    {/* REVIEW CATEGORY */}
-                    <input
-                        name="reviewCategory"
-                        value={formData.reviewCategory}
-                        onChange={handleChange}
-                        placeholder="Review Category"
-                        className="w-full border p-3 rounded"
-                    />
-
-                    {/* STRUCTURED OR UNSTRUCTURED */}
-                    {formData.abstractFormat === "Structured" ? (
-                        <>
-                            <textarea
-                                name="introduction"
-                                value={formData.introduction}
-                                onChange={handleChange}
-                                placeholder="Introduction"
-                                className="w-full border p-3 rounded"
-                            />
-
-                            <textarea
-                                name="aimsObjectives"
-                                value={formData.aimsObjectives}
-                                onChange={handleChange}
-                                placeholder="Aims & Objectives"
-                                className="w-full border p-3 rounded"
-                            />
-
-                            <textarea
-                                name="materialsMethods"
-                                value={formData.materialsMethods}
-                                onChange={handleChange}
-                                placeholder="Materials & Methods"
-                                className="w-full border p-3 rounded"
-                            />
-
-                            <textarea
-                                name="results"
-                                value={formData.results}
-                                onChange={handleChange}
-                                placeholder="Results"
-                                className="w-full border p-3 rounded"
-                            />
-
-                            <textarea
-                                name="conclusion"
-                                value={formData.conclusion}
-                                onChange={handleChange}
-                                placeholder="Conclusion"
-                                className="w-full border p-3 rounded"
-                            />
-                        </>
-                    ) : (
-                        <textarea
-                            name="unstructuredAbstract"
-                            value={formData.unstructuredAbstract}
+                        <input
+                            name="title"
+                            value={formData.title}
                             onChange={handleChange}
-                            placeholder="Full Abstract"
-                            className="w-full border p-3 rounded min-h-[200px]"
+                            placeholder="Title"
+                            className="w-full border p-3 rounded"
+                            required
                         />
+
+                        <input
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                            placeholder="Category"
+                            className="w-full border p-3 rounded mt-3"
+                        />
+
+                        <input
+                            name="reviewCategory"
+                            value={formData.reviewCategory}
+                            onChange={handleChange}
+                            placeholder="Review Category"
+                            className="w-full border p-3 rounded mt-3"
+                        />
+                    </div>
+
+                    {/* ================= STRUCTURED ================= */}
+                    {formData.abstractFormat === "Structured" && (
+                        <div>
+                            <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                                Structured Abstract
+                            </h2>
+
+                            <textarea name="introduction" value={formData.introduction} onChange={handleChange} placeholder="Introduction" className="w-full border p-3 rounded mb-3" />
+
+                            <textarea name="aimsObjectives" value={formData.aimsObjectives} onChange={handleChange} placeholder="Aims & Objectives" className="w-full border p-3 rounded mb-3" />
+
+                            <textarea name="materialsMethods" value={formData.materialsMethods} onChange={handleChange} placeholder="Materials & Methods" className="w-full border p-3 rounded mb-3" />
+
+                            <textarea name="results" value={formData.results} onChange={handleChange} placeholder="Results" className="w-full border p-3 rounded mb-3" />
+
+                            <textarea name="conclusion" value={formData.conclusion} onChange={handleChange} placeholder="Conclusion" className="w-full border p-3 rounded" />
+                        </div>
                     )}
 
-                    {/* BUTTON */}
+                    {/* ================= UNSTRUCTURED ================= */}
+                    {formData.abstractFormat === "Unstructured" && (
+                        <div>
+                            <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                                Full Abstract
+                            </h2>
+
+                            <textarea
+                                name="unstructuredAbstract"
+                                value={formData.unstructuredAbstract}
+                                onChange={handleChange}
+                                className="w-full border p-3 rounded min-h-[200px]"
+                            />
+                        </div>
+                    )}
+
+                    {/* ================= PDF UPLOAD ================= */}
+                    <div>
+                        <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                            Upload Updated Abstract PDF 
+                        </h2>
+
+                        <input
+                            type="file"
+                            accept="application/pdf"
+                            onChange={handleFileChange}
+                            className="w-full border p-3 rounded bg-white"
+                        />
+
+                        <p className="text-sm text-gray-500 mt-1">
+                            Upload only if you want to replace previous PDF
+                        </p>
+                    </div>
+
+                    {/* ================= SUBMIT ================= */}
                     <button
                         type="submit"
                         disabled={submitting}
@@ -221,6 +244,7 @@ const EditAbstract = () => {
                     >
                         {submitting ? "Submitting..." : "Resubmit Abstract"}
                     </button>
+
                 </form>
             </div>
         </div>

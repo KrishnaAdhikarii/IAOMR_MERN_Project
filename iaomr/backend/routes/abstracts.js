@@ -35,8 +35,11 @@ router.get("/:id", getSingleAbstract);
 router.put("/review/:id", updateAbstractStatus);
 
 
-router.put("/edit/:id", updateAbstractAfterCorrection);
-
+router.put(
+  "/edit/:id",
+  upload.single("abstractFile"),
+  updateAbstractAfterCorrection
+);
 // DELETE
 
 router.delete("/:id", deleteAbstract);

@@ -564,7 +564,6 @@ exports.updateAbstractAfterCorrection = async (req, res, next) => {
             });
         }
 
-        // 🔴 ONLY allow if corrections requested
         if (abstract.status !== "Corrections Required") {
             return res.status(400).json({
                 success: false,
@@ -584,12 +583,18 @@ exports.updateAbstractAfterCorrection = async (req, res, next) => {
             unstructuredAbstract,
         } = req.body;
 
-        // UPDATE BASIC FIELDS
+        // TEXT UPDATES
         if (title) abstract.title = title.trim();
         if (category) abstract.category = category;
         if (reviewCategory) abstract.reviewCategory = reviewCategory;
 
-        // UPDATE STRUCTURED
+        // FILE UPDATE 🔥 FIX HERE
+        if (req.file) {
+            abstract.uploadedFile =
+                req.file.secure_url || req.file.path;
+        }
+
+        // STRUCTURED / UNSTRUCTURED
         if (abstract.abstractFormat === "Structured") {
             abstract.structuredAbstract = {
                 introduction,
@@ -598,24 +603,21 @@ exports.updateAbstractAfterCorrection = async (req, res, next) => {
                 results,
                 conclusion,
             };
+
+            const text = `${introduction} ${aimsObjectives} ${materialsMethods} ${results} ${conclusion}`;
+
+            if (countWords(text) > 250) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Abstract exceeds 250 words",
+                });
+            }
+
         } else {
             abstract.unstructuredAbstract = unstructuredAbstract;
         }
 
-        if (abstract.abstractFormat === "Structured") {
-    const text = `${introduction} ${aimsObjectives} ${materialsMethods} ${results} ${conclusion}`;
-    if (countWords(text) > 250) {
-        return res.status(400).json({
-            success: false,
-            message: "Abstract exceeds 250 words",
-        });
-    }
-}
-
-        // 🔁 RESET STATUS BACK TO REVIEW
         abstract.status = "Under Review";
-
-        
 
         await abstract.save();
 
