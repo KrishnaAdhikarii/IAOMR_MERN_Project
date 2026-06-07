@@ -41,7 +41,7 @@ const EditAbstract = () => {
 
                 const data = res.data.abstract;
 
-                                setRemarks(data.remarks || "");
+                setRemarks(data.reviewerRemarks || "g");
 
 
                 if (data.status !== "Corrections Required") {
