@@ -200,35 +200,79 @@ async function sendEmail(registration, pdfBuffer) {
 module.exports = { generatePDF, sendEmail };
 
 function sendAbstractReviewEmail(abstract, status) {
+    const isAccepted = status?.toLowerCase() === "accepted";
+    const isRejected = status?.toLowerCase() === "rejected";
+
+    const themeColor = isAccepted
+        ? "#16a34a"      // green
+        : isRejected
+        ? "#dc2626"      // red
+        : "#f59e0b";     // amber (revision/pending)
+
+    const statusBg = isAccepted
+        ? "#ecfdf5"
+        : isRejected
+        ? "#fef2f2"
+        : "#fffbeb";
+
+    const statusLabel = isAccepted
+        ? "ACCEPTED"
+        : isRejected
+        ? "REJECTED"
+        : status?.toUpperCase();
+
     const html = `
   <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-    
-    <h2 style="color:#0b5394;">
-      Abstract Review Update
-    </h2>
 
-    <p>Dear <b>${abstract.author}</b>,</p>
+    <div style="border-left:6px solid ${themeColor}; padding-left:12px;">
+      <h2 style="color:${themeColor}; margin-bottom:5px;">
+        Abstract Review Update - IAOMR PG Convention 2026
+      </h2>
+      <span style="
+        display:inline-block;
+        background:${statusBg};
+        color:${themeColor};
+        padding:4px 10px;
+        border-radius:6px;
+        font-weight:bold;
+        font-size:12px;
+      ">
+        ${statusLabel}
+      </span>
+    </div>
+
+    <p style="margin-top:20px;">Dear <b>${abstract.author}</b>,</p>
 
     <p>
-      Your abstract submitted for <b>IAOMR PG Convention 2026</b> has been reviewed.
+      Your abstract submitted for the <b>24th NATIONAL IAOMR PG CONVENTION 2026</b>
+      has been reviewed by the Scientific Committee.
     </p>
 
-    <hr />
+    <hr/>
 
-    <p><b>Abstract ID:</b> ${abstract.abstractId}</p>
-    <p><b>Title:</b> ${abstract.title}</p>
-    <p><b>Status:</b> ${status}</p>
+    <div style="
+      background:${statusBg};
+      border:1px solid ${themeColor};
+      padding:12px;
+      border-radius:8px;
+    ">
+      <p><b>🪪 Abstract ID:</b> ${abstract.abstractId}</p>
+      <p><b>📌 Title:</b> ${abstract.title}</p>
+      <p><b>📊 Status:</b> ${statusLabel}</p>
+    </div>
 
-    <hr />
+    <h3 style="color:${themeColor}; margin-top:20px;">
+      Reviewer Remarks
+    </h3>
 
-    <p><b>Reviewer Remarks:</b><br/>
+    <p>
       ${abstract.reviewerRemarks || "No remarks provided"}
     </p>
 
-    <br/>
+    <hr/>
 
     <p>
-      For any queries, contact the organizing committee.
+      For any queries, contact the Scientific Committee.
     </p>
 
     <p style="margin-top:20px;">
@@ -238,12 +282,12 @@ function sendAbstractReviewEmail(abstract, status) {
     </p>
 
   </div>
-  `;
+    `;
 
     return resend.emails.send({
         from: "IAOMR <anidsomrvizag@iaomrpgconvene2026.com>",
         to: abstract.email,
-        subject: `Abstract ${status} - IAOMR 2026`,
+        subject: `Abstract ${statusLabel} - IAOMR 2026`,
         html,
     });
 }
