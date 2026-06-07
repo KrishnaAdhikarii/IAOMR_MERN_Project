@@ -1,11 +1,21 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+
 
 const AbstractStatus = () => {
     const [searchValue, setSearchValue] = useState("");
     const [loading, setLoading] = useState(false);
     const [abstractData, setAbstractData] = useState(null);
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleEditAbstract = (id) => {
+        navigate(`/abstract/edit/${id}`);
+    };
+
 
     const handleCheckStatus = async (e) => {
         e.preventDefault();
@@ -117,6 +127,17 @@ const AbstractStatus = () => {
                             >
                                 {abstractData.status}
                             </span>
+                            {abstractData.status === "Corrections Required" && (
+                                <div className="mt-4">
+                                    <button
+                                        onClick={() => handleEditAbstract(abstractData._id)}
+                                        className="w-full md:w-auto px-5 py-2 rounded-lg text-white font-medium"
+                                        style={{ backgroundColor: "#0F2854" }}
+                                    >
+                                        Edit Abstract
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <div className="p-6 space-y-4">

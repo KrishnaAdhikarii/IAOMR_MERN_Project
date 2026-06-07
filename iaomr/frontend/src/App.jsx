@@ -43,6 +43,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import DashboardPage from './pages/DashboardPage'
 import RegistrationIdStatus from "./pages/RegistrationIdStatus";
 import AbstractStatus from "./pages/AbstractStatus";
+import EditAbstract from "./pages/EditAbstract";
 
 // import RegistrationPage from './pages/RegistrationPage'
 import MyRegistrationsPage from './pages/MyRegistrationsPage'
@@ -141,6 +142,10 @@ function AppRoutes() {
                 <AdminAbstracts />
               </AdminRoute>
             }/>   
+
+            <Route path="/abstract/edit/:id" element={<EditAbstract />} />
+
+
             {/* <Route path="/admin/schedule" element={<AdminRoute><AdminSchedule /></AdminRoute>} /> */}
             <Route path="/admin/topic-groups" element={<AdminRoute><AdminTopicGroups /></AdminRoute>} />
           {/* <Route path="/admin/announcements" element={<AdminRoute><AdminAnnouncements /></AdminRoute>} /> */}

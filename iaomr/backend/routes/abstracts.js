@@ -11,6 +11,7 @@ const {
   getSingleAbstract,
   updateAbstractStatus,
   deleteAbstract,
+  updateAbstractAfterCorrection
 } = require("../controllers/abstractController");
 
 // SUBMIT ABSTRACT
@@ -32,6 +33,9 @@ router.get("/:id", getSingleAbstract);
 // REVIEW
 
 router.put("/review/:id", updateAbstractStatus);
+
+
+router.put("/edit/:id", updateAbstractAfterCorrection);
 
 // DELETE
 

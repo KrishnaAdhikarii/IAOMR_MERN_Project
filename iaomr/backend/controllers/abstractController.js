@@ -552,6 +552,85 @@ exports.updateAbstractStatus =
         }
     };
 
+
+exports.updateAbstractAfterCorrection = async (req, res, next) => {
+    try {
+        const abstract = await Abstract.findById(req.params.id);
+
+        if (!abstract) {
+            return res.status(404).json({
+                success: false,
+                message: "Abstract not found",
+            });
+        }
+
+        // 🔴 ONLY allow if corrections requested
+        if (abstract.status !== "Corrections Required") {
+            return res.status(400).json({
+                success: false,
+                message: "You cannot edit this abstract at this stage",
+            });
+        }
+
+        let {
+            title,
+            category,
+            reviewCategory,
+            introduction,
+            aimsObjectives,
+            materialsMethods,
+            results,
+            conclusion,
+            unstructuredAbstract,
+        } = req.body;
+
+        // UPDATE BASIC FIELDS
+        if (title) abstract.title = title.trim();
+        if (category) abstract.category = category;
+        if (reviewCategory) abstract.reviewCategory = reviewCategory;
+
+        // UPDATE STRUCTURED
+        if (abstract.abstractFormat === "Structured") {
+            abstract.structuredAbstract = {
+                introduction,
+                aimsObjectives,
+                materialsMethods,
+                results,
+                conclusion,
+            };
+        } else {
+            abstract.unstructuredAbstract = unstructuredAbstract;
+        }
+
+        if (abstract.abstractFormat === "Structured") {
+    const text = `${introduction} ${aimsObjectives} ${materialsMethods} ${results} ${conclusion}`;
+    if (countWords(text) > 250) {
+        return res.status(400).json({
+            success: false,
+            message: "Abstract exceeds 250 words",
+        });
+    }
+}
+
+        // 🔁 RESET STATUS BACK TO REVIEW
+        abstract.status = "Under Review";
+
+        
+
+        await abstract.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Abstract updated and resubmitted for review",
+            abstract,
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 // =====================================
 // DELETE ABSTRACT
 // =====================================
