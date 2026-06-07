@@ -10,6 +10,8 @@ const EditAbstract = () => {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
+    const [remarks, setRemarks] = useState("");
+
     const [file, setFile] = useState(null);
 
     const [formData, setFormData] = useState({
@@ -36,6 +38,10 @@ const EditAbstract = () => {
                 const res = await axios.get(
                     `${import.meta.env.VITE_API_URL}/api/abstracts/${id}`
                 );
+
+
+                setRemarks(data.remarks || "");
+
 
                 const data = res.data.abstract;
 
@@ -139,9 +145,16 @@ const EditAbstract = () => {
         <div className="min-h-screen bg-gray-50 flex justify-center px-4 py-10">
             <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6">
 
-                <h1 className="text-2xl font-bold text-[#0F2854] mb-6">
+                <h1 className="text-2xl font-bold text-[#0F2854] mb-2">
                     Edit Abstract
                 </h1>
+
+                {remarks && (
+                    <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-3 rounded mb-6">
+                        <p className="text-sm font-medium">Remarks:</p>
+                        <p className="mt-1">{remarks}</p>
+                    </div>
+                )}
 
                 {error && (
                     <div className="bg-red-50 text-red-700 p-3 rounded mb-4">
@@ -151,84 +164,127 @@ const EditAbstract = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
 
-                    {/* ================= TITLE ================= */}
+                    {/* ================= BASIC DETAILS ================= */}
                     <div>
-                        <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                        <h2 className="text-lg font-semibold text-gray-700 mb-3">
                             Basic Details
                         </h2>
 
+                        <label className="text-sm font-medium text-gray-600">
+                            Title
+                        </label>
                         <input
                             name="title"
                             value={formData.title}
                             onChange={handleChange}
-                            placeholder="Title"
-                            className="w-full border p-3 rounded"
+                            placeholder="Enter title"
+                            className="w-full border p-3 rounded mt-1 mb-3"
                             required
                         />
 
+                        <label className="text-sm font-medium text-gray-600">
+                            Category
+                        </label>
                         <input
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
-                            placeholder="Category"
-                            className="w-full border p-3 rounded mt-3"
+                            placeholder="Enter category"
+                            className="w-full border p-3 rounded mt-1 mb-3"
                         />
 
+                        <label className="text-sm font-medium text-gray-600">
+                            Review Category
+                        </label>
                         <input
                             name="reviewCategory"
                             value={formData.reviewCategory}
                             onChange={handleChange}
-                            placeholder="Review Category"
-                            className="w-full border p-3 rounded mt-3"
+                            placeholder="Enter review category"
+                            className="w-full border p-3 rounded mt-1"
                         />
                     </div>
 
                     {/* ================= STRUCTURED ================= */}
                     {formData.abstractFormat === "Structured" && (
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                            <h2 className="text-lg font-semibold text-gray-700 mb-3">
                                 Structured Abstract
                             </h2>
 
-                            <textarea name="introduction" value={formData.introduction} onChange={handleChange} placeholder="Introduction" className="w-full border p-3 rounded mb-3" />
+                            <label className="text-sm font-medium text-gray-600">Introduction</label>
+                            <textarea
+                                name="introduction"
+                                value={formData.introduction}
+                                onChange={handleChange}
+                                className="w-full border p-3 rounded mt-1 mb-3"
+                            />
 
-                            <textarea name="aimsObjectives" value={formData.aimsObjectives} onChange={handleChange} placeholder="Aims & Objectives" className="w-full border p-3 rounded mb-3" />
+                            <label className="text-sm font-medium text-gray-600">Aims & Objectives</label>
+                            <textarea
+                                name="aimsObjectives"
+                                value={formData.aimsObjectives}
+                                onChange={handleChange}
+                                className="w-full border p-3 rounded mt-1 mb-3"
+                            />
 
-                            <textarea name="materialsMethods" value={formData.materialsMethods} onChange={handleChange} placeholder="Materials & Methods" className="w-full border p-3 rounded mb-3" />
+                            <label className="text-sm font-medium text-gray-600">Materials & Methods</label>
+                            <textarea
+                                name="materialsMethods"
+                                value={formData.materialsMethods}
+                                onChange={handleChange}
+                                className="w-full border p-3 rounded mt-1 mb-3"
+                            />
 
-                            <textarea name="results" value={formData.results} onChange={handleChange} placeholder="Results" className="w-full border p-3 rounded mb-3" />
+                            <label className="text-sm font-medium text-gray-600">Results</label>
+                            <textarea
+                                name="results"
+                                value={formData.results}
+                                onChange={handleChange}
+                                className="w-full border p-3 rounded mt-1 mb-3"
+                            />
 
-                            <textarea name="conclusion" value={formData.conclusion} onChange={handleChange} placeholder="Conclusion" className="w-full border p-3 rounded" />
+                            <label className="text-sm font-medium text-gray-600">Conclusion</label>
+                            <textarea
+                                name="conclusion"
+                                value={formData.conclusion}
+                                onChange={handleChange}
+                                className="w-full border p-3 rounded mt-1"
+                            />
                         </div>
                     )}
 
                     {/* ================= UNSTRUCTURED ================= */}
                     {formData.abstractFormat === "Unstructured" && (
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                            <h2 className="text-lg font-semibold text-gray-700 mb-3">
                                 Full Abstract
                             </h2>
+
+                            <label className="text-sm font-medium text-gray-600">
+                                Abstract Content
+                            </label>
 
                             <textarea
                                 name="unstructuredAbstract"
                                 value={formData.unstructuredAbstract}
                                 onChange={handleChange}
-                                className="w-full border p-3 rounded min-h-[200px]"
+                                className="w-full border p-3 rounded mt-1 min-h-[200px]"
                             />
                         </div>
                     )}
 
-                    {/* ================= PDF UPLOAD ================= */}
+                    {/* ================= FILE UPLOAD ================= */}
                     <div>
-                        <h2 className="text-lg font-semibold text-gray-700 mb-2">
-                            Upload Updated Abstract PDF 
+                        <h2 className="text-lg font-semibold text-gray-700 mb-3">
+                            Upload Updated PDF / Word File
                         </h2>
 
                         <input
                             type="file"
                             accept="application/pdf"
                             onChange={handleFileChange}
-                            className="w-full border p-3 rounded bg-white"
+                            className="w-full border p-3 rounded bg-white mt-1"
                         />
 
                         <p className="text-sm text-gray-500 mt-1">
