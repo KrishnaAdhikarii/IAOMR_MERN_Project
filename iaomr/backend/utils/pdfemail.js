@@ -202,7 +202,7 @@ module.exports = { generatePDF, sendEmail };
 function sendAbstractReviewEmail(abstract, status) {
     const isAccepted = status?.toLowerCase() === "accepted";
     const isRejected = status?.toLowerCase() === "rejected";
-    const isInReview = status?.toLowerCase() === "in review";
+    const isInReview = status?.toLowerCase() === "Corrections Required".toLowerCase();
 
     const themeColor = isAccepted
         ? "#16a34a"
