@@ -39,11 +39,10 @@ const EditAbstract = () => {
                     `${import.meta.env.VITE_API_URL}/api/abstracts/${id}`
                 );
 
-
-                setRemarks(data.remarks || "");
-
-
                 const data = res.data.abstract;
+
+                                setRemarks(data.remarks || "");
+
 
                 if (data.status !== "Corrections Required") {
                     setError("Editing not allowed at this stage.");
