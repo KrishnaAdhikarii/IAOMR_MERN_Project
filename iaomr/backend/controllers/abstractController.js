@@ -415,9 +415,9 @@ exports.getAllAbstracts = async (
                     delegateCategory;
             }
         
+        console.log("Mongo Query:", query);
 
         const abstracts =
-        console.log("Mongo Query:", query);
             await Abstract.find(query)
                 .sort({
                     createdAt: -1,
