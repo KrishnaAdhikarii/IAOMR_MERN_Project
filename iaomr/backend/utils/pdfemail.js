@@ -202,12 +202,13 @@ module.exports = { generatePDF, sendEmail };
 function sendAbstractReviewEmail(abstract, status) {
     const isAccepted = status?.toLowerCase() === "accepted";
     const isRejected = status?.toLowerCase() === "rejected";
+    const isInReview = status?.toLowerCase() === "in review";
 
     const themeColor = isAccepted
-        ? "#16a34a"      // green
+        ? "#16a34a"
         : isRejected
-        ? "#dc2626"      // red
-        : "#f59e0b";     // amber (revision/pending)
+        ? "#dc2626"
+        : "#f59e0b";
 
     const statusBg = isAccepted
         ? "#ecfdf5"
@@ -220,6 +221,11 @@ function sendAbstractReviewEmail(abstract, status) {
         : isRejected
         ? "REJECTED"
         : status?.toUpperCase();
+
+   const statusLinkMessage = isInReview
+    ? `Update your abstract using this link: <a href="https://www.iaomrpgconvene2026.com/status/abstract">UPDATE ABSTRACT</a>`
+    : `You can also check your status here: <a href="https://www.iaomrpgconvene2026.com/status/abstract">CHECK YOUR STATUS</a>`;
+
 
     const html = `
   <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -270,6 +276,10 @@ function sendAbstractReviewEmail(abstract, status) {
     </p>
 
     <hr/>
+
+    <p>
+      ${statusLinkMessage}
+    </p>
 
     <p>
       For any queries, contact the Scientific Committee.
