@@ -2,7 +2,7 @@ const Abstract = require("../models/Abstract");
 const Registration = require("../models/Registration");
 
 const {
-  sendAbstractReviewEmail,
+    sendAbstractReviewEmail,
 } = require("../utils/pdfemail");
 
 // =====================================
@@ -147,7 +147,7 @@ exports.submitAbstract = async (
         // =====================================
 
         const registration =
-        
+
             await Registration.findOne({
                 regNumber: {
                     $regex: `^${registrationId.trim()}$`,
@@ -207,6 +207,15 @@ exports.submitAbstract = async (
                         "All structured abstract fields are required",
                 });
             }
+        }
+        if (
+            category === "Review" &&
+            !reviewCategory
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Review Topic is required for Review abstracts",
+            });
         }
 
         // =====================================
@@ -349,64 +358,58 @@ exports.getAllAbstracts = async (
 ) => {
     try {
 
-                console.log("Query Params:", req.query);
-
         const {
             status,
             presentationType,
             category,
             delegateCategory,
             search,
+            reviewCategory,
         } = req.query;
 
         const query = {};
 
-        // FILTERS
-
-        
         if (status) {
             query.status = status;
         }
 
         if (presentationType) {
-            query.presentationType =
-                presentationType;
+            query.presentationType = presentationType;
         }
 
         if (category) {
             query.category = category;
         }
 
-        // SEARCH
+        if (delegateCategory) {
+            query.delegateCategory = delegateCategory;
+        }
+
+        if (reviewCategory) {
+            query.reviewCategory = reviewCategory;
+        }
 
         if (search) {
-
             query.$or = [
-
                 {
                     abstractId: {
                         $regex: escapeRegex(search),
                         $options: "i",
                     },
                 },
-
                 {
                     title: {
                         $regex: escapeRegex(search),
                         $options: "i",
                     },
                 },
-
                 {
                     author: {
                         $regex: escapeRegex(search),
                         $options: "i",
                     },
                 },
-
-
                 {
-
                     registrationId: {
                         $regex: escapeRegex(search),
                         $options: "i",
@@ -414,24 +417,10 @@ exports.getAllAbstracts = async (
                 },
             ];
         }
-            if (delegateCategory) {
-                query.delegateCategory =
-                    delegateCategory;
-            }
-        
-        console.log("Mongo Query:", query);
 
-        const abstracts =
-            await Abstract.find(query)
-                .sort({
-                    createdAt: -1,
-                });console.log(
-  abstracts.map(a => ({
-    abstractId: a.abstractId,
-    delegateCategory: a.delegateCategory
-  }))
-);
-
+        const abstracts = await Abstract.find(query).sort({
+            createdAt: -1,
+        });
 
         res.status(200).json({
             success: true,

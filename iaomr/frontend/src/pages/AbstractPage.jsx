@@ -529,38 +529,41 @@ export default function AbstractSubmission() {
                         </div>
 
                         {/* REVIEW CATEGORY */}
+{formData.category === "Review" && (
+  <div className="mb-5 sm:mb-6">
+    <label className="block font-semibold mb-2">
+      Review Topic <span className="text-red-500">*</span>
+    </label>
 
-                        {formData.category === "Review" && (
-                            <div className="mb-5 sm:mb-6">
+    <select
+      name="reviewCategory"
+      value={formData.reviewCategory}
+      onChange={handleChange}
+      required={formData.category === "Review"}
+      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-black"
+    >
+      <option value="">
+        Select Topic
+      </option>
 
-                                <label className="block font-semibold mb-2">
-                                    Review Topic
-                                </label>
-
-                                <select
-                                    name="reviewCategory"
-                                    value={formData.reviewCategory}
-                                    onChange={handleChange}
-                                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-black"
-                                >
-                                    <option value="">
-                                        Select Topic
-                                    </option>
-
-                                    <option>TMJ</option>
-                                    <option>OPMD/Malignancy</option>
-                                    <option>Salivary Gland Disorders</option>
-                                    <option>Geriatric</option>
-                                    <option>Systemic & Oral Health</option>
-                                    <option>Sleep Apnoea</option>
-                                    <option>Forensic</option>
-                                    <option>Investigatory Procedures</option>
-                                    <option>Miscellaneous</option>
-
-                                </select>
-
-                            </div>
-                        )}
+      <option value="TMJ">TMJ</option>
+      <option value="OPMD/Malignancy">OPMD/Malignancy</option>
+      <option value="Salivary Gland Disorders">
+        Salivary Gland Disorders
+      </option>
+      <option value="Geriatric">Geriatric</option>
+      <option value="Systemic & Oral Health">
+        Systemic & Oral Health
+      </option>
+      <option value="Sleep Apnoea">Sleep Apnoea</option>
+      <option value="Forensic">Forensic</option>
+      <option value="Investigatory Procedures">
+        Investigatory Procedures
+      </option>
+      <option value="Miscellaneous">Miscellaneous</option>
+    </select>
+  </div>
+)}
 
                         {/* STRUCTURED */}
 

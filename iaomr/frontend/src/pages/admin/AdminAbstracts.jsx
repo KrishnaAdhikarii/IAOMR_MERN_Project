@@ -27,14 +27,14 @@ export default function AdminAbstracts() {
     setSelectedAbstract] =
     useState(null)
 
-  const [filters, setFilters] =
-    useState({
-      search: '',
-      status: '',
-      presentationType: '',
-      category: '',
-      delegateCategory: '',
-    })
+  const [filters, setFilters] = useState({
+    search: '',
+    status: '',
+    presentationType: '',
+    category: '',
+    delegateCategory: '',
+    reviewCategory: '',
+  })
 
   // =========================
   // FETCH ABSTRACTS
@@ -181,8 +181,7 @@ export default function AdminAbstracts() {
 
       {/* FILTERS */}
       <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4">
-          {/* SEARCH */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-7 gap-4">          {/* SEARCH */}
           <div className="relative">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
 
@@ -301,6 +300,32 @@ export default function AdminAbstracts() {
                 value={cat}
               >
                 {cat}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="reviewCategory"
+            value={filters.reviewCategory}
+            onChange={handleFilterChange}
+            className="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 outline-none"
+          >
+            <option value="">
+              All Review Topics
+            </option>
+
+            {[
+              ...new Set(
+                abstracts
+                  .map(a => a.reviewCategory)
+                  .filter(Boolean)
+              ),
+            ].map(topic => (
+              <option
+                key={topic}
+                value={topic}
+              >
+                {topic}
               </option>
             ))}
           </select>
@@ -595,6 +620,16 @@ export default function AdminAbstracts() {
                   }
                 </p>
               </div>
+
+              <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+  <h3 className="font-semibold text-slate-700 mb-2">
+    Review Topic
+  </h3>
+
+  <p className="text-slate-600">
+    {selectedAbstract.reviewCategory}
+  </p>
+</div>
 
               {/* STRUCTURED */}
               {selectedAbstract.abstractFormat ===
