@@ -211,45 +211,42 @@ export default function AdminRegistrations() {
     XLSX.writeFile(workbook, fileName)
   }
 
-  const downloadCategory = (
-    category
-  ) => {
-    const filtered = data.filter(
-      (r) => r.category === category
+  const downloadCategory = async (category) => {
+  try {
+    const res = await api.get(
+      `/registration/export?category=${encodeURIComponent(category)}`
     )
 
     exportExcel(
-      filtered,
-      `${category
-        .replace(/\s+/g, '_')
-        .toLowerCase()}_registrations.xlsx`
+      res.data.data,
+      `${category.replace(/\s+/g, "_").toLowerCase()}_registrations.xlsx`
     )
 
     setShowDownloadMenu(false)
+  } catch (err) {
+    console.error(err)
+    toast.error("Export failed")
   }
+}
 
-  const downloadByStatus = (
-    status
-  ) => {
-    const filtered = data.filter(
-      (r) => r.status === status
+  const downloadByStatus = async (status) => {
+  try {
+    const res = await api.get(
+      `/registration/export?status=${status}`
     )
 
     exportExcel(
-      filtered,
+      res.data.data,
       `${status.toLowerCase()}_registrations.xlsx`
     )
 
     setShowDownloadMenu(false)
+  } catch (err) {
+    console.error(err)
+    toast.error("Export failed")
   }
-  const downloadAll = () => {
-    exportExcel(
-      data,
-      'registrations.xlsx'
-    )
+}
 
-    setShowDownloadMenu(false)
-  }
 
   const exportAllRegistrations = async () => {
     try {
@@ -388,8 +385,12 @@ export default function AdminRegistrations() {
                   {/* Category Menu */}
                   <div className="relative">
                     <button
-                      onMouseEnter={() =>
-                        setOpenSubMenu('category')
+                      onClick={() =>
+                        setOpenSubMenu(
+                          openSubMenu === 'category'
+                            ? null
+                            : 'category'
+                        )
                       }
                       className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
                     >
@@ -423,8 +424,12 @@ export default function AdminRegistrations() {
                   {/* Status Menu */}
                   <div className="relative">
                     <button
-                      onMouseEnter={() =>
-                        setOpenSubMenu('status')
+                      onClick={() =>
+                        setOpenSubMenu(
+                          openSubMenu === 'status'
+                            ? null
+                            : 'status'
+                        )
                       }
                       className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
                     >
