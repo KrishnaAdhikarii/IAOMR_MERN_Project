@@ -290,9 +290,11 @@ export function SubmitPosterPage() {
     <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
 
       <button
-      disabled
-        onClick={() => window.open("/templates/poster-template.jpg", "_blank")}
-        className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition cursor-not-allowed opacity-75 whitespace-nowrap"
+        onClick={() => { 
+          window.open("/templates/poster_template.pptx", "_blank");  
+          alert("Template Downloaded! Please check your downloads folder.");
+        }}
+        className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition whitespace-nowrap"
       >
         📥 Download Template
       </button>

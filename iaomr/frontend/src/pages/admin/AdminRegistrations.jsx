@@ -212,40 +212,40 @@ export default function AdminRegistrations() {
   }
 
   const downloadCategory = async (category) => {
-  try {
-    const res = await api.get(
-      `/registration/export?category=${encodeURIComponent(category)}`
-    )
+    try {
+      const res = await api.get(
+        `/registration/export?category=${encodeURIComponent(category)}`
+      )
 
-    exportExcel(
-      res.data.data,
-      `${category.replace(/\s+/g, "_").toLowerCase()}_registrations.xlsx`
-    )
+      exportExcel(
+        res.data.data,
+        `${category.replace(/\s+/g, "_").toLowerCase()}_registrations.xlsx`
+      )
 
-    setShowDownloadMenu(false)
-  } catch (err) {
-    console.error(err)
-    toast.error("Export failed")
+      setShowDownloadMenu(false)
+    } catch (err) {
+      console.error(err)
+      toast.error("Export failed")
+    }
   }
-}
 
   const downloadByStatus = async (status) => {
-  try {
-    const res = await api.get(
-      `/registration/export?status=${status}`
-    )
+    try {
+      const res = await api.get(
+        `/registration/export?status=${status}`
+      )
 
-    exportExcel(
-      res.data.data,
-      `${status.toLowerCase()}_registrations.xlsx`
-    )
+      exportExcel(
+        res.data.data,
+        `${status.toLowerCase()}_registrations.xlsx`
+      )
 
-    setShowDownloadMenu(false)
-  } catch (err) {
-    console.error(err)
-    toast.error("Export failed")
+      setShowDownloadMenu(false)
+    } catch (err) {
+      console.error(err)
+      toast.error("Export failed")
+    }
   }
-}
 
 
   const exportAllRegistrations = async () => {
@@ -273,8 +273,9 @@ export default function AdminRegistrations() {
     <AdminLayout title="Registrations">
       {/* Filters */}
       <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-4 md:p-6 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          {/* Search */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 items-center">
+
+          {/* SEARCH */}
           <div className="relative">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
 
@@ -290,7 +291,7 @@ export default function AdminRegistrations() {
             />
           </div>
 
-          {/* Status */}
+          {/* STATUS */}
           <select
             value={statusFilter}
             onChange={(e) => {
@@ -299,24 +300,13 @@ export default function AdminRegistrations() {
             }}
             className="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 outline-none"
           >
-            <option value="">
-              All Status
-            </option>
-
-            <option value="PENDING">
-              Pending
-            </option>
-
-            <option value="PAID">
-              Paid
-            </option>
-
-            <option value="FAILED">
-              Failed
-            </option>
+            <option value="">All Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="PAID">Paid</option>
+            <option value="FAILED">Failed</option>
           </select>
 
-          {/* Category */}
+          {/* CATEGORY */}
           <select
             value={catFilter}
             onChange={(e) => {
@@ -325,185 +315,146 @@ export default function AdminRegistrations() {
             }}
             className="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 outline-none"
           >
-            <option value="">
-              All Categories
-            </option>
-
-            <option value="Faculty">
-              Faculty
-            </option>
-
-            <option value="Practitioner">
-              Practitioner
-            </option>
-
-            <option value="Post Graduate">
-              Post Graduate
-            </option>
-
-            <option value="Foreign Delegate">
-              Foreign Delegate
-            </option>
+            <option value="">All Categories</option>
+            <option value="Faculty">Faculty</option>
+            <option value="Practitioner">Practitioner</option>
+            <option value="Post Graduate">Post Graduate</option>
+            <option value="Foreign Delegate">Foreign Delegate</option>
           </select>
 
-          <div className="flex gap-4">
-            {/* Total */}
-            <div className="bg-[rgb(27,46,87)] text-white rounded-2xl px-5 py-4 flex-1">
-              <p className="text-blue-100 text-sm uppercase tracking-wide">
+          {/* RIGHT SECTION */}
+          <div className="flex flex-wrap gap-3 items-center justify-between md:justify-start xl:justify-end">
+
+            {/* TOTAL CARD */}
+            <div className="bg-[rgb(27,46,87)] text-white rounded-2xl px-5 py-3 flex-1 md:flex-none min-w-[180px]">
+              <p className="text-blue-100 text-xs uppercase tracking-wide">
                 Total Registrations
               </p>
-              <h3 className="text-2xl font-bold mt-1">
-                {total}
-              </h3>
+              <h3 className="text-2xl font-bold mt-1">{total}</h3>
             </div>
 
-            {/* Download */}
-            <div className="relative">
+            {/* DOWNLOAD */}
+            <div className="relative inline-flex">
               <button
-                onClick={() =>
-                  setShowDownloadMenu(
-                    !showDownloadMenu
-                  )
-                }
-                className="h-12 px-5 rounded-2xl bg-green-600 text-white font-medium hover:bg-green-700 transition flex items-center gap-2"
+                onClick={() => setShowDownloadMenu(!showDownloadMenu)}
+                className="h-12 px-5 py-3 rounded-2xl bg-green-600 text-white font-medium hover:bg-green-700 transition flex items-center gap-6  "
               >
-                <FiDownload />
-                Download
-                <FiChevronDown />
+                <FiDownload className="text-lg" />
+                <span>Download</span>
+                <FiChevronDown className="text-lg" />
               </button>
 
               {showDownloadMenu && (
-                <div className="absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 overflow-visible">
-                  {/* All */}
-                  <button
-                    onClick={exportAllRegistrations}
-                    className="w-full px-4 py-3 text-left hover:bg-slate-50"
-                  >
-                    All Registrations
-                  </button>
+                <>
+                  {/* BACKDROP */}
+                  <div
+                    className="fixed inset-1 z-240"
+                    onClick={() => {
+                      setShowDownloadMenu(false)
+                      setOpenSubMenu(null)
+                    }}
+                  />
 
-                  {/* Category Menu */}
-                  <div className="relative">
+                  {/* DROPDOWN */}
+                  <div className="absolute right-0 top-full mt-3 translate-y-1 w-[min(20rem,92vw)] bg-white border border-slate-200 rounded-2xl shadow-xl z-50 overflow-hidden">
+                    {/* ALL */}
                     <button
-                      onClick={() =>
-                        setOpenSubMenu(
-                          openSubMenu === 'category'
-                            ? null
-                            : 'category'
-                        )
-                      }
-                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
+                      onClick={exportAllRegistrations}
+                      className="w-full px-4 py-3 text-left hover:bg-slate-50 font-medium"
                     >
-                      <span>By Category</span>
-                      <FiChevronRight />
+                      All Registrations
                     </button>
 
-                    {openSubMenu ===
-                      'category' && (
-                        <div className="absolute left-full top-0 ml-1 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl">
-                          {[
-                            'Faculty',
-                            'Practitioner',
-                            'Post Graduate',
-                            'Foreign Delegate',
-                          ].map((cat) => (
+                    {/* CATEGORY */}
+                    <div className="border-t border-slate-100">
+                      <button
+                        onClick={() =>
+                          setOpenSubMenu(openSubMenu === "category" ? null : "category")
+                        }
+                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
+                      >
+                        <span>By Category</span>
+                        <FiChevronDown />
+                      </button>
+
+                      {openSubMenu === "category" && (
+                        <div className="bg-slate-50">
+                          {["Faculty", "Practitioner", "Post Graduate", "Foreign Delegate"].map((cat) => (
                             <button
                               key={cat}
-                              onClick={() =>
-                                downloadCategory(cat)
-                              }
-                              className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                              onClick={() => downloadCategory(cat)}
+                              className="w-full px-6 py-2 text-left hover:bg-slate-100 text-sm"
                             >
                               {cat}
                             </button>
                           ))}
                         </div>
                       )}
-                  </div>
+                    </div>
 
-                  {/* Status Menu */}
-                  <div className="relative">
-                    <button
-                      onClick={() =>
-                        setOpenSubMenu(
-                          openSubMenu === 'status'
-                            ? null
-                            : 'status'
-                        )
-                      }
-                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
-                    >
-                      <span>By Status</span>
-                      <FiChevronRight />
-                    </button>
+                    {/* STATUS */}
+                    <div className="border-t border-slate-100">
+                      <button
+                        onClick={() =>
+                          setOpenSubMenu(openSubMenu === "status" ? null : "status")
+                        }
+                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
+                      >
+                        <span>By Status</span>
+                        <FiChevronDown />
+                      </button>
 
-                    {openSubMenu ===
-                      'status' && (
-                        <div className="absolute left-full top-0 ml-1 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl">
-                          {[
-                            'PAID',
-                            'PENDING',
-                            'FAILED',
-                          ].map((status) => (
+                      {openSubMenu === "status" && (
+                        <div className="bg-slate-50">
+                          {["PAID", "PENDING", "FAILED"].map((status) => (
                             <button
                               key={status}
-                              onClick={() =>
-                                downloadByStatus(
-                                  status
-                                )
-                              }
-                              className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                              onClick={() => downloadByStatus(status)}
+                              className="w-full px-6 py-2 text-left hover:bg-slate-100 text-sm"
                             >
                               {status}
                             </button>
                           ))}
                         </div>
                       )}
-                  </div>
+                    </div>
 
-                  {/* Format Menu */}
-                  <div className="relative">
-                    <button
-                      onMouseEnter={() =>
-                        setOpenSubMenu('format')
-                      }
-                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
-                    >
-                      <span>Export Format</span>
-                      <FiChevronRight />
-                    </button>
+                    {/* FORMAT */}
+                    <div className="border-t border-slate-100">
+                      <button
+                        onClick={() =>
+                          setOpenSubMenu(openSubMenu === "format" ? null : "format")
+                        }
+                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
+                      >
+                        <span>Export Format</span>
+                        <FiChevronDown />
+                      </button>
 
-                    {openSubMenu ===
-                      'format' && (
-                        <div className="absolute left-full top-0 ml-1 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl">
+                      {openSubMenu === "format" && (
+                        <div className="bg-slate-50">
                           <button
-                            onClick={() =>
-                              exportCSV()
-                            }
-                            className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                            onClick={exportCSV}
+                            className="w-full px-6 py-2 text-left hover:bg-slate-100 text-sm"
                           >
                             CSV
                           </button>
 
                           <button
                             onClick={() => exportExcel(data)}
-                            className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                            className="w-full px-6 py-2 text-left hover:bg-slate-100 text-sm"
                           >
                             Excel (.xlsx)
                           </button>
                         </div>
                       )}
-                  </div>
+                    </div>
 
-                  <div
-                    onMouseEnter={() =>
-                      setOpenSubMenu(null)
-                    }
-                    className="h-1"
-                  />
-                </div>
+                  </div>
+                </>
               )}
             </div>
+
           </div>
         </div>
       </div>
