@@ -72,42 +72,42 @@ async function generateRegNumber(
    PDF GENERATOR
 ========================= */
 
-function generatePDF(data) {
-  return new Promise((resolve) => {
-    const doc = new PDFDocument()
+// function generatePDF(data) {
+//   return new Promise((resolve) => {
+//     const doc = new PDFDocument()
 
-    const buffers = []
+//     const buffers = []
 
-    doc.on(
-      "data",
-      buffers.push.bind(buffers)
-    )
+//     doc.on(
+//       "data",
+//       buffers.push.bind(buffers)
+//     )
 
-    doc.on("end", () =>
-      resolve(Buffer.concat(buffers))
-    )
+//     doc.on("end", () =>
+//       resolve(Buffer.concat(buffers))
+//     )
 
-    doc
-      .fontSize(18)
-      .text("Registration Receipt", {
-        align: "center",
-      })
+//     doc
+//       .fontSize(18)
+//       .text("Registration Receipt", {
+//         align: "center",
+//       })
 
-    doc.moveDown()
+//     doc.moveDown()
 
-    doc.text(`Name: ${data.name}`)
-    doc.text(`Email: ${data.email}`)
-    doc.text(`Phone: ${data.phone}`)
+//     doc.text(`Name: ${data.name}`)
+//     doc.text(`Email: ${data.email}`)
+//     doc.text(`Phone: ${data.phone}`)
 
-    doc.text(
-      `Reg No: ${data.regNumber}`
-    )
+//     doc.text(
+//       `Reg No: ${data.regNumber}`
+//     )
 
-    doc.text(`Amount: ₹${data.amount}`)
+//     doc.text(`Amount: ₹${data.amount}`)
 
-    doc.end()
-  })
-}
+//     doc.end()
+//   })
+// }
 
 /* =========================
    CREATE ORDER
