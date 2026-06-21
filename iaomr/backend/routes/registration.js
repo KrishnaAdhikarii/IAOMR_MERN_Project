@@ -11,6 +11,11 @@ const upload = require("../middleware/upload")
 const Registration = require("../models/Registration")
 const Counter = require("../models/Counter")
 
+const {
+  generatePDF,
+  sendEmail,
+} = require("../utils/pdfemail");
+
 /* =========================
    RAZORPAY INIT
 ========================= */
@@ -238,14 +243,35 @@ router.post(
 
           photo: req.file
             ? {
-                data: req.file.buffer,
-                contentType:
-                  req.file.mimetype,
-              }
+              data: req.file.buffer,
+              contentType:
+                req.file.mimetype,
+            }
             : undefined,
         })
 
       await registration.save()
+
+      try {
+        const pdfBuffer = await generatePDF({
+          name: registration.name,
+          email: registration.email,
+          phone: registration.phone,
+          regNumber: registration.regNumber,
+          amount: registration.amount,
+        })
+
+        await sendEmail(registration, pdfBuffer)
+
+        console.log(
+          `Confirmation email sent to ${registration.email}`
+        )
+      } catch (emailErr) {
+        console.error(
+          "Email sending failed:",
+          emailErr
+        )
+      }
 
       res.json({
         success: true,
@@ -357,6 +383,76 @@ router.get(
     }
   }
 )
+
+
+
+
+
+/* =========================
+   EXPORT ALL REGISTRATIONS
+========================= */
+
+router.get("/export", async (req, res) => {
+  try {
+    const { search = "", status = "", category = "" } = req.query
+
+    const query = {}
+
+    if (search) {
+      query.$or = [
+        {
+          name: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          email: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          regNumber: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ]
+    }
+
+    if (status) {
+      query.status = status
+    }
+
+    if (category) {
+      query.category = category
+    }
+
+    const registrations = await Registration.find(query)
+      .sort({ createdAt: -1 })
+      .select("-photo")
+
+    res.json({
+      success: true,
+      count: registrations.length,
+      data: registrations,
+    })
+  } catch (err) {
+    console.error(err)
+
+    res.status(500).json({
+      success: false,
+      message: "Export failed",
+    })
+  }
+})
+
+
+
+
+
+
 
 /* =========================
    UPDATE STATUS
@@ -483,6 +579,7 @@ router.get(
     }
   }
 )
+
 
 /* =========================
    GET BY REG NUMBER

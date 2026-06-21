@@ -3,13 +3,19 @@ import { AdminLayout } from './AdminLayout'
 import api from '../../utils/api'
 import toast from 'react-hot-toast'
 
+import * as XLSX from 'xlsx'
+
 import {
   FiSearch,
   FiEye,
   FiChevronLeft,
   FiChevronRight,
   FiX,
+  FiDownload,
+  FiChevronDown
 } from 'react-icons/fi'
+
+
 
 export default function AdminRegistrations() {
   const [data, setData] = useState([])
@@ -22,12 +28,18 @@ export default function AdminRegistrations() {
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
 
+  const [showDownloadMenu, setShowDownloadMenu] =
+    useState(false)
+
+  const [openSubMenu, setOpenSubMenu] =
+    useState(null)
+
+
   const [selected, setSelected] = useState(null)
   const [verifyStatus, setVerifyStatus] =
     useState('PAID')
 
   const LIMIT = 15
-
   const fetchData = async () => {
     try {
       setLoading(true)
@@ -92,6 +104,172 @@ export default function AdminRegistrations() {
     PENDING:
       'bg-yellow-100 text-yellow-700',
     FAILED: 'bg-red-100 text-red-700',
+  }
+
+  const exportToCSV = (
+    records,
+    fileName = 'registrations.csv'
+  ) => {
+    if (!records.length) {
+      toast.error('No records found')
+      return
+    }
+
+    const headers = [
+      'Reg Number',
+      'Name',
+      'Email',
+      'Phone',
+      'Category',
+      'Amount',
+      'Status',
+    ]
+
+    const rows = records.map((r) => [
+      r.regNumber,
+      r.name,
+      r.email,
+      r.phone,
+      r.category,
+      r.amount,
+      r.status,
+    ])
+
+    const csv = [
+      headers.join(','),
+      ...rows.map((row) => row.join(',')),
+    ].join('\n')
+
+    const blob = new Blob([csv], {
+      type: 'text/csv;charset=utf-8;',
+    })
+
+    const url =
+      window.URL.createObjectURL(blob)
+
+    const link =
+      document.createElement('a')
+
+    link.href = url
+    link.download = fileName
+    link.click()
+
+    window.URL.revokeObjectURL(url)
+  }
+
+
+
+
+
+  const exportCSV = () => {
+    exportToCSV(
+      data,
+      'registrations.csv'
+    )
+
+    setShowDownloadMenu(false)
+  }
+
+  const exportExcel = (
+    records,
+    fileName = 'registrations.xlsx'
+  ) => {
+    if (!records.length) {
+      toast.error('No records found')
+      return
+    }
+
+    const exportData = records.map((r) => ({
+      'Reg Number': r.regNumber,
+      Name: r.name,
+      Email: r.email,
+      Phone: r.phone,
+      Category: r.category,
+      Institution: r.institution,
+      City: r.city,
+      State: r.state,
+      Amount: r.amount,
+      Status: r.status,
+      'Payment ID': r.paymentId,
+      Date: new Date(
+        r.createdAt
+      ).toLocaleDateString('en-IN'),
+    }))
+
+    const worksheet =
+      XLSX.utils.json_to_sheet(exportData)
+
+    const workbook =
+      XLSX.utils.book_new()
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      'Registrations'
+    )
+
+    XLSX.writeFile(workbook, fileName)
+  }
+
+  const downloadCategory = (
+    category
+  ) => {
+    const filtered = data.filter(
+      (r) => r.category === category
+    )
+
+    exportExcel(
+      filtered,
+      `${category
+        .replace(/\s+/g, '_')
+        .toLowerCase()}_registrations.xlsx`
+    )
+
+    setShowDownloadMenu(false)
+  }
+
+  const downloadByStatus = (
+    status
+  ) => {
+    const filtered = data.filter(
+      (r) => r.status === status
+    )
+
+    exportExcel(
+      filtered,
+      `${status.toLowerCase()}_registrations.xlsx`
+    )
+
+    setShowDownloadMenu(false)
+  }
+  const downloadAll = () => {
+    exportExcel(
+      data,
+      'registrations.xlsx'
+    )
+
+    setShowDownloadMenu(false)
+  }
+
+  const exportAllRegistrations = async () => {
+    try {
+      const params = new URLSearchParams()
+
+      if (search) params.set("search", search)
+      if (statusFilter) params.set("status", statusFilter)
+      if (catFilter) params.set("category", catFilter)
+
+      const res = await api.get(
+        `/registration/export?${params}`
+      )
+
+      exportExcel(
+        res.data.data,
+        "registrations.xlsx"
+      )
+    } catch (err) {
+      toast.error("Export failed")
+    }
   }
 
   return (
@@ -171,15 +349,156 @@ export default function AdminRegistrations() {
             </option>
           </select>
 
-          {/* Total */}
-          <div className="bg-[rgb(27,46,87)] text-white rounded-2xl px-5 py-4">
-            <p className="text-blue-100 text-sm uppercase tracking-wide">
-              Total Registrations
-            </p>
+          <div className="flex gap-4">
+            {/* Total */}
+            <div className="bg-[rgb(27,46,87)] text-white rounded-2xl px-5 py-4 flex-1">
+              <p className="text-blue-100 text-sm uppercase tracking-wide">
+                Total Registrations
+              </p>
+              <h3 className="text-2xl font-bold mt-1">
+                {total}
+              </h3>
+            </div>
 
-            <h3 className="text-2xl font-bold mt-1">
-              {total}
-            </h3>
+            {/* Download */}
+            <div className="relative">
+              <button
+                onClick={() =>
+                  setShowDownloadMenu(
+                    !showDownloadMenu
+                  )
+                }
+                className="h-12 px-5 rounded-2xl bg-green-600 text-white font-medium hover:bg-green-700 transition flex items-center gap-2"
+              >
+                <FiDownload />
+                Download
+                <FiChevronDown />
+              </button>
+
+              {showDownloadMenu && (
+                <div className="absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 overflow-visible">
+                  {/* All */}
+                  <button
+                    onClick={exportAllRegistrations}
+                    className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                  >
+                    All Registrations
+                  </button>
+
+                  {/* Category Menu */}
+                  <div className="relative">
+                    <button
+                      onMouseEnter={() =>
+                        setOpenSubMenu('category')
+                      }
+                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
+                    >
+                      <span>By Category</span>
+                      <FiChevronRight />
+                    </button>
+
+                    {openSubMenu ===
+                      'category' && (
+                        <div className="absolute left-full top-0 ml-1 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl">
+                          {[
+                            'Faculty',
+                            'Practitioner',
+                            'Post Graduate',
+                            'Foreign Delegate',
+                          ].map((cat) => (
+                            <button
+                              key={cat}
+                              onClick={() =>
+                                downloadCategory(cat)
+                              }
+                              className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                            >
+                              {cat}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                  </div>
+
+                  {/* Status Menu */}
+                  <div className="relative">
+                    <button
+                      onMouseEnter={() =>
+                        setOpenSubMenu('status')
+                      }
+                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
+                    >
+                      <span>By Status</span>
+                      <FiChevronRight />
+                    </button>
+
+                    {openSubMenu ===
+                      'status' && (
+                        <div className="absolute left-full top-0 ml-1 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl">
+                          {[
+                            'PAID',
+                            'PENDING',
+                            'FAILED',
+                          ].map((status) => (
+                            <button
+                              key={status}
+                              onClick={() =>
+                                downloadByStatus(
+                                  status
+                                )
+                              }
+                              className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                            >
+                              {status}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                  </div>
+
+                  {/* Format Menu */}
+                  <div className="relative">
+                    <button
+                      onMouseEnter={() =>
+                        setOpenSubMenu('format')
+                      }
+                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50"
+                    >
+                      <span>Export Format</span>
+                      <FiChevronRight />
+                    </button>
+
+                    {openSubMenu ===
+                      'format' && (
+                        <div className="absolute left-full top-0 ml-1 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl">
+                          <button
+                            onClick={() =>
+                              exportCSV()
+                            }
+                            className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                          >
+                            CSV
+                          </button>
+
+                          <button
+                            onClick={() => exportExcel(data)}
+                            className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                          >
+                            Excel (.xlsx)
+                          </button>
+                        </div>
+                      )}
+                  </div>
+
+                  <div
+                    onMouseEnter={() =>
+                      setOpenSubMenu(null)
+                    }
+                    className="h-1"
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -251,11 +570,10 @@ export default function AdminRegistrations() {
 
                       <td className="px-6 py-5">
                         <span
-                          className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            statusColors[
-                              r.status
-                            ]
-                          }`}
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[
+                            r.status
+                          ]
+                            }`}
                         >
                           {r.status}
                         </span>
@@ -354,9 +672,8 @@ export default function AdminRegistrations() {
 
                 <div className="mt-5">
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      statusColors[r.status]
-                    }`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[r.status]
+                      }`}
                   >
                     {r.status}
                   </span>

@@ -29,7 +29,7 @@ async function importExcel(filePath) {
     console.log("📄 Rows Found:", data.length);
 
     // Skip header row if needed
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < data.length; i++) {
       const row = data[i];
 
       try {
@@ -159,4 +159,4 @@ async function importExcel(filePath) {
   }
 }
 
-importExcel("./excel.xlsx");
+importExcel("./MAILS.xlsx");
