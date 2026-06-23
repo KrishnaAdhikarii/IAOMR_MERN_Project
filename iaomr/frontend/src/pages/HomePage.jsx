@@ -148,6 +148,34 @@ export default function HomePage() {
 
   return (
     <div>
+      <div className="ticker2" style={{background: '#9cb7d6'}}>
+        <div className="ticker2-track" >
+          <div className="ticker2-item">
+            ✶  Pre-Convention Courses Open Now 
+          </div>
+          <div className="ticker2-item">
+            ✶  Register Now
+          </div>
+          <div className="ticker2-item">
+            ✶  Pre-Convention Courses Open Now 
+          </div>
+          <div className="ticker2-item">
+            ✶  Register Now
+          </div>
+          <div className="ticker2-item">
+            ✶  Pre-Convention Courses Open Now 
+          </div>
+          <div className="ticker2-item">
+            ✶  Register Now
+          </div>
+          <div className="ticker2-item">
+            ✶  Pre-Convention Courses Open Now 
+          </div>
+          <div className="ticker2-item">
+            ✶  Register Now
+          </div>
+        </div>
+      </div>
       <section id="home" className="hero-section">
         <div className="hero-container">
           {/* LEFT SIDE */}
