@@ -472,7 +472,7 @@ export function SubmitPPTPage() {
 
             <button
             disabled
-              onClick={() => window.open("/templates/ppt-template.pptx", "_blank")}
+              onClick={() => window.open("/templates/paper_template.pptx", "_blank")}
               className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition whitespace-nowrap"
             >
               📥 Download Template

@@ -122,8 +122,20 @@ export default function HomePage() {
   const [hover, setHover] = useState(false);
   const [active, setActive] = useState(false);
 
+  const [showPreConventionPopup, setShowPreConventionPopup] = useState(false);
 
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem("preConventionSeen");
 
+    if (!dismissed) {
+      setShowPreConventionPopup(true);
+    }
+  }, []);
+
+  const closePopup = () => {
+    sessionStorage.setItem("preConventionSeen", "true");
+    setShowPreConventionPopup(false);
+  };
 
   const collegeContentRef = useRef(null);
   const isCollegeContentVisible = useIsVisible(collegeContentRef);
@@ -148,28 +160,134 @@ export default function HomePage() {
 
   return (
     <div>
-      <div className="ticker2" style={{background: '#9cb7d6'}}>
+      {showPreConventionPopup && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+<div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl md:rounded-3xl bg-white shadow-2xl">            <div className="absolute left-6 top-6">
+
+            </div>
+
+            {/* Decorative Header */}
+            {/* Decorative Header */}
+            <div className="relative overflow-hidden bg-gradient-to-r from-[#0F2854] via-[#0F2854] to-blue-600 p-8 text-white">
+
+              {/* Corner Ribbon */}
+              <div className="absolute top-0 left-0 overflow-hidden w-32 h-32 z-30">
+                <span className="absolute top-6 -left-10 w-40 rotate-[-45deg] bg-red-600 py-2 text-center text-xs font-bold tracking-wider text-white shadow-xl">
+                  LIMITED SEATS
+                </span>
+              </div>
+
+              {/* Badge */}
+              <div className="pl-12">
+                <span className="inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-medium backdrop-blur">
+                  IAOMR 2026
+                </span>
+              </div>
+
+              {/* Title */}
+              <h2 className="mt-4 text-3xl font-bold">
+  Pre-Convention Courses Open Now
+</h2>
+
+<p className="mt-2 max-w-xl text-sm md:text-base text-blue-100">
+  Enhance your clinical expertise through exclusive hands-on workshops,
+  expert-led sessions, and advanced learning experiences before the convention begins.
+</p>
+
+            </div>
+            {/* Content */}
+            <div className="p-8">
+              <div className="mb-6 grid gap-4 md:grid-cols-3">
+
+                <div className="rounded-2xl bg-sky-50 p-4 text-center">
+                  <div className="mb-2 text-2xl">🎓</div>
+                  <h4 className="font-semibold">Expert Faculty</h4>
+                  <p className="mt-1 text-sm text-gray-600">
+                    Learn from eminent speakers.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl bg-blue-50 p-4 text-center">
+                  <div className="mb-2 text-2xl">🔬</div>
+                  <h4 className="font-semibold">Hands-On Training</h4>
+                  <p className="mt-1 text-sm text-gray-600">
+                    Practical clinical sessions.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl bg-cyan-50 p-4 text-center">
+                  <div className="mb-2 text-2xl">🏆</div>
+                  <h4 className="font-semibold">Limited Seats</h4>
+                  <p className="mt-1 text-sm text-gray-600">
+                    Register before slots fill.
+                  </p>
+                </div>
+
+              </div>
+
+              <div className="rounded-2xl border border-sky-100 bg-sky-50 p-4 text-center">
+                <p className="font-medium text-sky-900">
+                  24th IAOMR National PG Convention 2026
+                </p>
+                <p className="mt-1 text-sm text-sky-700">
+                  06th – 08th August 2026 • Visakhapatnam, Andhra Pradesh
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+
+                <button
+                  onClick={() => {
+                    setShowPreConventionPopup(false);
+                    window.location.href = "/scientific";
+                  }}
+                  className="rounded-xl bg-gradient-to-r from-[#0F2854] to-blue-600 px-8 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                >
+                  Register Now →
+                </button>
+
+                <button
+                  onClick={() => setShowPreConventionPopup(false)}
+                  className="rounded-xl border border-gray-300 px-8 py-3 font-medium text-gray-700 transition hover:bg-gray-100"
+                >
+                  Continue to Website
+                </button>
+
+              </div>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setShowPreConventionPopup(false)}
+              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-xl text-white backdrop-blur transition hover:bg-white/30"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="ticker2" style={{ background: '#9cb7d6' }}>
         <div className="ticker2-track" >
           <div className="ticker2-item">
-            ✶  Pre-Convention Courses Open Now 
+            ✶  Pre-Convention Courses Open Now
           </div>
           <div className="ticker2-item">
             ✶  Register Now
           </div>
           <div className="ticker2-item">
-            ✶  Pre-Convention Courses Open Now 
+            ✶  Pre-Convention Courses Open Now
           </div>
           <div className="ticker2-item">
             ✶  Register Now
           </div>
           <div className="ticker2-item">
-            ✶  Pre-Convention Courses Open Now 
+            ✶  Pre-Convention Courses Open Now
           </div>
           <div className="ticker2-item">
             ✶  Register Now
           </div>
           <div className="ticker2-item">
-            ✶  Pre-Convention Courses Open Now 
+            ✶  Pre-Convention Courses Open Now
           </div>
           <div className="ticker2-item">
             ✶  Register Now

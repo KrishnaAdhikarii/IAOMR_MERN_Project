@@ -58,7 +58,7 @@ export default function Navbar() {
         { to: '/abstract', label: 'Submit Abstract' },
         { to: '/submit-poster', label: 'Submit Poster' },
         { to: '/submit-ppt', label: 'Submit Presentation' },
-        { to: '/scientific', label: 'Scientific Program' },
+        { to: '/scientific', label: 'Pre Convention Courses' },
       ],
     },
 
