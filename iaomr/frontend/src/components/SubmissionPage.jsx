@@ -291,7 +291,7 @@ export function SubmitPosterPage() {
 
       <button
         onClick={() => { 
-          window.open("/templates/poster_template.pptx", "_blank");  
+          window.location.href = "/templates/poster_template.pptx";  
           alert("Template Downloaded! Please check your downloads folder.");
         }}
         className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition whitespace-nowrap"
@@ -471,8 +471,10 @@ export function SubmitPPTPage() {
           <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
 
             <button
-            disabled
-              onClick={() => window.open("/templates/paper_template.pptx", "_blank")}
+              onClick={() => {
+                window.location.href = "/templates/paper_template.pptx";
+                alert("Template Downloaded! Please check your downloads folder.");
+              }}
               className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition whitespace-nowrap"
             >
               📥 Download Template
