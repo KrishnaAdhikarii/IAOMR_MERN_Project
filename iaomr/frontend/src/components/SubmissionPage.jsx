@@ -29,6 +29,16 @@ function SubmissionLayout({ title, guidelines }) {
   )
 }
 
+const downloadTemplate = (fileName) => {
+  const link = document.createElement("a");
+  link.href = `/templates/${fileName}`;
+  link.setAttribute("download", fileName);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+
 /* ---------------- PAGE 1: ABSTRACT ---------------- */
 export function SubmitAbstractPage() {
   const navigate = useNavigate();
@@ -263,54 +273,53 @@ export function SubmitAbstractPage() {
 }
 /* ---------------- PAGE 2: POSTER ---------------- */
 export function SubmitPosterPage() {
+
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
 
       {/* HEADER */}
       <div className="bg-[rgb(27,46,87)] text-white rounded-3xl p-8 md:p-10 shadow-lg mb-10">
 
-  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-    {/* LEFT TEXT */}
-    <div className="max-w-3xl">
-      <p className="uppercase tracking-[0.2em] text-blue-100 text-sm font-semibold">
-        24th IAOMR National PG Convention
-      </p>
+          {/* LEFT TEXT */}
+          <div className="max-w-3xl">
+            <p className="uppercase tracking-[0.2em] text-blue-100 text-sm font-semibold">
+              24th IAOMR National PG Convention
+            </p>
 
-      <h1 className="text-4xl md:text-5xl font-bold mt-4 leading-tight">
-        Poster Presentation Guidelines
-      </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mt-4 leading-tight">
+              Poster Presentation Guidelines
+            </h1>
 
-      <p className="mt-5 text-lg text-blue-100 leading-relaxed">
-        Please read all instructions carefully before submitting your E-Poster.
-      </p>
-    </div>
+            <p className="mt-5 text-lg text-blue-100 leading-relaxed">
+              Please read all instructions carefully before submitting your E-Poster.
+            </p>
+          </div>
 
-    {/* RIGHT BUTTONS */}
-    <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
+          {/* RIGHT BUTTONS */}
+          <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
 
-      <button
-        onClick={() => { 
-          window.location.href = "/templates/poster_template.pptx";  
-          alert("Template Downloaded! Please check your downloads folder.");
-        }}
-        className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition whitespace-nowrap"
-      >
-        📥 Download Template
-      </button>
+            <button
+              onClick={() => downloadTemplate("poster_template.pptx")}
+              className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition whitespace-nowrap"
+            >
+              📥 Download Template
+            </button>
 
-      <button
-      disabled
-        onClick={() => window.location.href = "/submit-poster"}
-        className="bg-transparent border border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-[rgb(27,46,87)] cursor-not-allowed opacity-75 transition whitespace-nowrap"
-      >
-        🚀 Submit Poster
-      </button>
+            <button
+              disabled
+              onClick={() => window.location.href = "/submit-poster"}
+              className="bg-transparent border border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-[rgb(27,46,87)] cursor-not-allowed opacity-75 transition whitespace-nowrap"
+            >
+              🚀 Submit Poster
+            </button>
 
-    </div>
+          </div>
 
-  </div>
-</div>
+        </div>
+      </div>
 
       {/* MAIN GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -471,19 +480,16 @@ export function SubmitPPTPage() {
           <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
 
             <button
-              onClick={() => {
-                window.location.href = "/templates/paper_template.pptx";
-                alert("Template Downloaded! Please check your downloads folder.");
-              }}
+              onClick={() => downloadTemplate("paper_template.pptx")}
               className="bg-white text-[rgb(27,46,87)] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-blue-50 transition whitespace-nowrap"
             >
               📥 Download Template
             </button>
 
             <button
-            disabled
+              disabled
               onClick={() => window.location.href = "/submit-ppt"}
-              
+
               className="bg-transparent border border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-[rgb(27,46,87)] cursor-not-allowed opacity-50 transition whitespace-nowrap"
             >
               🚀 Submit PPT
