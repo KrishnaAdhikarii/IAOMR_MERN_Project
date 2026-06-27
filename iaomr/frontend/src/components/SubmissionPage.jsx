@@ -30,14 +30,14 @@ function SubmissionLayout({ title, guidelines }) {
 }
 
 const downloadTemplate = (fileName) => {
-  const link = document.createElement("a");
-  link.href = `/templates/${fileName}`;
-  link.setAttribute("download", fileName);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  const a = document.createElement("a");
+  a.href = `/templates/${fileName}`;
+  a.download = fileName;
+  a.target = "_blank";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };
-
 
 /* ---------------- PAGE 1: ABSTRACT ---------------- */
 export function SubmitAbstractPage() {
