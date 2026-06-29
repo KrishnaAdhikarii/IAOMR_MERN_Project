@@ -86,8 +86,8 @@ export default function AbstractSubmission() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (totalWords > 250) {
-            return alert("Abstract exceeds 250 words");
+        if (totalWords > 300) {
+            return alert("Abstract exceeds 300 words");
         }
 
         try {
@@ -182,7 +182,7 @@ export default function AbstractSubmission() {
                             </li>
 
                             <li>
-                                3. Maximum word limit: 250 words.
+                                3. Maximum word limit: 300 words.
                             </li>
 
                             <li>
@@ -642,12 +642,12 @@ export default function AbstractSubmission() {
                         <div className="mt-8 mb-6">
 
                             <div
-                                className={`text-base sm:text-lg font-bold ${totalWords > 250
+                                className={`text-base sm:text-lg font-bold ${totalWords > 300
                                     ? "text-red-500"
                                     : "text-green-600"
                                     }`}
                             >
-                                Word Count: {totalWords}/250
+                                Word Count: {totalWords}/300
                             </div>
 
                         </div>
@@ -706,8 +706,8 @@ export default function AbstractSubmission() {
 
                         <button
                             type="submit"
-                            disabled={loading || totalWords > 250}
-                            className={`w-full py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition duration-300 ${loading || totalWords > 250
+                            disabled={loading || totalWords > 300}
+                            className={`w-full py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition duration-300 ${loading || totalWords > 300
                                 ? "bg-gray-400 cursor-not-allowed text-white"
                                 : "bg-black hover:bg-gray-800 text-white"
                                 }`}

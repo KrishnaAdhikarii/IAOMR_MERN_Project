@@ -159,4 +159,4 @@ async function importExcel(filePath) {
   }
 }
 
-importExcel("./MAILS.xlsx");
+importExcel("./mails.xlsx");

@@ -269,11 +269,11 @@ exports.submitAbstract = async (
         // WORD LIMIT
         // =====================================
 
-        if (wordCount > 250) {
+        if (wordCount > 300) {
             return res.status(400).json({
                 success: false,
                 message:
-                    "Abstract exceeds 250 words",
+                    "Abstract exceeds 300 words",
             });
         }
 
@@ -595,10 +595,10 @@ exports.updateAbstractAfterCorrection = async (req, res, next) => {
 
             const text = `${introduction} ${aimsObjectives} ${materialsMethods} ${results} ${conclusion}`;
 
-            if (countWords(text) > 250) {
+            if (countWords(text) > 300) {
                 return res.status(400).json({
                     success: false,
-                    message: "Abstract exceeds 250 words",
+                    message: "Abstract exceeds 300 words",
                 });
             }
 
