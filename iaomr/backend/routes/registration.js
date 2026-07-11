@@ -498,23 +498,21 @@ router.put(
 /* =========================
    PHOTO ROUTE
 ========================= */
-router.get("/photo/:id", async (req, res) => {
+router.get("/photo/reg/:regNumber", async (req, res) => {
   try {
-    console.log("Photo request:", req.params.id);
-
-    const registration = await Registration.findById(req.params.id);
-
-    console.log("Found:", !!registration);
+    const registration = await Registration.findOne({
+      regNumber: req.params.regNumber,
+    });
 
     if (!registration) {
       return res.status(404).send("Registration not found");
     }
 
-    console.log("Photo exists:", !!registration.photo);
-    console.log("Content type:", registration.photo?.contentType);
-    console.log("Buffer length:", registration.photo?.data?.length);
+    if (!registration.photo || !registration.photo.data) {
+      return res.status(404).send("No photo");
+    }
 
-    res.setHeader("Content-Type", registration.photo.contentType);
+    res.set("Content-Type", registration.photo.contentType);
     res.send(registration.photo.data);
   } catch (err) {
     console.error(err);
