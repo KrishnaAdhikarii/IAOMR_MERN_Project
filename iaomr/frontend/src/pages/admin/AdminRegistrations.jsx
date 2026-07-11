@@ -724,27 +724,27 @@ export default function AdminRegistrations() {
             {/* Body */}
             <div className="p-6">
               {/* PHOTO */}
-              
-              <div className="mb-6 flex justify-center">
-  <img
-    src={`${import.meta.env.VITE_API_URL}/api/registration/photo/reg/${selected.regNumber}`}
-    alt={selected.name}
-    className="w-40 h-48 object-cover rounded-2xl border border-slate-200 shadow"
-    onError={(e) => {
-      e.currentTarget.style.display = "none";
-      e.currentTarget.nextSibling.style.display = "flex";
-    }}
-  />
 
-  <div
-    style={{ display: "none" }}
-    className="w-40 h-48 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 items-center justify-center text-center px-4"
-  >
-    <span className="text-slate-500 font-medium">
-      Offline Registration
-    </span>
-  </div>
-</div>
+              <div className="mb-6 flex justify-center">
+                <img
+                  src={`${import.meta.env.VITE_API_URL}/api/registration/photo/reg/${selected.regNumber}`}
+                  alt={selected.name}
+                  className="w-40 h-48 object-cover rounded-2xl border border-slate-200 shadow"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.nextSibling.style.display = "flex";
+                  }}
+                />
+
+                <div
+                  style={{ display: "none" }}
+                  className="w-40 h-48 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 items-center justify-center text-center px-4"
+                >
+                  <span className="text-slate-500 font-medium">
+                    Offline Registration
+                  </span>
+                </div>
+              </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 {[
