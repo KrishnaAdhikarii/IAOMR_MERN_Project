@@ -18,7 +18,7 @@ const {
 
 /* =========================
    RAZORPAY INIT
-========================= */  
+========================= */
 
 const razorpay = new Razorpay({
   key_id:
@@ -292,97 +292,56 @@ router.post(
    GET ALL REGISTRATIONS
 ========================= */
 
-router.get(
-  "/",
-  async (req, res) => {
-    try {
-      const page =
-        parseInt(req.query.page) || 1
+router.get("/", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 15;
+    const skip = (page - 1) * limit;
 
-      const limit =
-        parseInt(req.query.limit) || 15
+    const search = req.query.search || "";
+    const status = req.query.status || "";
+    const category = req.query.category || "";
 
-      const skip =
-        (page - 1) * limit
+    const query = {};
 
-      const search =
-        req.query.search || ""
-
-      const status =
-        req.query.status || ""
-
-      const category =
-        req.query.category || ""
-
-      const query = {}
-
-      /* SEARCH */
-      if (search) {
-        query.$or = [
-          {
-            name: {
-              $regex: search,
-              $options: "i",
-            },
-          },
-
-          {
-            email: {
-              $regex: search,
-              $options: "i",
-            },
-          },
-
-          {
-            regNumber: {
-              $regex: search,
-              $options: "i",
-            },
-          },
-        ]
-      }
-
-      /* STATUS */
-      if (status) {
-        query.status = status
-      }
-
-      /* CATEGORY */
-      if (category) {
-        query.category = category
-      }
-
-      /* TOTAL */
-      const total =
-        await Registration.countDocuments(
-          query
-        )
-
-      /* DATA */
-      const data =
-        await Registration.find(query)
-          .sort({ createdAt: -1 })
-          .skip(skip)
-          .limit(limit)
-          .select("-photo")
-
-      res.json({
-        data,
-        total,
-        page,
-        totalPages:
-          Math.ceil(total / limit),
-      })
-    } catch (err) {
-      console.error(err)
-
-      res.status(500).json({
-        message:
-          "Failed to fetch registrations",
-      })
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+        { regNumber: { $regex: search, $options: "i" } },
+      ];
     }
+
+    if (status) query.status = status;
+    if (category) query.category = category;
+
+    const total = await Registration.countDocuments(query);
+
+    const registrations = await Registration.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const data = registrations.map((r) => ({
+      ...r,
+      hasPhoto: !!r.photo?.data,
+      photo: undefined, // don't send the image buffer
+    }));
+
+    res.json({
+      data,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Failed to fetch registrations",
+    });
   }
-)
+});
 
 
 
@@ -583,8 +542,18 @@ router.get(
         await Registration.findOne({
           regNumber:
             req.params.regNumber,
-        }).select("-photo")
+        }).lean();
 
+      if (!data) {
+        return res.status(404).json({
+          message: "Registration not found",
+        });
+      }
+
+      data.hasPhoto = !!data.photo?.data;
+      delete data.photo;
+
+      res.json(data);
       if (!data) {
         return res.status(404).json({
           message:

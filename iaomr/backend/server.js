@@ -9,8 +9,13 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 
 // ─── Security Middleware ───
-app.use(helmet());
-
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  })
+);
 // ─── CORS ───
 app.use(cors({
   origin: [
@@ -20,9 +25,20 @@ app.use(cors({
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization"
+  ],
 }));
+
 app.options("*", cors());
+app.use((req, res, next) => {
+  res.setHeader(
+    "Cross-Origin-Resource-Policy",
+    "cross-origin"
+  );
+  next();
+});
 
 // ─── Rate Limiting ───
 
