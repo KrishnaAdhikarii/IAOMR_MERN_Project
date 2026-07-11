@@ -14,6 +14,9 @@ mongoose.connection.once("open", () => {
   console.log("✅ MongoDB Connected");
 });
 
+// Delay function (5 seconds)
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function importExcel(filePath) {
   try {
     const workbook = XLSX.readFile(filePath);
@@ -28,7 +31,6 @@ async function importExcel(filePath) {
 
     console.log("📄 Rows Found:", data.length);
 
-    // Skip header row if needed
     for (let i = 0; i < data.length; i++) {
       const row = data[i];
 
@@ -76,8 +78,7 @@ async function importExcel(filePath) {
 
           accompanying: row[21] === "Yes",
 
-          accompanyingCount:
-            row[21] === "Yes" ? 1 : 0,
+          accompanyingCount: row[21] === "Yes" ? 1 : 0,
 
           accompanyingNames: [],
 
@@ -91,9 +92,7 @@ async function importExcel(filePath) {
           status: "PAID",
         };
 
-        const regNumber = await generateRegNumber(
-          form.category
-        );
+        const regNumber = await generateRegNumber(form.category);
 
         const registration = new Registration({
           ...form,
@@ -129,18 +128,40 @@ async function importExcel(filePath) {
         console.log("✅ QR Generated");
 
         // Generate PDF
+        console.log("📄 Generating PDF...");
         const pdf = await generatePDF(saved);
+        console.log("✅ PDF Generated");
+
+        // Wait before sending email
+        console.log("⏳ Waiting 5 seconds before sending email...");
+        await delay(5000);
 
         // Send Email
+        console.log(`📧 Sending email to ${saved.email}...`);
         await sendEmail(saved, pdf);
 
-        console.log("📧 Email Sent:", saved.email);
+        console.log("✅ Email Sent:", saved.email);
+
+        // Wait before processing next row
+        console.log("⏳ Waiting 5 seconds before next record...");
+        await delay(5000);
 
       } catch (err) {
-        console.error(
-          `❌ Error in Row ${i + 1}:`,
-          err.message
-        );
+        console.error(`❌ Error in Row ${i + 1}`);
+
+        console.error(err);
+
+        if (err.response) {
+          console.error("SMTP Response:", err.response);
+        }
+
+        if (err.responseCode) {
+          console.error("Response Code:", err.responseCode);
+        }
+
+        // Wait even after an error to avoid SMTP rate limiting
+        console.log("⏳ Waiting 5 seconds before continuing...");
+        await delay(5000);
       }
     }
 

@@ -18,7 +18,7 @@ const {
 
 /* =========================
    RAZORPAY INIT
-========================= */
+========================= */  
 
 const razorpay = new Razorpay({
   key_id:
@@ -498,40 +498,29 @@ router.put(
 /* =========================
    PHOTO ROUTE
 ========================= */
+router.get("/photo/:id", async (req, res) => {
+  try {
+    console.log("Photo request:", req.params.id);
 
-router.get(
-  "/photo/:id",
-  async (req, res) => {
-    try {
-      const registration =
-        await Registration.findById(
-          req.params.id
-        )
+    const registration = await Registration.findById(req.params.id);
 
-      if (
-        !registration ||
-        !registration.photo
-      ) {
-        return res
-          .status(404)
-          .send("No photo")
-      }
+    console.log("Found:", !!registration);
 
-      res.set(
-        "Content-Type",
-        registration.photo.contentType
-      )
-
-      res.send(
-        registration.photo.data
-      )
-    } catch (err) {
-      res
-        .status(500)
-        .send(err.message)
+    if (!registration) {
+      return res.status(404).send("Registration not found");
     }
+
+    console.log("Photo exists:", !!registration.photo);
+    console.log("Content type:", registration.photo?.contentType);
+    console.log("Buffer length:", registration.photo?.data?.length);
+
+    res.setHeader("Content-Type", registration.photo.contentType);
+    res.send(registration.photo.data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
   }
-)
+});
 
 /* =========================
    CHECK REGISTRATION
