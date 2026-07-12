@@ -16,7 +16,7 @@ const getType = () => {
   const now = new Date();
   if (now <= new Date("2026-03-15T23:59:59")) return "early";
   if (now <= new Date("2026-04-30T23:59:59")) return "regular";
-  if (now <= new Date("2026-07-10T23:59:59")) return "late";
+  if (now <= new Date("2026-07-15T23:59:59")) return "late";
   return "spot";
 };
 
