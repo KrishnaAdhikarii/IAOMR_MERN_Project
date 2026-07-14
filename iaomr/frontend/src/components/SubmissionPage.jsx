@@ -67,11 +67,18 @@ export function SubmitAbstractPage() {
 
           {/* Right Button */}
           <div className="flex lg:justify-end">
-            <button
+            {/* <button
               onClick={() => navigate("/submit-abstract")}
               className="bg-white text-blue-700 px-7 py-4 rounded-2xl font-semibold text-lg shadow-md hover:bg-blue-50 transition"
             >
-              Submit Abstract
+              Submissions Closed
+            </button> */}
+
+            <button
+              disabled
+              className="bg-gray-300 text-gray-600 px-7 py-4 rounded-2xl font-semibold text-lg shadow-md cursor-not-allowed opacity-75"
+            >
+              Submissions Closed
             </button>
           </div>
         </div>
