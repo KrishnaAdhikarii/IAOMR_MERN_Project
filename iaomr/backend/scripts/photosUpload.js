@@ -6,7 +6,7 @@ const axios = require("axios");
 
 const Registration = require("../models/Registration");
 
-// Connect to MongoDB
+// Connect MongoDB
 mongoose.connect(process.env.MONGO_URI);
 
 mongoose.connection.once("open", () => {
@@ -21,13 +21,13 @@ function getDownloadUrl(link) {
   if (!link) return null;
 
   try {
-    // Format: https://drive.google.com/open?id=FILE_ID
+    // https://drive.google.com/open?id=FILE_ID
     const openMatch = link.match(/[?&]id=([^&]+)/);
     if (openMatch) {
       return `https://drive.google.com/uc?export=download&id=${openMatch[1]}`;
     }
 
-    // Format: https://drive.google.com/file/d/FILE_ID/view
+    // https://drive.google.com/file/d/FILE_ID/view
     const fileMatch = link.match(/\/d\/([^/]+)/);
     if (fileMatch) {
       return `https://drive.google.com/uc?export=download&id=${fileMatch[1]}`;
@@ -62,24 +62,20 @@ async function importPhotos(filePath) {
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
 
-      // Column B - MAIL ID
-      const email = String(row[1] || "")
-        .trim()
-        .toLowerCase();
+      const excelName = String(row[0] || "").trim();
+      const photoLink = String(row[1] || "").trim();
+      const regNumber = String(row[2] || "").trim();
 
-      // Column E - UPLOAD PHOTO
-      const photoLink = String(row[4] || "").trim();
-
-      if (!email || !photoLink) {
-        console.log(`⏭ Row ${i + 1} skipped (missing email/photo)`);
+      if (!regNumber || !photoLink) {
+        console.log(`⏭ Row ${i + 1} skipped (missing Registration ID/photo)`);
         continue;
       }
 
       try {
-        const registration = await Registration.findOne({ email });
+        const registration = await Registration.findOne({ regNumber });
 
         if (!registration) {
-          console.log(`❌ Registration not found: ${email}`);
+          console.log(`❌ Registration Not Found: ${regNumber}`);
           notFound++;
           continue;
         }
@@ -100,7 +96,7 @@ async function importPhotos(filePath) {
         const downloadUrl = getDownloadUrl(photoLink);
 
         if (!downloadUrl) {
-          console.log("❌ Invalid Google Drive link");
+          console.log("❌ Invalid Google Drive Link");
           failed++;
           continue;
         }
@@ -132,14 +128,14 @@ async function importPhotos(filePath) {
         updated++;
 
         console.log(
-          `✅ Photo uploaded (${Math.round(
+          `✅ Uploaded ${registration.regNumber} (${Math.round(
             response.data.length / 1024
           )} KB)`
         );
       } catch (err) {
         failed++;
 
-        console.log(`❌ Failed for ${email}`);
+        console.log(`❌ Failed for ${regNumber}`);
 
         if (err.response) {
           console.log("HTTP Status:", err.response.status);
@@ -167,5 +163,4 @@ async function importPhotos(filePath) {
   }
 }
 
-// Excel file path
-importPhotos("./mails.xlsx");
+importPhotos("./photos.xlsx");
