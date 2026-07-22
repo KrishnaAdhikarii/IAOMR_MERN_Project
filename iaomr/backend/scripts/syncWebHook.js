@@ -32,8 +32,7 @@ function getParticipantType(category) {
 
 async function syncRegistrations() {
   try {
-    // Test only first 3 registrations
-    const registrations = await Registration.find().limit(3);
+    const registrations = await Registration.find();
 
     console.log(`\nFound ${registrations.length} registrations\n`);
 
@@ -48,7 +47,7 @@ async function syncRegistrations() {
         form.append("name", reg.name || "");
         form.append("email", reg.email || "");
         form.append("phone_number", reg.phone || "");
-        form.append("apmc_number", reg.iaomrNumber || "N/A");
+        form.append("apmc_number", reg.iaomrNumber || "N");
 
         // Use regNumber if exists, otherwise Mongo _id
         form.append(

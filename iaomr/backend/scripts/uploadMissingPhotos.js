@@ -59,7 +59,7 @@ async function importPhotos(filePath) {
     let failed = 0;
 
     // Skip header row
-    for (let i = 1; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
 
       // Column B - MAIL ID
