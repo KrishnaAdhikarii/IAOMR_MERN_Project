@@ -59,12 +59,14 @@ async function importPhotos(filePath) {
     let failed = 0;
 
     // Skip header row
-    for (let i = 1; i < rows.length; i++) {
+    for (let i = 0; i < 15; i++) {
       const row = rows[i];
 
       const excelName = String(row[0] || "").trim();
       const photoLink = String(row[1] || "").trim();
       const regNumber = String(row[2] || "").trim();
+      
+      console.log(`Row ${i + 1}: ${excelName} | ${photoLink} | ${regNumber}`);
 
       if (!regNumber || !photoLink) {
         console.log(`⏭ Row ${i + 1} skipped (missing Registration ID/photo)`);
@@ -163,4 +165,4 @@ async function importPhotos(filePath) {
   }
 }
 
-importPhotos("./photos.xlsx");
+importPhotos("./PHOTOS.xlsx");

@@ -30,6 +30,8 @@ import OfficeCommittee from './pages/IAOMROfficeBearers';
 import ScientificPage from './pages/ScientificPage'
 
 
+import ScientificSession from './components/ScientificSession';
+
 import AbstractPage from './pages/AbstractPage'
 
 
@@ -99,7 +101,7 @@ function AppRoutes() {
           {/* Public */}
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/schedule" element={<SchedulePage />} />
+          {/* <Route path="/schedule" element={<ScientificSession />} /> */}
           <Route path="/abstract" element={<SubmitAbstractPage />} />
           <Route path="/submit-poster" element={<SubmitPosterPage />} />
           <Route path="/submit-ppt" element={<SubmitPPTPage />} />
@@ -109,7 +111,7 @@ function AppRoutes() {
           <Route path="/office-committee" element={<OfficeCommittee />} />
           <Route path="/venue" element={<VenuePage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/submit-abstract" element={<AbstractPage />} />
+          {/* <Route path="/submit-abstract" element={<AbstractPage />} /> */}
 
 
           {/* Auth */}
