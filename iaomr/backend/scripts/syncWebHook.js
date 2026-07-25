@@ -17,10 +17,10 @@ function getParticipantType(category) {
       return "STUDENT DELEGATE";
 
     case "FACULTY":
-      return "FACULTY";
+      return "FACULTY DELEGATE";
 
-    case "IAPHD STUDENT":
-      return "IAPHD STUDENT MEMBERS";
+    case "PRACTITIONER":
+      return "PRACTITIONER DELEGATE";
 
     case "IAPHD LIFE":
       return "IAPHD LIFE MEMBERS";
