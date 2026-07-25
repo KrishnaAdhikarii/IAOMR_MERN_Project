@@ -13,7 +13,7 @@ export default function Footer() {
     { to: '/committee', label: 'Committee' },
     { to: '/venue', label: 'Venue & Tourism' },
     { to: '/register-delegate', label: 'Register Now' },
-    { to: '/submit-abstract', label: 'Submit Abstract' },
+    // { to: '/submit-abstract', label: 'Submit Abstract' },
     { to: '/contact', label: 'Contact Us' },
   ]
 
