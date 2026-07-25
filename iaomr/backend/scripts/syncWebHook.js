@@ -55,7 +55,7 @@ async function syncRegistrations() {
           reg.regNumber || reg._id.toString()
         );
 
-
+//  /lllm
 
         form.append(
           "participant_type",
