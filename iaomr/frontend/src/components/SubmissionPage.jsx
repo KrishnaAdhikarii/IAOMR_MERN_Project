@@ -315,13 +315,15 @@ export function SubmitPosterPage() {
               📥 Download Template
             </button>
 
-            <button
-              disabled
-              onClick={() => window.location.href = "/submit-poster"}
-              className="bg-transparent border border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-[rgb(27,46,87)] cursor-not-allowed opacity-75 transition whitespace-nowrap"
+            <a
+              href="https://forms.gle/w2DjECtJEyiGAih99"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-transparent border border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-[rgb(27,46,87)] transition whitespace-nowrap"
             >
               🚀 Submit Poster
-            </button>
+            </a>
+
 
           </div>
 
@@ -430,8 +432,8 @@ export function SubmitPosterPage() {
 
               {[
                 ["Template Available", "22 June 2026"],
-                ["Upload Window", "1–10 July 2026"],
-                ["Last Date", "10 July 2026"],
+                ["Upload Window", "25–30 July 2026"],
+                ["Last Date", "30 July 2026"],
                 ["Event Dates", "6–8 August 2026"]
               ].map(([title, value], i) => (
                 <div
@@ -494,13 +496,14 @@ export function SubmitPPTPage() {
             </button>
 
             <button
-              disabled
-              onClick={() => window.location.href = "/submit-ppt"}
-
-              className="bg-transparent border border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-[rgb(27,46,87)] cursor-not-allowed opacity-50 transition whitespace-nowrap"
+              onClick={() =>
+                window.open("https://forms.gle/R28B3PBgx4uHjhx59", "_blank")
+              }
+              className="bg-transparent border border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-[rgb(27,46,87)] transition whitespace-nowrap"
             >
               🚀 Submit PPT
             </button>
+
 
           </div>
 
@@ -607,8 +610,8 @@ export function SubmitPPTPage() {
 
               {[
                 ["Template Available", "21 June 2026"],
-                ["Upload Window", "1–10 July 2026"],
-                ["Last Date", "10 July 2026"],
+                ["Upload Window", "25–30 July 2026"],
+                ["Last Date", "30 July 2026"],
                 ["Event Dates", "6–8 August 2026"]
               ].map(([title, value], i) => (
                 <div
