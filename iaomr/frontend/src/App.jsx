@@ -101,7 +101,7 @@ function AppRoutes() {
           {/* Public */}
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/schedule" element={<ScientificSession />} />
+          {/* <Route path="/schedule" element={<ScientificSession />} /> */}
           <Route path="/abstract" element={<SubmitAbstractPage />} />
           <Route path="/submit-poster" element={<SubmitPosterPage />} />
           <Route path="/submit-ppt" element={<SubmitPPTPage />} />
