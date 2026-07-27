@@ -91,11 +91,9 @@ const ScientificSession = () => {
       <tr>
         <td className="border p-4 font-semibold">Moderator</td>
         <td className="border p-4 whitespace-pre-line">
-          {panelDiscussion.moderator.name}
-          {"\n"}
-          {panelDiscussion.moderator.designation}
-          {"\n"}
-          {panelDiscussion.moderator.organization}
+            <div className="font-bold">{panelDiscussion.moderator.name}</div>
+            <div className="whitespace-pre-line text-gray-700">{panelDiscussion.moderator.designation}</div>
+            <div className="whitespace-pre-line text-gray-600">{panelDiscussion.moderator.organization}</div>
         </td>
       </tr>
 
