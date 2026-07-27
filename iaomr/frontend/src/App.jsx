@@ -101,11 +101,11 @@ function AppRoutes() {
           {/* Public */}
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          {/* <Route path="/schedule" element={<ScientificSession />} /> */}
+          <Route path="/schedule" element={<ScientificSession />} />
           <Route path="/abstract" element={<SubmitAbstractPage />} />
           <Route path="/submit-poster" element={<SubmitPosterPage />} />
           <Route path="/submit-ppt" element={<SubmitPPTPage />} />
-          {/* <Route path="/scientific" element={<ScientificPage />} /> */}
+          <Route path="/scientific" element={<ScientificPage />} />
           <Route path="/committee" element={<CommitteePage />} />
           <Route path="/committee-details" element={<OrganizingCommittee />} />
           <Route path="/office-committee" element={<OfficeCommittee />} />

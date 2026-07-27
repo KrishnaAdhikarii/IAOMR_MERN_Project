@@ -32,7 +32,7 @@ function getParticipantType(category) {
 
 async function syncRegistrations() {
   try {
-    const registrations = await Registration.find();
+    const registrations = await Registration.find({ regNumber: "IAOMR-2026-FAC99" });
 
     console.log(`\nFound ${registrations.length} registrations\n`);
 
