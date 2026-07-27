@@ -186,3 +186,192 @@ export const panelists = [
       "Department of Respiratory Medicine\nNRI Institute of Medical Sciences\nVisakhapatnam",
   },
 ];
+
+export const day1Schedule = [
+  {
+    sno: 1,
+    time: "09:30 AM - 10:15 AM",
+    session: "GUEST LECTURE",
+    topic: "THERANOSTICS",
+    resourcePerson: `DR. K. C. PATRO
+INTERVENTIONAL RADIATION ONCOLOGIST
+CLINICAL DIRECTOR & HOD
+MAHATMA GANDHI CANCER HOSPITAL & RESEARCH INSTITUTE
+VISAKHAPATNAM`,
+  },
+  {
+    sno: 2,
+    time: "10:15 AM - 11:00 AM",
+    session: "GUEST LECTURE",
+    topic: `REQUESTING WITH PURPOSE,
+INTERPRETING WITH PRECISION:
+BLOOD TESTS IN CLINICAL ORAL MEDICINE PRACTICE`,
+    resourcePerson: `DR. M. ARVIND
+PROFESSOR & HOD
+DEPARTMENT OF ORAL MEDICINE & RADIOLOGY
+SAVEETHA DENTAL COLLEGE
+CHENNAI`,
+  },
+  {
+    sno: "",
+    time: "11:15 AM - 12:00 PM",
+    session: "",
+    topic: "INAUGURATION",
+    resourcePerson: "",
+    highlight: true,
+  },
+  {
+    sno: 3,
+    time: "12:15 PM - 01:00 PM",
+    session: "GUEST LECTURE",
+    topic: "WHEN THE MOUTH MEETS THE BRAIN",
+    resourcePerson: `DR. S. SANDEEP KUMAR
+CONSULTANT NEUROLOGIST
+YASHODA HOSPITALS
+SOMAJIGUDA, HYDERABAD`,
+  },
+  {
+    sno: "",
+    time: "01:00 PM - 02:00 PM",
+    session: "",
+    topic: "LUNCH DENTAL AUDITORIUM - 3RD FLOOR",
+    resourcePerson: "",
+    highlight: true,
+  },
+  {
+    sno: 4,
+    time: "02:00 PM - 02:45 PM",
+    session: "GUEST LECTURE",
+    topic:
+      "STRUCTURED REPORTING AND ART OF DIAGNOSING MAXILLOFACIAL PATHOLOGIES USING CBCT",
+    resourcePerson: `DR. AJAY PRATAP SINGH PARIHAR
+PROFESSOR & HOD
+DEPARTMENT OF ORAL MEDICINE & RADIOLOGY
+GOVT. COLLEGE OF DENTISTRY
+INDORE`,
+  },
+  {
+    sno: 5,
+    time: "02:45 PM - 03:30 PM",
+    session: "GUEST LECTURE",
+    topic:
+      "SYSTEMATIC REVIEW & META ANALYSIS: SYNTHESIZING EVIDENCE FOR BETTER CLINICAL DECISIONS",
+    resourcePerson: `DR. TAPASYA V. KAREMORE
+ASSOCIATE PROFESSOR
+RANJEET DESHMUKH DENTAL COLLEGE
+NAGPUR`,
+  },
+  {
+    sno: 6,
+    time: "03:30 PM - 04:15 PM",
+    session: "GUEST LECTURE",
+    topic:
+      "ORAL MEDICINE AND RADIOLOGY AS A SPECIALITY CONSULTATION IN GENERAL DENTAL PRACTICE",
+    resourcePerson: `DR. DARSHAN R. PRASAD HIREMUTT
+PROFESSOR
+BHARATI VIDYAPEETH DENTAL COLLEGE
+PUNE`,
+  },
+];
+
+export const day2Schedule = [
+  {
+    sno: 1,
+    time: "09:00 AM - 09:45 AM",
+    session: "GUEST LECTURE",
+    topic:
+      "IMAGINE THE ANATOMY, INNOVATE THE PLAN, ILLUMINATE THE OUTCOME: CBCT FOR ADVANCED IMPLANTS - ALL ON 4, ALL ON 6, PTERYGOID & ZYGOMATIC IMPLANTS",
+    resourcePerson: `DR. ANURAG CHOUDHARY
+CONSULTANT TELE RADIOLOGIST`,
+  },
+  {
+    sno: 2,
+    time: "09:45 AM - 10:30 AM",
+    session: "GUEST LECTURE",
+    topic:
+      "BITE, BALANCE AND DYSFUNCTION: EXPLORING OCCLUSAL AIDS IN TMD DIAGNOSIS",
+    resourcePerson: `DR. D. RAMA RAJU
+HONORARY PROFESSOR
+SVSIDS, MAHABOOBNAGAR
+CEO RAAMAH BIO CARE PVT. LTD.`,
+  },
+  {
+    sno: 3,
+    time: "10:30 AM - 11:15 AM",
+    session: "GUEST LECTURE",
+    topic:
+      "HYPERBARIC OXYGEN THERAPY IN TREATING ORAL POTENTIALLY MALIGNANT DISORDERS AND ORAL CANCERS",
+    resourcePerson: `DR. K. SREEKANTH
+CONSULTANT SURGICAL ONCOLOGIST
+YASHODA HOSPITAL
+SOMAJIGUDA, HYDERABAD`,
+  },
+  {
+    sno: 4,
+    time: "11:30 AM - 12:15 PM",
+    session: "GUEST LECTURE",
+    topic: "AI IN DIAGNOSTIC DENTISTRY",
+    resourcePerson: `DR. (MAJOR) MANISHA M. KHORATE
+PROFESSOR & HOD
+DEPARTMENT OF ORAL MEDICINE & RADIOLOGY
+GOA DENTAL COLLEGE & HOSPITAL`,
+  },
+];
+
+export const panelDiscussion  = {
+  sno: 5,
+  time: "12:15 PM - 01:15 PM",
+  session: "PANEL DISCUSSION",
+  topic:
+    "WAKE UP TO SLEEP APNEA: BRIDGING ORAL MEDICINE, ORAL RADIOLOGY AND SLEEP MEDICINE",
+
+  moderator: {
+    name: "DR. GOPAKUMAR R. NAIR",
+    designation: "EX. PROFESSOR & HOD",
+    organization: "KD DENTAL COLLEGE & HOSPITAL, MATHURA",
+  },
+
+  panelists: [
+    {
+      name: "DR. SHALU RAI",
+      designation: "PRINCIPAL",
+      organization: "AGARTALA GOVERNMENT DENTAL COLLEGE",
+    },
+    {
+      name: "DR. M. P. UTHKAL",
+      designation:
+        "CBCT PRIVATE PRACTITIONER\nPROFESSOR, ORAL MEDICINE & RADIOLOGY",
+      organization:
+        "FAROOQUIA DENTAL COLLEGE & HOSPITAL\nMYSORE\nZONAL HEAD & SENIOR RADIOLOGIST\nORAL-D HEALTH CARE PVT. LTD.",
+    },
+    {
+      name: "DR. SRINIVAS BARATAM",
+      designation: "PROFESSOR & HOD",
+      organization:
+        "DEPARTMENT OF ORTHODONTICS & DENTOFACIAL ORTHOPAEDICS\nANIL NEERUKONDA INSTITUTE OF DENTAL SCIENCES\nVISAKHAPATNAM",
+    },
+    {
+      name: "DR. S. SRI KRISHNA PRAKASH",
+      designation:
+        "PROFESSOR & HOD\nDEPARTMENT OF OTORHINOLARYNGOLOGY & HEAD AND NECK SURGERY\nVICE PRINCIPAL",
+      organization: "NRI INSTITUTE OF MEDICAL SCIENCES\nVISAKHAPATNAM",
+    },
+    {
+      name: "DR. VIRITHA PANDU",
+      designation: "PROFESSOR & HOD",
+      organization:
+        "DEPARTMENT OF RESPIRATORY MEDICINE\nNRI INSTITUTE OF MEDICAL SCIENCES\nVISAKHAPATNAM",
+    },
+  ],
+
+  afterSession: [
+    {
+      time: "01:15 PM - 02:30 PM",
+      event: "LUNCH DENTAL AUDITORIUM - 3RD FLOOR",
+    },
+    {
+      time: "02:30 PM",
+      event: "VALEDICTORY FUNCTION",
+    },
+  ],
+};

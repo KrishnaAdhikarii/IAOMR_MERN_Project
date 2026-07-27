@@ -1,5 +1,12 @@
 import SpeakerCard from "./SpeakerCard";
 import SectionHeading from "./SessionlHeading";
+import ScheduleTable from "./ScheduleTable";
+
+import {
+  day1Schedule,
+  day2Schedule,
+  panelDiscussion ,
+} from "./speaker";
 
 import {
     speakers,
@@ -46,9 +53,86 @@ const ScientificSession = () => {
                     {panelists.map((speaker, index) => (
                         <SpeakerCard key={index} speaker={speaker} />
                     ))}
-                </div>
+                </div><SectionHeading title="Scientific Schedule" />
+
+<ScheduleTable
+  title="Scientific Schedule - 07 August 2026"
+  data={day1Schedule}
+/>
+
+<ScheduleTable
+  title="Scientific Schedule - 08 August 2026"
+  data={day2Schedule}
+/>
+
+<SectionHeading title="Panel Discussion" />
+
+<div className="bg-white rounded-2xl shadow-xl p-8">
+
+  <table className="w-full border">
+
+    <tbody>
+
+      <tr>
+        <td className="border p-4 font-semibold w-48">Time</td>
+        <td className="border p-4">{panelDiscussion.time}</td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold">Session</td>
+        <td className="border p-4">{panelDiscussion.session}</td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold">Topic</td>
+        <td className="border p-4">{panelDiscussion.topic}</td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold">Moderator</td>
+        <td className="border p-4 whitespace-pre-line">
+          {panelDiscussion.moderator.name}
+          {"\n"}
+          {panelDiscussion.moderator.designation}
+          {"\n"}
+          {panelDiscussion.moderator.organization}
+        </td>
+      </tr>
+
+      <tr>
+        <td className="border p-4 font-semibold align-top">
+          Panelists
+        </td>
+
+        <td className="border p-4">
+
+          {panelDiscussion.panelists.map((p, i) => (
+            <div key={i} className="mb-6">
+
+              <p className="font-bold">{p.name}</p>
+
+              <p className="whitespace-pre-line text-gray-700">
+                {p.designation}
+              </p>
+
+              <p className="whitespace-pre-line text-gray-600">
+                {p.organization}
+              </p>
+
+            </div>
+          ))}
+
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>  
             </div>
         </section>
+        
     );
 };
 
