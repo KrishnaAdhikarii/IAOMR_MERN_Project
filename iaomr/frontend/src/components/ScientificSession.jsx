@@ -3,9 +3,9 @@ import SectionHeading from "./SessionlHeading";
 import ScheduleTable from "./ScheduleTable";
 
 import {
-  day1Schedule,
-  day2Schedule,
-  panelDiscussion ,
+    day1Schedule,
+    day2Schedule,
+    panelDiscussion,
 } from "./speaker";
 
 import {
@@ -33,7 +33,7 @@ const ScientificSession = () => {
 
                 {/* Moderator */}
                 <div className="text-center mb-8">
-                    <span className="bg-blue-700 text-white px-8 py-2 rounded-full text-xl font-semibold">
+                    <span className="bg-[#0D4C92] text-white px-8 py-2 rounded-full text-xl font-semibold">
                         Moderator
                     </span>
                 </div>
@@ -44,7 +44,7 @@ const ScientificSession = () => {
 
                 {/* Panelists */}
                 <div className="text-center mt-16 mb-10">
-                    <span className="bg-blue-700 text-white px-8 py-2 rounded-full text-xl font-semibold">
+                    <span className="bg-[#0D4C92] text-white px-8 py-2 rounded-full text-xl font-semibold">
                         Panelists
                     </span>
                 </div>
@@ -55,82 +55,82 @@ const ScientificSession = () => {
                     ))}
                 </div><SectionHeading title="Scientific Schedule" />
 
-<ScheduleTable
-  title="Scientific Schedule - 07 August 2026"
-  data={day1Schedule}
-/>
+                <ScheduleTable
+                    title="Scientific Schedule - 07 August 2026"
+                    data={day1Schedule}
+                />
 
-<ScheduleTable
-  title="Scientific Schedule - 08 August 2026"
-  data={day2Schedule}
-/>
+                <ScheduleTable
+                    title="Scientific Schedule - 08 August 2026"
+                    data={day2Schedule}
+                />
 
-<SectionHeading title="Panel Discussion" />
+                <SectionHeading title="Panel Discussion" />
 
-<div className="bg-white rounded-2xl shadow-xl p-8">
+                <div className="bg-white rounded-2xl shadow-xl p-8">
 
-  <table className="w-full border">
+                    <table className="w-full border">
 
-    <tbody>
+                        <tbody>
 
-      <tr>
-        <td className="border p-4 font-semibold w-48">Time</td>
-        <td className="border p-4">{panelDiscussion.time}</td>
-      </tr>
+                            <tr>
+                                <td className="border p-4 font-semibold w-48">Time</td>
+                                <td className="border p-4">{panelDiscussion.time}</td>
+                            </tr>
 
-      <tr>
-        <td className="border p-4 font-semibold">Session</td>
-        <td className="border p-4">{panelDiscussion.session}</td>
-      </tr>
+                            <tr>
+                                <td className="border p-4 font-semibold">Session</td>
+                                <td className="border p-4">{panelDiscussion.session}</td>
+                            </tr>
 
-      <tr>
-        <td className="border p-4 font-semibold">Topic</td>
-        <td className="border p-4">{panelDiscussion.topic}</td>
-      </tr>
+                            <tr>
+                                <td className="border p-4 font-semibold">Topic</td>
+                                <td className="border p-4">{panelDiscussion.topic}</td>
+                            </tr>
 
-      <tr>
-        <td className="border p-4 font-semibold">Moderator</td>
-        <td className="border p-4 whitespace-pre-line">
-            <div className="font-bold">{panelDiscussion.moderator.name}</div>
-            <div className="whitespace-pre-line text-gray-700">{panelDiscussion.moderator.designation}</div>
-            <div className="whitespace-pre-line text-gray-600">{panelDiscussion.moderator.organization}</div>
-        </td>
-      </tr>
+                            <tr>
+                                <td className="border p-4 font-semibold">Moderator</td>
+                                <td className="border p-4 whitespace-pre-line">
+                                    <div className="font-bold">{panelDiscussion.moderator.name}</div>
+                                    <div className="whitespace-pre-line text-gray-700">{panelDiscussion.moderator.designation}</div>
+                                    <div className="whitespace-pre-line text-gray-600">{panelDiscussion.moderator.organization}</div>
+                                </td>
+                            </tr>
 
-      <tr>
-        <td className="border p-4 font-semibold align-top">
-          Panelists
-        </td>
+                            <tr>
+                                <td className="border p-4 font-semibold align-top">
+                                    Panelists
+                                </td>
 
-        <td className="border p-4">
+                                <td className="border p-4">
 
-          {panelDiscussion.panelists.map((p, i) => (
-            <div key={i} className="mb-6">
+                                    {panelDiscussion.panelists.map((p, i) => (
+                                        <div key={i} className="mb-6">
 
-              <p className="font-bold">{p.name}</p>
+                                            <p className="font-bold">{p.name}</p>
 
-              <p className="whitespace-pre-line text-gray-700">
-                {p.designation}
-              </p>
+                                            <p className="whitespace-pre-line text-gray-700">
+                                                {p.designation}
+                                            </p>
 
-              <p className="whitespace-pre-line text-gray-600">
-                {p.organization}
-              </p>
+                                            <p className="whitespace-pre-line text-gray-600">
+                                                {p.organization}
+                                            </p>
 
-            </div>
-          ))}
+                                        </div>
+                                    ))}
 
-        </td>
-      </tr>
+                                </td>
+                            </tr>
 
-    </tbody>
+                        </tbody>
 
-  </table>
+                    </table>
 
-</div>  
+                </div>
             </div>
         </section>
-        
+
     );
 };
 
