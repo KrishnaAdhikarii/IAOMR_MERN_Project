@@ -30,6 +30,10 @@ import OfficeCommittee from './pages/IAOMROfficeBearers';
 import ScientificPage from './pages/ScientificPage'
 
 
+import Pagedown from './Pagedown.jsx'
+
+
+
 import ScientificSession from './components/ScientificSession';
 
 import AbstractPage from './pages/AbstractPage'
@@ -116,7 +120,7 @@ function AppRoutes() {
 
           {/* Auth */}
           <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
-          <Route path="/register-delegate" element={<RegistrationForm />} />
+          <Route path="/register-delegate" element={<Pagedown />} />
           <Route path="/payment-success/:regNumber" element={<PaymentSuccess />} />
           {/* <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} /> */}
 
