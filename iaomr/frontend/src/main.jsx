@@ -6,7 +6,7 @@ import Pagedown from './Pagedown.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
-    {/* <Pagedown /> */}
+    {/* <App /> */}
+    <Pagedown />
   </React.StrictMode>
 )
